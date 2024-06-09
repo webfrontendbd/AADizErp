@@ -95,7 +95,7 @@
 	  <None Remove="Resources\Images\user_tie.svg" />
 	  <None Remove="Resources\Images\verticaldots.svg" />
 	  <None Remove="Resources\Raw\fcm_sdk.json" />
-	  <None Remove="Platforms\iOS\GoogleService-Info.plist" />
+		<None Remove="Platforms\iOS\GoogleService-Info.plist" />
 	  <None Remove="Platforms\iOS\AADizErp.ipa" />
 	  <None Remove="Platforms\iOS\Resources\LaunchScreen.xib" />
 	  <None Remove="Platforms\iOS\Resources\" />
@@ -107,7 +107,7 @@
 
 	<ItemGroup>
 		<BundleResource Include="Platforms\iOS\GoogleService-Info.plist">
-		  <Link>Platforms\iOS\GoogleService-Info.plist</Link>
+			<Link>Platforms\iOS\GoogleService-Info.plist</Link>
 		</BundleResource>
 	</ItemGroup>
 
