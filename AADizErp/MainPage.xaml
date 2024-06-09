@@ -1,0 +1,142 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+             xmlns:dxco="clr-namespace:DevExpress.Maui.Controls;assembly=DevExpress.Maui.Controls"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="true"
+             xmlns:vm="clr-namespace:AADizErp.ViewModels"
+             x:DataType="vm:MainPageViewModel"
+             x:Class="AADizErp.MainPage"
+             xmlns:icon="clr-namespace:AADizErp"
+             Background="{StaticResource Primary}">
+    <!-- Add items here. -->
+    <ScrollView VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
+        <dx:DXBorder Padding="10, 0" CornerRadius="0" BorderColor="Transparent" BackgroundColor="{StaticResource AppBgColor}">
+            <Grid RowDefinitions="Auto, Auto, Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="5">
+
+                <dx:DXBorder  Grid.Row="0" BorderColor="White" VerticalOptions="Start" HeightRequest="100"  CornerRadius="{OnPlatform iOS='20', Default='50'}" Margin="0,10,0,10" Padding="0" IsClippedToBounds="True">
+                    <Image Source="timeline" Aspect="AspectFill"/>
+                </dx:DXBorder>
+
+                <dx:DXBorder Grid.Row="1" Margin="0,-95,0,0" BorderThickness='5' BorderColor="White" BackgroundColor="{StaticResource Asian}" HorizontalOptions="Center" WidthRequest="120" HeightRequest="{OnPlatform iOS='120', Android='120'}"  CornerRadius="60" Padding="0" IsClippedToBounds="True">
+                    <Image Source="user_tie" Aspect="AspectFit"/>
+                </dx:DXBorder>
+
+                <Label Grid.Row="2" Text="{Binding FullName}" FontAttributes="Bold" TextTransform="Uppercase" TextColor="#383b67" HorizontalTextAlignment="Center" Margin="0" FontSize="15"/>
+
+                <!--<Label Grid.Row="3" Text="Software Engineer" FontAttributes="Italic" TextColor="#383b67" HorizontalTextAlignment="Center" Margin="0" FontSize="13"/>-->
+
+                <Grid Grid.Row="3" ColumnDefinitions="Auto,Auto,Auto" ColumnSpacing="5" VerticalOptions="Center" HorizontalOptions="Center" Margin="0">
+
+                    <dx:DXBorder Grid.Column="0"  BorderColor="Transparent"  Padding="0" BackgroundColor="{StaticResource Asian}" CornerRadius="{OnPlatform iOS='10', Default='50'}" WidthRequest="20" HeightRequest="20">
+                        <Label Text="{Static icon:IconFont.Location_on}" Style="{StaticResource GoogleFont}" FontSize="10" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="#ffffff"  HorizontalOptions="Center" />
+                    </dx:DXBorder>
+
+                    <Label Grid.Column="1" Text="{Binding Organization}"  VerticalTextAlignment="Center" FontSize="14" TextColor="{StaticResource Asian}"/>
+
+                    <dx:DXButton 
+                        Grid.Column="2" 
+                        Padding="5"  
+                        TextColor="Red" 
+                        FontAttributes="Bold" 
+                        Margin="5,0,0,0" 
+                        Content="Logout"
+                        FontSize="Micro"
+                        BorderColor="Red"
+                        BorderThickness="1"
+                        Command="{Binding LogoutCommand}"
+                        BackgroundColor="Transparent"/>
+                </Grid>
+
+
+                <Label Grid.Row="4" Text="Features and Services" FontAttributes="Italic" TextColor="{StaticResource Asian}" HorizontalTextAlignment="Start" Margin="0,5,0,10" FontSize="14"/>
+
+                <Grid Grid.Row="5" RowDefinitions="Auto, Auto" ColumnDefinitions="*,*,*" ColumnSpacing="5">
+
+                    <dx:DXButton Grid.Row="0" Grid.Column="0" BackgroundColor="#FBFBFB" Padding="10" BorderColor="Transparent" CornerRadius="5" Clicked="ProfilePageMenu_Tapped">
+                        <Grid RowDefinitions="Auto, Auto">
+                            <dx:DXBorder Grid.Row="0" BackgroundColor="{StaticResource Asian}" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
+                                <Image Source="user_tie" HorizontalOptions="Center" Aspect="AspectFit"  />
+                            </dx:DXBorder>
+                            <Label Grid.Row="1" Text="e-Service Book" FontSize="12" TextColor="{StaticResource Asian}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                        </Grid>
+                    </dx:DXButton>
+
+                    <dx:DXButton Grid.Row="0" Grid.Column="1" BackgroundColor="#FBFBFB" Padding="10" BorderColor="Transparent" CornerRadius="5" Clicked="TimeCardPageMenu_Tapped">
+                        <Grid RowDefinitions="Auto, Auto">
+                            <dx:DXBorder Grid.Row="0" BackgroundColor="#dc3545" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
+                                <Image Source="tasks" HorizontalOptions="Center" Aspect="AspectFit"  />
+                            </dx:DXBorder>
+                            <Label Grid.Row="1" Text="Time Card" FontSize="12" TextColor="#dc3545" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                        </Grid>
+                    </dx:DXButton>
+
+                    <dx:DXButton  Grid.Row="0" Grid.Column="2" BackgroundColor="#FBFBFB" Padding="10" BorderColor="Transparent" CornerRadius="5" Clicked="PaySlipMenu_Tapped">
+                        <Grid RowDefinitions="Auto, Auto">
+                            <dx:DXBorder Grid.Row="0" BackgroundColor="#198754" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
+                                <Image Source="pay_slip" HorizontalOptions="Center" Aspect="AspectFit"  />
+                            </dx:DXBorder>
+                            <Label Grid.Row="1" Text="Payslip" FontSize="12" TextColor="#198754" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                        </Grid>
+                    </dx:DXButton>
+
+                    
+                </Grid>
+
+                <Grid Grid.Row="6" RowDefinitions="Auto, Auto" ColumnDefinitions="*,*,*" ColumnSpacing="5">
+                    <dx:DXButton  Grid.Row="0" Grid.Column="0" BackgroundColor="#FBFBFB" Padding="10" BorderColor="Transparent" CornerRadius="5" Clicked="RequestMenu_Tapped">
+                        <Grid RowDefinitions="Auto, Auto">
+                            <dx:DXBorder Grid.Row="0" BackgroundColor="{StaticResource Asian}" Padding="0"  HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
+                                <Image Source="request" HorizontalOptions="Center" Aspect="AspectFit"  />
+                            </dx:DXBorder>
+                            <Label Grid.Row="1" Text="e-Request" FontSize="12" TextColor="{StaticResource Asian}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                        </Grid>
+                    </dx:DXButton>
+
+                    <dx:DXButton Grid.Row="0" Grid.Column="1" BackgroundColor="#FBFBFB" Padding="10" BorderColor="Transparent" CornerRadius="5" Clicked="HolidayPageMenu_Tapped">
+                        <Grid RowDefinitions="Auto, Auto">
+                            <dx:DXBorder Grid.Row="0"  BackgroundColor="#dc3545" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
+                                <Image Source="holiday" HorizontalOptions="Center" Aspect="AspectFit"  />
+                            </dx:DXBorder>
+                            <Label Grid.Row="1" Text="Holidays" FontSize="12" TextColor="#dc3545" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                        </Grid>
+                    </dx:DXButton>
+
+                    <dx:DXButton Grid.Row="0" Grid.Column="2" BackgroundColor="#FBFBFB" Padding="10" BorderColor="Transparent" CornerRadius="5" Clicked="AsianEventMenu_Tapped">
+                        <Grid RowDefinitions="Auto, Auto">
+                            <dx:DXBorder Grid.Row="0"  BackgroundColor="#0dcaf0" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
+                                <Image Source="event_check" HorizontalOptions="Center" Aspect="AspectFit"  />
+                            </dx:DXBorder>
+                            <Label Grid.Row="1" Text="Events" FontSize="12" TextColor="#0dcaf0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                        </Grid>
+                    </dx:DXButton>
+
+                    
+
+                </Grid>
+
+
+                <Grid Grid.Row="7" RowDefinitions="Auto, Auto" ColumnDefinitions="*,*,*" ColumnSpacing="5">
+                    <dx:DXButton Grid.Row="0" Grid.Column="0"  BackgroundColor="#FBFBFB" Padding="10" BorderColor="Transparent" CornerRadius="5" Clicked="ApprovalMenu_Tapped">
+                        <Grid RowDefinitions="Auto, Auto">
+                            <dx:DXBorder Grid.Row="0"   BackgroundColor="#20c997" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
+                                <Image Source="approval" HorizontalOptions="Center" Aspect="AspectFit"  />
+                            </dx:DXBorder>
+                            <Label Grid.Row="1" Text="e-Approval" FontSize="12" TextColor="#20c997" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                        </Grid>
+                    </dx:DXButton>
+
+                    <dx:DXButton Grid.Row="0" Grid.Column="1" BackgroundColor="#FBFBFB" Padding="10" BorderColor="Transparent" CornerRadius="5" Clicked="HrPageMenu_Tapped">
+                        <Grid RowDefinitions="Auto, Auto">
+                            <dx:DXBorder Grid.Row="0"   BackgroundColor="#0d6efd" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
+                                <Image Source="attendance" HorizontalOptions="Center" Aspect="AspectFit"  />
+                            </dx:DXBorder>
+                            <Label Grid.Row="1" Text="HR" FontSize="12" TextColor="#0d6efd" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                        </Grid>
+                    </dx:DXButton>
+                </Grid>
+
+            </Grid>
+        </dx:DXBorder>
+    </ScrollView>
+</ContentPage>

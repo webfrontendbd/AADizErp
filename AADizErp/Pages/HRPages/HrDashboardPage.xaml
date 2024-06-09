@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="AADizErp.Pages.HRPages.HrDashboardPage"
+             xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+             xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="True"
+             xmlns:icon="clr-namespace:AADizErp"
+             xmlns:vm="clr-namespace:AADizErp.ViewModels.HrVM"
+             x:DataType="vm:HrDashboardPageViewModel"
+             xmlns:models="clr-namespace:AADizErp.Models.Dtos.HrDtos"
+             BackgroundColor="{StaticResource AppBgColor}"
+             Title="Dashboard">
+    <ScrollView Padding="{OnPlatform iOS='15,30,15,15', Default='15'}">
+        <dx:DXStackLayout>
+            <ActivityIndicator Color="{StaticResource Asian}" IsRunning="True" IsVisible="{Binding IsLoading}"></ActivityIndicator>
+
+            <dxe:ComboBoxEdit  
+                ValueMember="OrganizationName"   
+                DisplayMember="OrganizationName"
+                ReturnType="Next"
+                LabelText="Select an organization"
+                IsLabelFloating="True"
+                ItemsSource="{Binding Organizations}"
+                SelectedValue="{Binding SelectedFactory}"
+                SelectionChangedCommand="{Binding ReloadDashboardWhenCompanyChangedCommand}"
+                PickerShowMode="BottomSheet"/>
+
+            <dxe:DateEdit
+                IsLabelFloating="True"
+                LabelText="Filter dashboard by date"
+                PlaceholderText="Select a date"
+                Margin="0,0,0,10"
+                DateChangedCommand="{Binding ReloadDashboardWhenCompanyChangedCommand }"
+                Date="{Binding CurrentDate}"
+                DisplayFormat="dd-MMM-yyyy"/>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="5" >
+                <dx:DXStackLayout Grid.Column="0" BackgroundColor="{StaticResource Asian}" HeightRequest="90" CornerRadius="5" Margin="0,0,0,10" Padding="0" >
+
+                    <Grid ColumnDefinitions="50,*">
+                        <Label Grid.Column="0" FontSize="40"  HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="#ffffff" Text="{x:Static icon:IconFont.Group}" Style="{x:StaticResource GoogleFont}"/>
+
+                        <StackLayout Grid.Column="1" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                            <Label  TextColor="#ffffff" FontAttributes="Italic" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="Manpower "/>
+                            <Label TextColor="#ffffff" FontSize="25" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="{Binding DashboardDto.TotalEmployee}" />
+                        </StackLayout>
+
+                    </Grid>
+                </dx:DXStackLayout>
+
+                <dx:DXStackLayout Grid.Column="1"  BackgroundColor="DarkOliveGreen" HeightRequest="90" CornerRadius="5" Margin="0,0,0,10" Padding="0">
+                    <Grid  ColumnDefinitions="50, auto">
+                        <Label
+                    Grid.Column="0"
+                    TextColor="#ffffff"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
+                    Text="{x:Static icon:IconFont.Group_add}" 
+                    Style="{x:StaticResource GoogleFont}"/>
+
+                        <StackLayout Grid.Column="1" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                            <Label TextColor="#ffffff" HorizontalTextAlignment="Center" FontAttributes="Italic" Text="New Joining"/>
+                            <dxe:Chip 
+                                Text="{Binding DashboardDto.TotalNewJoining}" 
+                                IsIconVisible="False"
+                                FontSize="20" 
+                                Padding="0"
+                                BorderThickness="0" 
+                                TextColor="#FFFFFF"
+                                BackgroundColor="Transparent"/>
+
+                        </StackLayout>
+                    </Grid>
+                </dx:DXStackLayout>
+
+            </Grid>
+
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="5" Margin="0">
+
+                <dx:DXStackLayout Grid.Column="0" Background="#FBFBFB" HeightRequest="90" Margin="0,0,0,10" Padding="0">
+                    <Grid  
+                        ColumnDefinitions="30,auto"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center">
+                        <Label 
+                                Grid.Column="0" 
+                                TextColor="{StaticResource Asian}" 
+                                HorizontalTextAlignment="Center" 
+                                VerticalTextAlignment="Center" 
+                                Text="{x:Static icon:IconFont.Sensor_occupied}"
+                                Style="{x:StaticResource GoogleFont}"/>
+
+                        <dx:DXStackLayout Grid.Column="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                            <Label 
+                                    TextColor="{StaticResource Asian}" 
+                                    FontSize="15" 
+                                    FontAttributes="Italic" 
+                                    HorizontalTextAlignment="Center" 
+                                    Text="Operator"/>
+
+                            <dxe:Chip 
+                                Text="{Binding DashboardDto.ActiveOperator}" 
+                                IsIconVisible="False"
+                                FontSize="20" 
+                                Padding="0"
+                                BorderThickness="0" 
+                                TextColor="{StaticResource Asian}"
+                                BackgroundColor="Transparent"/>
+
+                        </dx:DXStackLayout>
+                    </Grid>
+
+                </dx:DXStackLayout>
+
+                <dx:DXStackLayout  Background="#FBFBFB"  Grid.Column="1" HeightRequest="90" Margin="0,0,0,10" Padding="0" >
+                    <Grid ColumnDefinitions="30,auto">
+                        <Label 
+                                Grid.Column="0" 
+                                TextColor="{StaticResource Asian}" 
+                                HorizontalTextAlignment="Center"
+                                VerticalTextAlignment="Center"
+                                Text="{x:Static icon:IconFont.Person_3}" 
+                                Style="{x:StaticResource GoogleFont}"/>
+
+                        <dx:DXStackLayout Grid.Column="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                            <Label TextColor="{StaticResource Asian}" FontSize="15" FontAttributes="Italic"  HorizontalTextAlignment="Center" Text="Helper"/>
+                            <dxe:Chip 
+                                Text="{Binding DashboardDto.ActiveHelper}" 
+                                IsIconVisible="False"
+                                FontSize="20" 
+                                Padding="0"
+                                BorderThickness="0" 
+                                TextColor="{StaticResource Asian}"
+                                BackgroundColor="Transparent"/>
+                        </dx:DXStackLayout>
+                    </Grid>
+
+                </dx:DXStackLayout>
+
+                <dx:DXStackLayout  Background="#FBFBFB"  Grid.Column="2" HeightRequest="90" Margin="0,0,0,10" Padding="0">
+                    <Grid ColumnDefinitions="30, auto">
+                        <Label Grid.Column="0" TextColor="{StaticResource Asian}"  HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="{Static icon:IconFont.Person_search}" Style="{x:StaticResource GoogleFont}"/>
+                        <dx:DXStackLayout Grid.Column="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                            <Label HorizontalTextAlignment="Center" FontSize="15" TextColor="{StaticResource Asian}" FontAttributes="Italic" Text="Others"/>
+                            <dxe:Chip 
+                                Text="{Binding DashboardDto.OtherManpower}" 
+                                IsIconVisible="False"
+                                FontSize="20" 
+                                Padding="0"
+                                BorderThickness="0" 
+                                TextColor="{StaticResource Asian}"
+                                BackgroundColor="Transparent"/>
+                        </dx:DXStackLayout>
+                    </Grid>
+
+                </dx:DXStackLayout>
+            </Grid>
+
+            <Grid ColumnDefinitions="120,*" ColumnSpacing="5" Margin="0">
+
+                <dx:DXStackLayout Grid.Column="0" BackgroundColor="#FBFBFB" HeightRequest="90">
+                    <Grid ColumnDefinitions="35,*" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                        <Label Background="PaleVioletRed" Grid.Column="0" FontSize="30" TextColor="#FBFBFB" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="{Static icon:IconFont.Av_timer}" Style="{x:StaticResource GoogleFont}"/>
+                        <dx:DXStackLayout Grid.Column="1" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                            <Label FontSize="15" HorizontalTextAlignment="Center" FontAttributes="Bold" TextColor="Black" Grid.Column="0" Text="MMR" />
+                            <Label FontSize="20" HorizontalTextAlignment="Center" FontAttributes="Bold" TextColor="Black" Grid.Column="0"  Text="{Binding DashboardDto.MMR}" />
+                        </dx:DXStackLayout>
+                    </Grid>
+                </dx:DXStackLayout>
+
+                <dx:DXStackLayout  Grid.Column="1" BackgroundColor="{StaticResource Asian}" HeightRequest="90">
+                    <Grid ColumnDefinitions="35,*">
+                        <Label FontSize="30" Grid.Column="0" TextColor="#ffffff" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="{Static icon:IconFont.Av_timer}" Style="{x:StaticResource GoogleFont}"/>
+                        <dx:DXStackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Grid.Column="1">
+                            <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Italic" TextColor="#ffffff" Text="Present / Absent"/>
+                            <Grid  ColumnDefinitions="*,*">
+                                <Label FontSize="20" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" TextColor="PaleGreen" Grid.Column="0" Text="{Binding DashboardDto.PresentOperator}" />
+                                <Label FontSize="25" FontAttributes="Bold" TextColor="PaleVioletRed" Grid.Column="1" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="{Binding DashboardDto.PresentHelper}" />
+
+                            </Grid>
+                        </dx:DXStackLayout>
+                    </Grid>
+                </dx:DXStackLayout>
+
+            </Grid>
+
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="5" Margin="0,10,0,0">
+                <Grid Background="#FBFBFB" Grid.Column="0"  HeightRequest="90"  Padding="0">
+                    <dx:DXStackLayout HorizontalOptions="Center" VerticalOptions="Center" >
+                        <Label TextColor="OrangeRed"  HorizontalTextAlignment="Center" Text="{x:Static icon:IconFont.Group_remove}" Style="{x:StaticResource GoogleFont}"/>
+                        <Label TextColor="OrangeRed" FontAttributes="Italic"  HorizontalTextAlignment="Center" Text="Total Lefty"/>
+                        <dxe:Chip Text="{Binding DashboardDto.TotalLefty}" IsIconVisible="False" BorderThickness="0" TextColor="{StaticResource Asian}" BackgroundColor="#E6EEFE"/>
+                    </dx:DXStackLayout>
+                </Grid>
+
+                <Grid Background="#FBFBFB"  Grid.Column="1" HeightRequest="90" Padding="0" >
+                    <dx:DXStackLayout HorizontalOptions="Center" VerticalOptions="Center" >
+                        <Label TextColor="OrangeRed"  HorizontalTextAlignment="Center" Text="{x:Static icon:IconFont.More_time}" Style="{x:StaticResource GoogleFont}"/>
+                        <Label TextColor="OrangeRed" FontAttributes="Italic"  HorizontalTextAlignment="Center" Text="Current"/>
+                        <dxe:Chip Text="{Binding DashboardDto.TotalCurrentLefty}" IsIconVisible="False" BorderThickness="0" TextColor="{StaticResource Asian}" BackgroundColor="#E6EEFE"/>
+                    </dx:DXStackLayout>
+                </Grid>
+
+                <Grid Background="#FBFBFB"  Grid.Column="2" HeightRequest="90" Padding="0">
+                    <dx:DXStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label TextColor="OrangeRed"  HorizontalTextAlignment="Center" Text="{Static icon:IconFont.History}" Style="{x:StaticResource GoogleFont}"/>
+                        <Label HorizontalTextAlignment="Center" TextColor="OrangeRed" FontAttributes="Italic" Text="Previous"/>
+                        <dxe:Chip Text="{Binding DashboardDto.TotalPreviousLefty}" IsIconVisible="False" BorderThickness="0" TextColor="{StaticResource Asian}" BackgroundColor="#E6EEFE"/>
+                    </dx:DXStackLayout>
+                </Grid>
+            </Grid>
+
+        </dx:DXStackLayout>
+    </ScrollView>
+</ContentPage>

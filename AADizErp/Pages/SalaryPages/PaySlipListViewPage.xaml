@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AADizErp.Pages.SalaryPages.PaySlipListViewPage"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="True"
+             xmlns:icon="clr-namespace:AADizErp"
+             xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core" 
+             xmlns:dxcv="clr-namespace:DevExpress.Maui.CollectionView;assembly=DevExpress.Maui.CollectionView"
+             xmlns:models="clr-namespace:AADizErp.Models.Dtos"
+             xmlns:vm="clr-namespace:AADizErp.ViewModels.SalaryPagesVM"
+             x:DataType="vm:PaySlipListViewPageViewModel"
+             BackgroundColor="{StaticResource AppBgColor}"
+             Title="Pay Slips">
+    <ContentPage.Resources>
+        <Style x:Key="labelColor" TargetType="Label">
+            <Setter Property="TextColor" Value="Black"/>
+        </Style>
+    </ContentPage.Resources>
+    <ScrollView Padding="{OnPlatform iOS='10,15,10,15', Default='10'}">
+        <dx:DXStackLayout>
+            <dxcv:DXCollectionView
+            ItemsSource="{Binding PaySlips}"
+            IndicatorColor="{StaticResource Asian}"
+            SelectionMode="None">
+                <dxcv:DXCollectionView.ItemTemplate>
+                    <DataTemplate  x:DataType="{x:Type models:PaySlipInfoDto}">
+                        <Frame HasShadow="False" BorderColor="{StaticResource Asian}" Margin="15,10,15,0" Padding="1">
+                            <StackLayout HorizontalOptions="FillAndExpand"   Background="White">
+
+                                <Label Text="{Binding PaymentDate, StringFormat='Pay Slip for the month of {0:MMMM-yy}'}" TextColor="White" BackgroundColor="{StaticResource Asian}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Padding="2"/>
+
+                                <Grid RowDefinitions="Auto" Margin="0" Padding="15,5,15,5">
+                                    <Grid Grid.Row="1" ColumnDefinitions="Auto,Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto" ColumnSpacing="5" RowSpacing="5">
+                                        <Label Grid.Column="0" Grid.Row="0" Text="Name" FontAttributes="Bold" Style="{StaticResource labelColor}" />
+                                        <Label Grid.Column="1" Grid.Row="0" Text=":" Style="{StaticResource labelColor}"/>
+                                        <Label Grid.Column="2" Grid.Row="0" Text="{Binding Name}" Style="{StaticResource labelColor}"/>
+
+                                        <Label Grid.Column="0" Grid.Row="1" Text="ID NO" FontAttributes="Bold" Style="{StaticResource labelColor}"/>
+                                        <Label Grid.Column="1" Grid.Row="1" Text=":" Style="{StaticResource labelColor}" />
+                                        <Label Grid.Column="2" Grid.Row="1" Text="{Binding EmployeeNumber}" Style="{StaticResource labelColor}" />
+
+                                        <Label Grid.Column="0" Grid.Row="2" Text="Designation" FontAttributes="Bold" Style="{StaticResource labelColor}"/>
+                                        <Label Grid.Column="1" Grid.Row="2" Text=":" Style="{StaticResource labelColor}"/>
+                                        <Label Grid.Column="2" Grid.Row="2" Text="{Binding Designation}" Style="{StaticResource labelColor}"/>
+
+                                        <Grid Grid.Row="3" Grid.ColumnSpan="3" ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" ColumnSpacing="10">
+                                            <Label Grid.Column="0"  Text="OT Hour" FontAttributes="Bold" Style="{StaticResource labelColor}"/>
+                                            <Label Grid.Column="1"  Text=":" Style="{StaticResource labelColor}"/>
+                                            <Label Grid.Column="2"  Text="{Binding OtHour}" Style="{StaticResource labelColor}"/>
+
+                                            <Label Grid.Column="3"  Text="OT Amount" FontAttributes="Bold" Style="{StaticResource labelColor}"/>
+                                            <Label Grid.Column="4"  Text=":" Style="{StaticResource labelColor}"/>
+                                            <Label Grid.Column="5"  Text="{Binding OtAmount, StringFormat='tk. {0:#,0.#0}'}" HorizontalTextAlignment="Center" Style="{StaticResource labelColor}"/>
+                                        </Grid>
+
+                                        <Label Grid.Column="0" Grid.Row="4" Text="Salary Payable" FontAttributes="Bold" Style="{StaticResource labelColor}"/>
+                                        <Label Grid.Column="1" Grid.Row="4" Text=":" FontAttributes="Bold" Style="{StaticResource labelColor}"/>
+                                        <Label Grid.Column="2" Grid.Row="4" Text="{Binding SalaryPayable, StringFormat='tk. {0:#,0.#0}'}" Style="{StaticResource labelColor}"/>
+
+                                        <Label Grid.Column="0" Grid.Row="5" Text="Generated On" FontAttributes="Bold" Style="{StaticResource labelColor}"/>
+                                        <Label Grid.Column="1" Grid.Row="5" Text=":" FontAttributes="Bold" Style="{StaticResource labelColor}"/>
+                                        <Label Grid.Column="2" Grid.Row="5" Text="{Binding PaymentDate, StringFormat='{0:dd-MMM-yyyy}'}" Style="{StaticResource labelColor}"/>
+                                    </Grid>
+                                </Grid>
+
+                            </StackLayout>
+                        </Frame>
+
+                    </DataTemplate>
+                </dxcv:DXCollectionView.ItemTemplate>
+            </dxcv:DXCollectionView>
+        </dx:DXStackLayout>
+    </ScrollView>
+
+
+</ContentPage>

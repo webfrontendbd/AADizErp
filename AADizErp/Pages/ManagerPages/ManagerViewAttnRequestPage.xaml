@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+             xmlns:dxcv="clr-namespace:DevExpress.Maui.CollectionView;assembly=DevExpress.Maui.CollectionView"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="True"
+             x:Class="AADizErp.Pages.ManagerPages.ManagerViewAttnRequestPage"
+             xmlns:vm="clr-namespace:AADizErp.ViewModels.ManagerPagesVM"
+             x:DataType="vm:ManagerAttendanceListViewModel"
+             xmlns:models="clr-namespace:AADizErp.Models.Dtos"
+             Title="Attendance Request List"
+             BackgroundColor="{StaticResource AppBgColor}">
+
+        <Grid>
+            <dxcv:DXCollectionView 
+                IsRefreshing="{Binding IsLoading, Mode=TwoWay}"
+                ItemsSource="{Binding Attendances}"
+                IsLoadMoreEnabled="True" 
+                LoadMoreCommand="{Binding LoadMoreRemoteAttendanceDataCommand}"
+                IndicatorColor="{StaticResource Asian}">
+
+                <dxcv:DXCollectionView.ItemTemplate>
+                    <DataTemplate  x:DataType="{x:Type models:RemoteAttendanceDto}">
+                        <Frame HasShadow="False" BorderColor="{StaticResource Asian}" Margin="5,5,5,2" Padding="15,5,15,5">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ManagerAttendanceListViewModel}}, Path=ViewAttendanceDetailsCommand }" CommandParameter="{Binding .}"/>
+                            </Frame.GestureRecognizers>
+                            <StackLayout HorizontalOptions="FillAndExpand"   Background="White">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <Grid Grid.Column="0" RowDefinitions="*,*,*">
+
+                                        <Grid Grid.Row="0" ColumnDefinitions="Auto,*" RowDefinitions="*,*,*" ColumnSpacing="5">
+                                            <Label Grid.Column="0" Grid.Row="0" Text="Name"/>
+                                            <Label Grid.Column="1" Grid.Row="0" Text="{Binding FullName}"/>
+
+                                            <Label Grid.Column="0" Grid.Row="1" Text="Reason"/>
+                                            <Label Grid.Column="1" Grid.Row="1" Text="{Binding Reason}" TextColor="OrangeRed"/>
+
+                                            <Label Grid.Column="0" Grid.Row="2" Text="Date"/>
+                                            <Label Grid.Column="1" Grid.Row="2" Text="{Binding Created}"/>
+                                        </Grid>
+                                    </Grid>
+
+                                    <Grid Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center">
+                                        <Label Text="{Binding Status}">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="Approved">
+                                                    <Setter Property="TextColor" Value="Green" />
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="Pending">
+                                                    <Setter Property="TextColor" Value="Orange" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                    </Grid>
+                                </Grid>
+
+                            </StackLayout>
+                        </Frame>
+
+                    </DataTemplate>
+                </dxcv:DXCollectionView.ItemTemplate>
+            </dxcv:DXCollectionView>
+
+        </Grid>
+</ContentPage>

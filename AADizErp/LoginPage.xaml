@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+             xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="true"
+             x:Class="AADizErp.LoginPage"
+             xmlns:vm="clr-namespace:AADizErp.ViewModels"
+             x:DataType="vm:LoginViewModel"
+             Title="Login">
+    <dx:DXStackLayout HorizontalOptions="FillAndExpand" VerticalOptions="Center" Padding="20">
+        <dx:DXImage Source="elogo" WidthRequest="180" TintColor="{AppThemeBinding Dark={StaticResource Gray200}}"/>
+        <Label Text="Sign in your account"  Margin="0,10,0,10"  VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
+        <Grid
+            RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+            WidthRequest="295">
+            <dxe:TextEdit
+                Grid.Row="0"
+                StartIcon="face_black_24dp"
+                LabelText="Username"
+                Text="{Binding Username}"
+                ErrorText="Username is required"
+                PlaceholderText="Enter Username" 
+                Margin="0,0,0,10" />
+
+            <dxe:PasswordEdit
+                Grid.Row="1"
+                StartIcon="password_black_24dp"
+                LabelText="Password"
+                Text="{Binding Password}"
+                ErrorText="The password should contain more than 5 characters, have at least one uppercase and one lowercase letter, and one number."
+                PlaceholderText="Enter password" 
+                Margin="0,0,0,10" />
+
+            <dx:DXButton 
+                Grid.Row="2"
+                ButtonType="Accent"
+                Content="SIGN IN"
+                TextColor="White" 
+                DisabledTextColor="DarkGray"
+                DisabledBackgroundColor="Brown"           
+                PressedTextColor="White"
+                PressedBackgroundColor="Gray" 
+                HorizontalOptions="Center"
+                Icon="sign_in"
+                IconColor="White"
+                DisabledIconColor="DarkGray"
+                PressedIconColor="White"
+                BorderThickness="2"
+                WidthRequest="210"
+                Padding="6"
+                BorderColor="{StaticResource Asian}"
+                DisabledBorderColor="DarkGray"
+                PressedBorderColor="{StaticResource Asian}"
+                CornerRadius="5"
+                BackgroundColor="{StaticResource Asian}"
+                Command="{Binding LoginCommand}" />
+
+            <dx:DXButton   
+                Grid.Row="3"
+                Margin="15,15,15,0"
+                Content="Login with Face ID/Fingerprint"
+                BackgroundColor="Transparent"
+                CornerRadius="5"
+                TextColor="{StaticResource Asian}"
+                BorderColor="{StaticResource Asian}"
+                Padding="6"
+                WidthRequest="210"
+                FontAttributes="Italic"
+                BorderThickness="1"
+                Command="{Binding FingerPrintAuthenticationCommand}">
+            </dx:DXButton>
+
+            <!--<dx:DXButton
+                Grid.Row="4"
+                Margin="15,15,15,15"
+                Padding="6"
+                IconHeight="18"
+                IconIndent="1"
+                ButtonType="ToolButton"
+                Content="New in Asian App? Sign up"
+                TextColor="{StaticResource Asian}"
+                Icon="sign_out"
+                BackgroundColor="Transparent"
+                IconColor="{StaticResource Asian}"
+                Clicked="SignupButton_Clicked"/>-->
+        </Grid>
+
+
+    </dx:DXStackLayout>
+</ContentPage>

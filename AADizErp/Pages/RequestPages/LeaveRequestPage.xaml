@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+             xmlns:dxcv="clr-namespace:DevExpress.Maui.CollectionView;assembly=DevExpress.Maui.CollectionView"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="True"
+             x:Class="AADizErp.Pages.RequestPages.LeaveRequestPage"
+             xmlns:models="clr-namespace:AADizErp.Models.Dtos.LeaveDtos"
+             xmlns:vm="clr-namespace:AADizErp.ViewModels.RequestVM"
+             x:DataType="vm:LeaveRequestPageViewModel"
+             Title="Leave Request"
+             BackgroundColor="{StaticResource AppBgColor}">
+    
+        
+    <Grid  RowDefinitions="Auto,Auto, *" Padding="15">
+
+        <Grid Grid.Row="0" ColumnDefinitions="*,*,*" RowDefinitions="*,*" ColumnSpacing="10" RowSpacing="10" Padding="10,0,10,10">
+
+            <Grid  Grid.Row="0" Grid.Column="0">
+                <Frame HasShadow="False" BorderColor="Transparent" BackgroundColor="#ffffff" Padding="5">
+                    <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                        <Frame HasShadow="False" BorderColor="Transparent" BackgroundColor="#e6eefe" WidthRequest="50" HeightRequest="50" Padding="0" CornerRadius="{OnPlatform iOS='25', Android='60'}">
+                            <Label Text="{Binding LeaveSummary.SickLeave}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Asian}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                        </Frame>
+                        <Label Text="Sick" TextColor="{StaticResource Asian}" FontSize="12" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                    </StackLayout>
+                </Frame>
+            </Grid>
+
+            <Grid Grid.Row="0" Grid.Column="1">
+                <Frame HasShadow="False" BorderColor="Transparent" BackgroundColor="#ffffff" Padding="5">
+                    <StackLayout>
+                        <Frame HasShadow="False" BorderColor="Transparent" BackgroundColor="#fff6e0" WidthRequest="50" HeightRequest="50" Padding="0" CornerRadius="{OnPlatform iOS='25', Android='60'}">
+                            <Label Text="{Binding LeaveSummary.CasualLeave}" FontSize="16" FontAttributes="Bold" TextColor="#e6ab3a" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                        </Frame>
+                        <Label Text="Casual" TextColor="{StaticResource Asian}" FontSize="12" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                    </StackLayout>
+                </Frame>
+            </Grid>
+
+            <Grid Grid.Row="0" Grid.Column="2">
+                <Frame HasShadow="False" BorderColor="Transparent" BackgroundColor="#ffffff" Padding="5">
+                    <StackLayout>
+                        <Frame HasShadow="False" BorderColor="Transparent" BackgroundColor="#ffeeec" WidthRequest="50" HeightRequest="50" Padding="0" CornerRadius="{OnPlatform iOS='25', Android='60'}">
+                            <Label Text="{Binding LeaveSummary.AnnualLeave}" FontSize="16" FontAttributes="Bold" TextColor="#d4735e" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                        </Frame>
+                        <Label Text="Annual" TextColor="{StaticResource Asian}" FontSize="12" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                    </StackLayout>
+                </Frame>
+            </Grid>
+        </Grid>
+
+
+        <Grid ColumnDefinitions="*,*"
+            Grid.Row="1"
+              Padding="5,0,10,0">
+            <Label Grid.Column="0" HorizontalOptions="Start" FontSize="Body" TextColor="Black" Padding="5,10,5,10" Text="Leave Request List"/>
+
+            <dx:DXButton
+                Grid.Column="1"
+                Padding="5"
+                CornerRadius="5"
+                BackgroundColor="{StaticResource Asian}"
+                HorizontalOptions="End"
+                Clicked="CreateDXButton_Clicked"
+                Content="+ Create e-Leave Request"/>
+
+        </Grid>
+
+        <dxcv:DXCollectionView 
+            Grid.Row="2"
+            IsRefreshing="{Binding IsLoading}"
+            IsPullToRefreshEnabled="True"
+            PullToRefreshCommand="{Binding LoadMoreIndividualLeaveRequestsCommand}"
+            IsLoadMoreEnabled="True"
+            LoadMoreCommand="{Binding LoadMoreIndividualLeaveRequestsCommand}"
+            IndicatorColor="{StaticResource Asian}"
+            ItemsSource="{Binding LeaveRequests}">
+            <dxcv:DXCollectionView.ItemTemplate>
+                <DataTemplate  x:DataType="{x:Type models:LeaveRequestDto}">
+                    <ScrollView>
+                        
+                    <Frame HasShadow="False" BorderColor="{StaticResource Asian}" Margin="5,5,5,2" Padding="15,5,15,5">
+                        <StackLayout HorizontalOptions="FillAndExpand"   Background="White">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Grid Grid.Column="0">
+
+                                    <Grid Grid.Row="0" ColumnDefinitions="Auto,Auto,*" RowDefinitions="*,*,*,*,*" ColumnSpacing="5">
+                                        <Label Grid.Column="0" Grid.Row="0" Text="Name" VerticalTextAlignment="Center"/>
+                                        <Label Grid.Column="1" Grid.Row="0" Text=":" VerticalTextAlignment="Center"/>
+                                        <Label Grid.Column="2" Grid.Row="0" Text="{Binding FullName}" VerticalTextAlignment="Center"/>
+
+                                        <Label Grid.Column="0" Grid.Row="1" Text="Reason" VerticalTextAlignment="Center"/>
+                                        <Label Grid.Column="1" Grid.Row="1" Text=":" VerticalTextAlignment="Center"/>
+                                        <Label Grid.Column="2" Grid.Row="1" Text="{Binding Reason}" VerticalTextAlignment="Center" TextColor="OrangeRed" />
+
+                                        <Label Grid.Column="0" Grid.Row="2" Text="Start Date" VerticalTextAlignment="Center"/>
+                                        <Label Grid.Column="1" Grid.Row="2" Text=":" VerticalTextAlignment="Center"/>
+                                        <Label Grid.Column="2" Grid.Row="2" Text="{Binding LeaveStartDate, StringFormat='{0:dd-MMM-yyyy}'}" VerticalTextAlignment="Center"/>
+
+                                        <Label Grid.Column="0" Grid.Row="3" Text="End Date" VerticalTextAlignment="Center"/>
+                                        <Label Grid.Column="1" Grid.Row="3" Text=":" VerticalTextAlignment="Center"/>
+                                        <Label Grid.Column="2" Grid.Row="3" Text="{Binding LeaveEndDate, StringFormat='{0:dd-MMM-yyyy}'}" VerticalTextAlignment="Center"/>
+
+                                        <Label Grid.Column="0" Grid.Row="4" Text="Total" VerticalTextAlignment="Center"/>
+                                        <Label Grid.Column="1" Grid.Row="4" Text=":" VerticalTextAlignment="Center"/>
+                                        <Label Grid.Column="2" Grid.Row="4" Text="{Binding TotalDays, StringFormat='{0} Days'}" VerticalTextAlignment="Center"/>
+                                    </Grid>
+
+                                </Grid>
+
+                                <Grid Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center">
+                                    <Label Text="{Binding Status}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="Approved">
+                                                <Setter Property="TextColor" Value="Green" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="Pending">
+                                                <Setter Property="TextColor" Value="Orange" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                </Grid>
+                            </Grid>
+
+                        </StackLayout>
+                    </Frame>
+
+                    </ScrollView>
+                </DataTemplate>
+            </dxcv:DXCollectionView.ItemTemplate>
+
+        </dxcv:DXCollectionView>
+
+    </Grid>
+
+</ContentPage>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+             xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="True"
+             x:Class="AADizErp.Pages.HRPages.HrLandingPage"
+             Title="Human Resources (HR)"
+             BackgroundColor="{StaticResource AppBgColor}">
+    <ScrollView Padding="15">
+        <dx:DXStackLayout>
+
+            <Grid
+                RowDefinitions="Auto, Auto"
+                ColumnDefinitions="*,*,*" 
+                ColumnSpacing="10"
+                RowSpacing="10">
+
+
+                <dx:DXButton
+                    Grid.Row="0" 
+                    Grid.Column="0"
+                    CornerRadius="5"
+                    BackgroundColor="#FBFBFB"
+                    Clicked="HrDashboardMenu_Tapped" >
+                    <Grid RowDefinitions="Auto, Auto">
+                        <dx:DXBorder Grid.Row="0"  BackgroundColor="{StaticResource Asian}" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
+                            <Image Source="dashboard" HorizontalOptions="Center" Aspect="AspectFit"  />
+                        </dx:DXBorder>
+                        <Label Grid.Row="1" Text="Dashboard" FontSize="Caption" TextColor="{StaticResource Asian}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                    </Grid>
+                </dx:DXButton>
+
+                <dx:DXButton 
+                    Grid.Row="0" 
+                    Grid.Column="1" 
+                    CornerRadius="5"
+                    BackgroundColor="#FBFBFB" 
+                    Clicked="EmployeeTimeCardMenu_Clicked">
+                    
+                    <Grid RowDefinitions="Auto, Auto">
+                        <dx:DXBorder Grid.Row="0"  BackgroundColor="CadetBlue" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
+                            <Image Source="user_tie" HorizontalOptions="Center" Aspect="AspectFit"  />
+                        </dx:DXBorder>
+                        <Label Grid.Row="1" Text="Timecard Queries" FontSize="Caption" TextColor="CadetBlue" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                    </Grid>
+                    
+                </dx:DXButton>
+
+                <dx:DXButton 
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    CornerRadius="5"
+                    Clicked="EmployeeFileQueryMenu_Clicked"
+                    BackgroundColor="#FBFBFB">
+                    <Grid RowDefinitions="Auto, *">
+                        <dx:DXBorder Grid.Row="0"  BackgroundColor="#20c997" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
+                            <Image Source="folder" HorizontalOptions="Center" Aspect="AspectFit"  />
+                        </dx:DXBorder>
+                        <Label Grid.Row="1" Text="File Queries " FontSize="Caption" TextColor="#20c997" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                    </Grid>
+                </dx:DXButton>
+
+                <dx:DXButton 
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    CornerRadius="5"
+                    Clicked="DailyAbsentDetailsQueryMenu_Clicked"
+                    BackgroundColor="#FBFBFB">
+                    <Grid RowDefinitions="Auto, *">
+                        <dx:DXBorder Grid.Row="0"  BackgroundColor="MediumVioletRed" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
+                            <Image Source="clipboard" HorizontalOptions="Center" Aspect="AspectFit"  />
+                        </dx:DXBorder>
+                        <Label Grid.Row="1" Text="Daily Absent" FontSize="Caption" TextColor="MediumVioletRed" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                    </Grid>
+                </dx:DXButton>
+
+                <dx:DXButton 
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    CornerRadius="5"
+                    Clicked="UnreviewedUserListButton_Clicked"
+                    BackgroundColor="#FBFBFB">
+                    <Grid RowDefinitions="Auto, *">
+                        <dx:DXBorder Grid.Row="0"  BackgroundColor="{StaticResource Asian}" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
+                            <Image Source="user_shield" HorizontalOptions="Center" Aspect="AspectFit"  />
+                        </dx:DXBorder>
+                        <Label Grid.Row="1" Text="Register Request" FontSize="Caption" TextColor="{StaticResource Asian}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                    </Grid>
+                </dx:DXButton>
+
+
+
+            </Grid>
+            
+            
+        </dx:DXStackLayout>
+
+    </ScrollView>
+</ContentPage>

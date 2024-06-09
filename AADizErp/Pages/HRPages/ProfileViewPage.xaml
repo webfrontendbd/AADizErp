@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+             xmlns:dxco="clr-namespace:DevExpress.Maui.Controls;assembly=DevExpress.Maui.Controls"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="True"
+             x:Class="AADizErp.Pages.HRPages.ProfileViewPage"
+             xmlns:vm="clr-namespace:AADizErp.ViewModels.HrVM"
+             x:DataType="vm:ProfilePageViewModel"
+             Title="Employee Info">
+    <Grid RowDefinitions="Auto,*" Padding="{OnPlatform iOS='15,10,15,15', Default='15'}">
+        <dx:DXStackLayout
+            Grid.Row="0">
+            <dx:DXImage 
+                Source="user_tie"
+                BackgroundColor="{StaticResource Asian}"
+                Aspect="AspectFit" 
+                VerticalOptions="Center" 
+                WidthRequest="50"                
+                HeightRequest="50"/>
+            <Label Text="{Binding EmployeeInfoDto.EmployeeName}" Margin="0,15,0,0" HorizontalTextAlignment="Center" FontSize="Header" FontAttributes="Bold"/>
+            <Label Text="{Binding EmployeeInfoDto.DesName}" HorizontalTextAlignment="Center" FontSize="Small"/>
+            <Label Text="{Binding EmployeeInfoDto.CardNumber, StringFormat='ID NO: {0}'}" HorizontalTextAlignment="Center" FontSize="Small" Margin="0" Padding="0"/>
+
+        </dx:DXStackLayout>
+
+        <dxco:TabView
+            Margin="0,20,0,0"
+            Grid.Row="1">
+            <dxco:TabViewItem 
+                HeaderText="Personal Info">
+                <dxco:TabViewItem.Content>
+                    <Grid
+                        RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto" 
+                        ColumnDefinitions="Auto,Auto,*"
+                        ColumnSpacing="8"
+                        RowSpacing="10"
+                        Padding="15">
+                        
+                        <Label Grid.Column="0" Grid.Row="0" Text="Gender" FontAttributes="Bold"/>
+                        <Label Grid.Column="1" Grid.Row="0" Text=":"/>
+                        <Label Grid.Column="2" Grid.Row="0" Text="{Binding EmployeeInfoDto.Gender}" TextTransform="Uppercase"/>
+
+                        <Label Grid.Column="0" Grid.Row="1" Text="DOB" FontAttributes="Bold"/>
+                        <Label Grid.Column="1" Grid.Row="1" Text=":"/>
+                        <Label Grid.Column="2" Grid.Row="1" Text="{Binding EmployeeInfoDto.DOB, StringFormat='{0:dd-MMM-yyyy}'}"/>
+
+                        <Label Grid.Column="0" Grid.Row="2" Text="Blood Group" FontAttributes="Bold"/>
+                        <Label Grid.Column="1" Grid.Row="2" Text=":"/>
+                        <Label Grid.Column="2" Grid.Row="2" Text="{Binding EmployeeInfoDto.BloodGroup }"/>
+
+                        <Label Grid.Column="0" Grid.Row="3" Text="Religion" FontAttributes="Bold"/>
+                        <Label Grid.Column="1" Grid.Row="3" Text=":"/>
+                        <Label Grid.Column="2" Grid.Row="3" Text="{Binding EmployeeInfoDto.ReligionName }"/>
+
+                        <Label Grid.Column="0" Grid.Row="4" Text="Marial Status" FontAttributes="Bold"/>
+                        <Label Grid.Column="1" Grid.Row="4" Text=":"/>
+                        <Label Grid.Column="2" Grid.Row="4" Text="{Binding EmployeeInfoDto.MarialStatus }"/>
+
+                        <Label Grid.Column="0" Grid.Row="5" Text="Gurdian" FontAttributes="Bold"/>
+                        <Label Grid.Column="1" Grid.Row="5" Text=":"/>
+                        <Label Grid.Column="2" Grid.Row="5" Text="{Binding EmployeeInfoDto.GurdianName }"/>
+
+                        <Label Grid.Column="0" Grid.Row="6" Text="Bank AC" FontAttributes="Bold"/>
+                        <Label Grid.Column="1" Grid.Row="6" Text=":"/>
+                        <Label Grid.Column="2" Grid.Row="6" Text="{Binding EmployeeInfoDto.BankAC }"/>
+
+
+                    </Grid>
+                </dxco:TabViewItem.Content>
+            </dxco:TabViewItem>
+
+            <dxco:TabViewItem 
+                HeaderText="Official Info">
+                <dxco:TabViewItem.Content>
+                    <Grid
+                        RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" 
+                        ColumnDefinitions="Auto,Auto,*"
+                        ColumnSpacing="8"
+                        RowSpacing="10"
+                        Padding="15">
+
+                        <Label Grid.Column="0" Grid.Row="0" Text="Unit" FontAttributes="Bold"/>
+                        <Label Grid.Column="1" Grid.Row="0" Text=":"/>
+                        <Label Grid.Column="2" Grid.Row="0" Text="{Binding EmployeeInfoDto.CompanyName}" TextTransform="Uppercase"/>
+
+                        <Label Grid.Column="0" Grid.Row="1" Text="Joined Date" FontAttributes="Bold"/>
+                        <Label Grid.Column="1" Grid.Row="1" Text=":"/>
+                        <Label Grid.Column="2" Grid.Row="1" Text="{Binding EmployeeInfoDto.JoiningDate, StringFormat='{0:dd-MMM-yyyy}'}"/>
+
+                        <Label Grid.Column="0" Grid.Row="2" Text="Dept." FontAttributes="Bold"/>
+                        <Label Grid.Column="1" Grid.Row="2" Text=":"/>
+                        <Label Grid.Column="2" Grid.Row="2" Text="{Binding EmployeeInfoDto.DeptName }"/>
+
+                        <Label Grid.Column="0" Grid.Row="3" Text="Section" FontAttributes="Bold"/>
+                        <Label Grid.Column="1" Grid.Row="3" Text=":"/>
+                        <Label Grid.Column="2" Grid.Row="3" Text="{Binding EmployeeInfoDto.SectionName }"/>
+
+                        <Label Grid.Column="0" Grid.Row="4" Text="Type" FontAttributes="Bold"/>
+                        <Label Grid.Column="1" Grid.Row="4" Text=":"/>
+                        <Label Grid.Column="2" Grid.Row="4" Text="{Binding EmployeeInfoDto.EmpType }"/>
+
+                        <Label Grid.Column="0" Grid.Row="5" Text="Salary (Bank)" FontAttributes="Bold"/>
+                        <Label Grid.Column="1" Grid.Row="5" Text=":"/>
+                        <Label Grid.Column="2" Grid.Row="5" Text="{Binding EmployeeInfoDto.GrossSalary, StringFormat='tk. {0:#,0.#0}' }"/>
+
+                        <Label Grid.Column="0" Grid.Row="6" Text="Salary (Cash)" FontAttributes="Bold"/>
+                        <Label Grid.Column="1" Grid.Row="6" Text=":"/>
+                        <Label Grid.Column="2" Grid.Row="6" Text="{Binding EmployeeInfoDto.CashSalary, StringFormat='tk. {0:#,0.#0}' }"/>
+
+                        <Label Grid.Column="0" Grid.Row="7" Text="Floor" FontAttributes="Bold"/>
+                        <Label Grid.Column="1" Grid.Row="7" Text=":"/>
+                        <Label Grid.Column="2" Grid.Row="7" Text="{Binding EmployeeInfoDto.FloorDesc }"/>
+
+                        <Label Grid.Column="0" Grid.Row="8" Text="Shift" FontAttributes="Bold"/>
+                        <Label Grid.Column="1" Grid.Row="8" Text=":"/>
+                        <Label Grid.Column="2" Grid.Row="8" Text="{Binding EmployeeInfoDto.Shift }"/>
+
+                        <Label Grid.Column="0" Grid.Row="9" Text="Overtime" FontAttributes="Bold"/>
+                        <Label Grid.Column="1" Grid.Row="9" Text=":"/>
+                        <Label Grid.Column="2" Grid.Row="9" Text="{Binding EmployeeInfoDto.OTEnt }"/>
+
+
+                    </Grid>
+                </dxco:TabViewItem.Content>
+            </dxco:TabViewItem>
+
+        </dxco:TabView>
+
+    </Grid>
+
+
+</ContentPage>

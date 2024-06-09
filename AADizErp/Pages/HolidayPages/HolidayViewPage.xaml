@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AADizErp.Pages.HolidayPages.HolidayViewPage"
+             xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+             xmlns:dxcv="clr-namespace:DevExpress.Maui.CollectionView;assembly=DevExpress.Maui.CollectionView"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="true"
+             xmlns:vm="clr-namespace:AADizErp.ViewModels.HolidayVm"
+             x:DataType="vm:HolidayViewPageViewModel"
+             xmlns:model="clr-namespace:AADizErp.Models.Dtos.HrDtos"
+             Title="Holidays" BackgroundColor="{StaticResource AppBgColor}">
+    <ContentPage.Resources>
+        <Style x:Key="labelColor" TargetType="Label">
+            <Setter Property="TextColor" Value="Black"/>
+        </Style>
+    </ContentPage.Resources>
+    <ScrollView Padding="{OnPlatform iOS='10,15,10,15', Default='10'}">
+        <dx:DXStackLayout>
+            <dxcv:DXCollectionView
+                ItemsSource="{Binding Occasions}"
+                IndicatorColor="{StaticResource Asian}"
+                SelectionMode="None">
+                <dxcv:DXCollectionView.ItemTemplate>
+                    <DataTemplate  x:DataType="{x:Type model:OccasionDto}">
+                        <Frame HasShadow="False" BorderColor="{StaticResource Asian}" Margin="10,5" Padding="15,5,15,5">
+                            <StackLayout HorizontalOptions="FillAndExpand"   Background="White">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <Grid Grid.Column="0">
+
+                                        <Grid Grid.Row="0" ColumnDefinitions="Auto,Auto,*" RowDefinitions="*,*,*,*,*" ColumnSpacing="5">
+                                            <Label Grid.Column="0" Grid.Row="0" Text="Title" VerticalTextAlignment="Center" Style="{StaticResource labelColor}"/>
+                                            <Label Grid.Column="1" Grid.Row="0" Text=":" VerticalTextAlignment="Center" Style="{StaticResource labelColor}"/>
+                                            <Label Grid.Column="2" Grid.Row="0" Text="{Binding Title}" FontAttributes="Bold" VerticalTextAlignment="Center" Style="{StaticResource labelColor}"/>
+
+                                            <Label Grid.Column="0" Grid.Row="1" Text="Start Date" VerticalTextAlignment="Center" Style="{StaticResource labelColor}"/>
+                                            <Label Grid.Column="1" Grid.Row="1" Text=":" VerticalTextAlignment="Center" Style="{StaticResource labelColor}"/>
+                                            <Label Grid.Column="2" Grid.Row="1" Text="{Binding StartDate}" VerticalTextAlignment="Center" Style="{StaticResource labelColor}"/>
+
+                                            <Label Grid.Column="0" Grid.Row="2" Text="End Date" VerticalTextAlignment="Center" Style="{StaticResource labelColor}"/>
+                                            <Label Grid.Column="1" Grid.Row="2" Text=":" VerticalTextAlignment="Center" Style="{StaticResource labelColor}"/>
+                                            <Label Grid.Column="2" Grid.Row="2" Text="{Binding EndDate}" VerticalTextAlignment="Center" />
+
+                                            <Label Grid.Column="0" Grid.Row="3" Text="Description" VerticalTextAlignment="Center" Style="{StaticResource labelColor}"/>
+                                            <Label Grid.Column="1" Grid.Row="3" Text=":" VerticalTextAlignment="Center" Style="{StaticResource labelColor}"/>
+                                            <Label Grid.Column="2" Grid.Row="3" Text="{Binding Description}" VerticalTextAlignment="Center" Style="{StaticResource labelColor}"/>
+                                        </Grid>
+
+                                    </Grid>
+                                </Grid>
+
+                            </StackLayout>
+                        </Frame>
+
+                    </DataTemplate>
+                </dxcv:DXCollectionView.ItemTemplate>
+            </dxcv:DXCollectionView>
+        </dx:DXStackLayout>
+    </ScrollView>
+</ContentPage>

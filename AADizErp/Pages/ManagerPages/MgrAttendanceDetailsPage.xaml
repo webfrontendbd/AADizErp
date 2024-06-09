@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="True"
+             x:Class="AADizErp.Pages.ManagerPages.MgrAttendanceDetailsPage"
+             xmlns:vm="clr-namespace:AADizErp.ViewModels.ManagerPagesVM"
+             x:DataType="vm:MgrAttendanceDetailsPageViewModel"
+             BackgroundColor="{StaticResource AppBgColor}"
+             Title="{Binding RemoteAttendanceDto.FullName, StringFormat='{0} Request Details'}">
+    <dx:DXStackLayout Padding="{OnPlatform iOS='10,15,10,15', Default='10'}">
+        <Frame HasShadow="False" BorderColor="Transparent" BackgroundColor="Transparent" CornerRadius="0">
+            <Grid  RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto" RowSpacing="10">
+                <Grid Grid.Row="0" HeightRequest="120">
+                    <ImageButton Command="{Binding OpenAttendanceAreaMapCommand}" Source="maps.png" />
+                    <Label Text="View on Map" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Red" FontAttributes="Bold"/>
+                </Grid>
+                <Grid Grid.Row="1" ColumnDefinitions="100,*" ColumnSpacing="10">
+                    <Label Grid.Column="0" Text="Name" VerticalOptions="Center"/>
+                    <Label Grid.Column="1" Text="{Binding RemoteAttendanceDto.FullName}" VerticalOptions="Center"/>
+                </Grid>
+
+                <Grid Grid.Row="2" ColumnDefinitions="100,*" ColumnSpacing="10">
+                    <Label Grid.Column="0" Text="Employee ID" VerticalOptions="Center"/>
+                    <Label Grid.Column="1" Text="{Binding RemoteAttendanceDto.JobId}" VerticalOptions="Center"/>
+                </Grid>
+
+                <Grid Grid.Row="3" ColumnDefinitions="100,*" ColumnSpacing="10">
+                    <Label Grid.Column="0" Text="Reason" VerticalOptions="Center"/>
+                    <Label Grid.Column="1" Text="{Binding RemoteAttendanceDto.Reason}" VerticalOptions="Center" TextColor="Red"/>
+                </Grid>
+
+                <Grid  Grid.Row="4" ColumnDefinitions="100,*" ColumnSpacing="10">
+                    <Label Grid.Column="0" Text="Attendance Area" VerticalOptions="Center"/>
+                    <Label Grid.Column="1" Text="{Binding RemoteAttendanceDto.AttendanceArea}" VerticalOptions="Center"/>
+                </Grid>
+
+                <Grid  Grid.Row="5" ColumnDefinitions="100,*" ColumnSpacing="10">
+                    <Label Grid.Column="0" Text="Date Time" VerticalOptions="Center"/>
+                    <Label Grid.Column="1" Text="{Binding RemoteAttendanceDto.Created}" VerticalOptions="Center"/>
+                </Grid>
+
+                <Grid  Grid.Row="6" ColumnDefinitions="100,*" ColumnSpacing="10">
+                    <Label Grid.Column="0" Text="Status" VerticalOptions="Center"/>
+                    <Label Grid.Column="1" Text="{Binding RemoteAttendanceDto.Status}" VerticalOptions="Center"/>
+                </Grid>
+
+                <Grid  Grid.Row="7" ColumnDefinitions="100,*" ColumnSpacing="10" Margin="0,20,0,0">
+                    <Button Grid.ColumnSpan="2" BackgroundColor="{StaticResource Asian}" Text="Action" VerticalOptions="Center" Command="{Binding AttendanceConfirmationCommand}" CommandParameter="{Binding RemoteAttendanceDto}"/>
+
+                </Grid>
+
+            </Grid>
+        </Frame>
+        
+    </dx:DXStackLayout>
+</ContentPage>

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1706.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AADizErp", "AADizErp.csproj", "{4C7CE1CF-D908-43B5-B5B9-9F6CE1A5D513}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4C7CE1CF-D908-43B5-B5B9-9F6CE1A5D513}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C7CE1CF-D908-43B5-B5B9-9F6CE1A5D513}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C7CE1CF-D908-43B5-B5B9-9F6CE1A5D513}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C7CE1CF-D908-43B5-B5B9-9F6CE1A5D513}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B482E66F-D3A0-4CE5-84B2-A5A63E40FBBF}
+	EndGlobalSection
+EndGlobal

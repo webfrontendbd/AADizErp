@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+             xmlns:dxco="clr-namespace:DevExpress.Maui.Controls;assembly=DevExpress.Maui.Controls"
+             xmlns:dxcv="clr-namespace:DevExpress.Maui.CollectionView;assembly=DevExpress.Maui.CollectionView"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="True"
+             x:Class="AADizErp.Pages.ManagerPages.ManagerLeaveViewPage"
+             xmlns:models="clr-namespace:AADizErp.Models.Dtos.LeaveDtos"
+             xmlns:vm="clr-namespace:AADizErp.ViewModels.ManagerPagesVM"
+             x:DataType="vm:ManagerLeaveListViewModel"
+             Title="Leave Requests" BackgroundColor="{StaticResource AppBgColor}">
+    <ContentPage.Resources>
+
+        <Style TargetType="dx:DXButton" x:Key="popupButtonStyle">
+            <Setter Property="Command" Value="{Binding LeaveApprovalStatusSubmitCommand}"/>
+            <Setter Property="CommandParameter" Value="{Binding Source={RelativeSource Mode=Self}, Path=Content}"/>
+        </Style>
+
+
+        <DataTemplate x:DataType="{x:Type models:LeaveRequestDto}" x:Key="leaveListTemplate">
+            <dx:DXButton Padding="5" CornerRadius="0" BackgroundColor="#FBFBFB" Margin="0,0,0,10" 
+                         Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ManagerLeaveListViewModel}}, Path=LeaveApprovalPopupActionCommand }"
+                         CommandParameter="{Binding .}"
+                         HorizontalContentAlignment="Start">
+
+                <Grid ColumnDefinitions="Auto,Auto,*" RowDefinitions="*,*,*,*,*,*" ColumnSpacing="5">
+                    <Label Grid.Column="0" Grid.Row="0" Text="Name" />
+                    <Label Grid.Column="1" Grid.Row="0" Text=":"/>
+                    <Label Grid.Column="2" Grid.Row="0" Text="{Binding FullName}" />
+
+                    <Label Grid.Column="0" Grid.Row="1" Text="Reason" />
+                    <Label Grid.Column="1" Grid.Row="1" Text=":" />
+                    <Label Grid.Column="2" Grid.Row="1" Text="{Binding Reason}"  TextColor="OrangeRed" />
+
+                    <Label Grid.Column="0" Grid.Row="2" Text="Start Date" />
+                    <Label Grid.Column="1" Grid.Row="2" Text=":" />
+                    <Label Grid.Column="2" Grid.Row="2" Text="{Binding LeaveStartDate, StringFormat='{0:dd-MMM-yyyy}'}" />
+
+                    <Label Grid.Column="0" Grid.Row="3" Text="End Date" />
+                    <Label Grid.Column="1" Grid.Row="3" Text=":" />
+                    <Label Grid.Column="2" Grid.Row="3" Text="{Binding LeaveEndDate, StringFormat='{0:dd-MMM-yyyy}'}" />
+
+                    <Label Grid.Column="0" Grid.Row="4" Text="Total" />
+                    <Label Grid.Column="1" Grid.Row="4" Text=":" />
+                    <Label Grid.Column="2" Grid.Row="4" Text="{Binding TotalDays, StringFormat='{0} Days'}" />
+
+                    <Label Grid.Column="0" Grid.Row="5" Text="Status" />
+                    <Label Grid.Column="1" Grid.Row="5" Text=":" />
+                    <Label Grid.Column="2" Grid.Row="5" Text="{Binding Status}" >
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="Approved">
+                                <Setter Property="TextColor" Value="Green" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="Pending">
+                                <Setter Property="TextColor" Value="Orange" />
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                </Grid>
+
+            </dx:DXButton>
+        </DataTemplate>
+    </ContentPage.Resources>
+    <ScrollView Padding="{OnPlatform iOS='10,15,10,15', Default='10'}">
+
+        <dx:DXStackLayout Orientation="Vertical">
+
+            <dxcv:DXCollectionView 
+                IsRefreshing="{Binding IsLoading}"
+                ItemTemplate="{StaticResource leaveListTemplate}"
+                ItemsSource="{Binding LeaveRequests}" 
+                IndicatorColor="{StaticResource Asian}"
+                IsLoadMoreEnabled="True"
+                LoadMoreCommand="{Binding LoadMoreLeaveRequestsForManagerCommand}"/>
+
+            <dxco:DXPopup Placement="Bottom" CornerRadius="5" HorizontalAlignment="Center" IsOpen="{Binding IsPopupOpen}" ShadowColor="{AppThemeBinding Light={StaticResource Gray500}, Dark=Black}" ShadowRadius="5">
+
+                <Grid Padding="25" RowDefinitions="*,*" RowSpacing="10">
+                    <Label Grid.Row="0" Text="Are you sure?" HorizontalTextAlignment="Center" TextColor="Red" />
+                    <Grid Padding="0" Grid.Row="1" ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <dx:DXButton Grid.Column="0" Padding="0" FontSize="Caption" CornerRadius="5"  WidthRequest="90" BackgroundColor="Green" Content="Approve" Style="{StaticResource popupButtonStyle}" />
+                        <dx:DXButton Grid.Column="1" Padding="5" FontSize="Caption" CornerRadius="5" WidthRequest="90" BackgroundColor="Red" Content="Decline" Style="{StaticResource popupButtonStyle}"/>
+                    </Grid>
+                </Grid>
+
+            </dxco:DXPopup>
+
+        </dx:DXStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,275 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net8.0-android;net8.0-ios</TargetFrameworks>
+    	<OutputType>Exe</OutputType>
+		<UseMaui>true</UseMaui>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<SingleProject>true</SingleProject>
+		<RootNamespace>AADizErp</RootNamespace>
+
+		<!-- Display name -->
+		<ApplicationTitle>Asian App</ApplicationTitle>
+
+		<!-- App Identifier -->
+		<ApplicationId>com.asiangroup.hrpayrollerp</ApplicationId>
+		<ApplicationIdGuid>3ABBEC2B-B1A1-4CDE-8F06-9A7C39D38055</ApplicationIdGuid>
+		<!-- Versions -->
+		<ApplicationDisplayVersion>7.0</ApplicationDisplayVersion>
+		<ApplicationVersion>7</ApplicationVersion>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+		<UseInterpreter Condition="$(TargetFramework.Contains('-ios')) AND '$(Configuration)' == 'Release'">True</UseInterpreter>
+	</PropertyGroup>
+	<ItemGroup>
+		<!-- App Icon -->
+		<MauiIcon Include="Resources\AppIcon\logo.png" Color="#ffffff" />
+		<!--<MauiIcon Include="Resources\AppIcon\logo.png" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />-->
+
+		<!-- Splash Screen -->
+		<MauiSplashScreen Include="Resources\Splash\logosplash.svg" Color="#3A7BBF" BaseSize="175,105" Resize="false" />
+
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
+
+		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*" />
+
+		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="Resources\Fonts\MaterialIcons-Regular.ttf" />
+	  <None Remove="Resources\Images\add_employee.svg" />
+	  <None Remove="Resources\Images\add_icon.svg" />
+	  <None Remove="Resources\Images\air_ticket.svg" />
+	  <None Remove="Resources\Images\approval.svg" />
+	  <None Remove="Resources\Images\approve.svg" />
+	  <None Remove="Resources\Images\attendance.svg" />
+	  <None Remove="Resources\Images\clipboard.svg" />
+	  <None Remove="Resources\Images\contact_details.svg" />
+	  <None Remove="Resources\Images\copy.svg" />
+	  <None Remove="Resources\Images\dashboard.svg" />
+	  <None Remove="Resources\Images\decline.svg" />
+	  <None Remove="Resources\Images\delete.svg" />
+	  <None Remove="Resources\Images\delete_dark.svg" />
+	  <None Remove="Resources\Images\edit.svg" />
+	  <None Remove="Resources\Images\editorscalendar.svg" />
+	  <None Remove="Resources\Images\editorscompany.svg" />
+	  <None Remove="Resources\Images\editorsemail.svg" />
+	  <None Remove="Resources\Images\editorslocation.svg" />
+	  <None Remove="Resources\Images\editorsname.svg" />
+	  <None Remove="Resources\Images\editorsphone.svg" />
+	  <None Remove="Resources\Images\edit_dark.svg" />
+	  <None Remove="Resources\Images\elogo.png" />
+	  <None Remove="Resources\Images\event_check.svg" />
+	  <None Remove="Resources\Images\face_black_24dp.svg" />
+	  <None Remove="Resources\Images\filteringui_filter.svg" />
+	  <None Remove="Resources\Images\filteringui_location.svg" />
+	  <None Remove="Resources\Images\fingerprint.svg" />
+	  <None Remove="Resources\Images\fingerprintdd.png" />
+	  <None Remove="Resources\Images\folder.svg" />
+	  <None Remove="Resources\Images\holiday.svg" />
+	  <None Remove="Resources\Images\house_chimney_solid.svg" />
+	  <None Remove="Resources\Images\leave.svg" />
+	  <None Remove="Resources\Images\mail.svg" />
+	  <None Remove="Resources\Images\maps.png" />
+	  <None Remove="Resources\Images\message.svg" />
+	  <None Remove="Resources\Images\mobile.svg" />
+	  <None Remove="Resources\Images\modelprofile.png" />
+	  <None Remove="Resources\Images\noavatar.svg" />
+	  <None Remove="Resources\Images\password_black_24dp.svg" />
+	  <None Remove="Resources\Images\pay_slip.svg" />
+	  <None Remove="Resources\Images\phone.svg" />
+	  <None Remove="Resources\Images\request.svg" />
+	  <None Remove="Resources\Images\savechanges.svg" />
+	  <None Remove="Resources\Images\savechanges_dark.svg" />
+	  <None Remove="Resources\Images\search.svg" />
+	  <None Remove="Resources\Images\sign_in.svg" />
+	  <None Remove="Resources\Images\sign_out.svg" />
+	  <None Remove="Resources\Images\tasks.svg" />
+	  <None Remove="Resources\Images\timeline.png" />
+	  <None Remove="Resources\Images\user_shield.svg" />
+	  <None Remove="Resources\Images\user_solid.svg" />
+	  <None Remove="Resources\Images\user_tie.svg" />
+	  <None Remove="Resources\Images\verticaldots.svg" />
+	  <None Remove="Resources\Raw\fcm_sdk.json" />
+	  <None Remove="Platforms\iOS\GoogleService-Info.plist" />
+	  <None Remove="Platforms\iOS\AADizErp.ipa" />
+	  <None Remove="Platforms\iOS\Resources\LaunchScreen.xib" />
+	  <None Remove="Platforms\iOS\Resources\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<GoogleServicesJson Include="Platforms\Android\google-services.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<BundleResource Include="Platforms\iOS\GoogleService-Info.plist">
+		  <Link>Platforms\iOS\GoogleService-Info.plist</Link>
+		</BundleResource>
+	</ItemGroup>
+
+	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+		<BundleResource Include="Platforms\iOS\PrivacyInfo.xcprivacy" LogicalName="PrivacyInfo.xcprivacy" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Maui" Version="9.0.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+		<PackageReference Include="FirebaseAdmin" Version="3.0.0" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.40" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.40" />
+		<PackageReference Include="Xamarin.Firebase.iOS.CloudMessaging" Version="8.10.0.3" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="DevExpress.Maui.Controls" Version="23.2.6" />
+		<PackageReference Include="DevExpress.Maui.Core" Version="23.2.6" />
+		<PackageReference Include="DevExpress.Maui.Charts" Version="23.2.6" />
+		<PackageReference Include="DevExpress.Maui.CollectionView" Version="23.2.6" />
+		<PackageReference Include="DevExpress.Maui.Editors" Version="23.2.6" />
+		<PackageReference Include="DevExpress.Maui.DataGrid" Version="23.2.6" />
+		<PackageReference Include="DevExpress.Maui.Scheduler" Version="23.2.6" />
+		<PackageReference Include="MvvmCross" Version="9.2.0" />
+		<!--<PackageReference Include="MvvmCross.Plugins.Fingerprint" Version="3.0.0-beta.1" />-->
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="Plugin.Maui.Biometric" Version="0.0.1" />
+		<PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.5.2" />
+		<PackageReference Include="Xamarin.Build.Download" Version="0.11.4" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-android'">
+		<PackageReference Include="Xamarin.Firebase.Messaging" Version="123.4.1.1">
+		</PackageReference>
+		<PackageReference Include="Xamarin.Google.Dagger" Version="2.49.0.1">
+		</PackageReference>
+		<PackageReference Include="Xamarin.GooglePlayServices.Base" Version="118.3.0.1">
+		</PackageReference>
+	</ItemGroup>
+
+	<!--<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-ios'">
+		<PackageReference Include="Xamarin.Firebase.iOS.CloudMessaging" Version="8.10.0.3" />
+	</ItemGroup>-->
+
+	<PropertyGroup Condition="$(TargetFramework.Contains('-android')) and '$(Configuration)' == 'Release'">
+		<AndroidKeyStore>True</AndroidKeyStore>
+		<AndroidSigningKeyStore>key.keystore</AndroidSigningKeyStore>
+		<AndroidSigningStorePass>dev.asian@1990</AndroidSigningStorePass>
+		<AndroidSigningKeyAlias>AADizErpAlias</AndroidSigningKeyAlias>
+		<AndroidSigningKeyPass>dev.asian@1990</AndroidSigningKeyPass>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
+	  <AndroidUseAapt2>True</AndroidUseAapt2>
+	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
+	  <AndroidUseAapt2>true</AndroidUseAapt2>
+	</PropertyGroup>
+	
+	
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
+	  <CodesignKey>Apple Distribution: Al Masum (8UL75G9PGF)</CodesignKey>
+	  <CodesignProvision>AsianAppiOSProfile</CodesignProvision>
+	  <CreatePackage>false</CreatePackage>
+	  <CodesignEntitlements>Platforms\iOS\Entitlements.plist</CodesignEntitlements>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
+	  <CreatePackage>false</CreatePackage>
+	  <CodesignKey>Apple Distribution: Al Masum (8UL75G9PGF)</CodesignKey>
+	  <CodesignProvision>AsianAppiOSProfile</CodesignProvision>
+	  <CodesignEntitlements>Platforms\iOS\Entitlements.plist</CodesignEntitlements>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+	  <WarningLevel>4</WarningLevel>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+	  <DebugSymbols>true</DebugSymbols>
+	  <WarningLevel>4</WarningLevel>
+	</PropertyGroup>
+	<ItemGroup>
+	  <MauiXaml Update="LoadingPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="LoginPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\HolidayPages\AsianEventPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\HolidayPages\HolidayViewPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\HRPages\DailyAbsentDetailPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\HRPages\EmployeeFileQueryPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\HRPages\EmployeeTimeCardPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\HRPages\HrDashboardPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\HRPages\HrLandingPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\HRPages\ProfileViewPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\HRPages\UnreviewedUserListPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\ManagerPages\ApprovalLandingPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\ManagerPages\ManagerLeaveViewPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\ManagerPages\ManagerViewAttnRequestPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\ManagerPages\MgrAttendanceDetailsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\RequestPages\AttendanceRequestPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\RequestPages\IndividualTimeCardViewPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\RequestPages\LeaveRequestFormPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\RequestPages\LeaveRequestPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\RequestPages\RequestLandingPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\RequestPages\SaveAttendancePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\SalaryPages\PaySlipListViewPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="RegistrationPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ThankYouPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+	
+	
+	<ItemGroup>
+	  <Folder Include="Platforms\iOS\Resources\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <InterfaceDefinition Include="Platforms\iOS\Resources\LaunchScreen.xib" />
+	</ItemGroup>
+</Project>

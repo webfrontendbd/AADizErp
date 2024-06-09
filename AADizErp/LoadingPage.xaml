@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="true"
+             x:Class="AADizErp.LoadingPage"
+             xmlns:vm="clr-namespace:AADizErp.ViewModels"
+             x:DataType="vm:LoadingViewModel"
+             Shell.NavBarIsVisible="False"
+             Title="Loading">
+    <dx:DXStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+        <ActivityIndicator IsRunning="True" Color="{StaticResource Asian}" />
+        <Label Text="Checking Authentication...."/>
+    </dx:DXStackLayout>
+</ContentPage>

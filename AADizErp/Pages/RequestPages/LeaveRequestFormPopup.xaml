@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+             xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="True"
+             x:Class="AADizErp.Pages.RequestPages.LeaveRequestFormPopup"
+             xmlns:vm="clr-namespace:AADizErp.ViewModels.RequestVM"
+             x:DataType="vm:LeaveRequestPageViewModel"
+             Title="Leave Request Form"
+             BackgroundColor="{StaticResource AppBgColor}">
+
+    <ScrollView Padding="{OnPlatform iOS='15,10,15,10', Default='10'}">
+        <dx:DXStackLayout
+            Padding="15">
+
+            <dxe:ComboBoxEdit
+                LabelText="Leave Type"
+                SelectedValue="{Binding LeaveType}">
+                <dxe:ComboBoxEdit.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Sick Leave</x:String>
+                        <x:String>Casual Leave</x:String>
+                        <x:String>Annual Leave</x:String>
+                    </x:Array>
+                </dxe:ComboBoxEdit.ItemsSource>
+            </dxe:ComboBoxEdit>
+
+            <dxe:MultilineEdit
+                Text="{Binding Reason}"
+                MinLineCount="4"
+                MaxLineCount="4"
+                LabelText="Reason"
+                MaxCharacterCount="250"/>
+
+            <dxe:DateEdit
+                Date="{Binding LeaveStartDate}"
+                LabelText="Leave Start"
+                TextHorizontalAlignment="End"
+                IsDateIconVisible="True"
+                DateChangedCommand="{Binding StartDateSelectedCommand}"
+                DisplayFormat="dd-MMM-yyyy"
+                PlaceholderText="Enter leave start date"/>
+
+            <dxe:DateEdit                
+                Date="{Binding LeaveEndDate}"                
+                LabelText="Leave End"
+                IsDateIconVisible="True"
+                DateChangedCommand="{Binding EndDateSelectedCommand}"
+                TextHorizontalAlignment="End"
+                DisplayFormat="dd-MMM-yyyy"
+                PlaceholderText="Enter leave end date"/>
+
+            <dx:DXButton 
+                Margin="0,10,0,0"
+                WidthRequest="180"
+                Content="{Binding TotalLeaveDays, StringFormat='Apply For {0} Days'}"
+                Command="{Binding SubmitLeaveRequestCommand}"
+                FontAttributes="Bold"
+                BackgroundColor="#3F88F7"/>
+        </dx:DXStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+             xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
+             xmlns:zoft="http://zoft.MauiExtensions/Controls"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="true"
+             xmlns:vm="clr-namespace:AADizErp.ViewModels"             
+             x:DataType="vm:RegistrationPageViewModel"
+             x:Class="AADizErp.RegistrationPage"
+             Title="Sign up new account">
+    <ScrollView Padding="{OnPlatform iOS='30,60,30,30', Default='30'}">
+        <dx:DXStackLayout>
+            <dxe:ComboBoxEdit  
+                ValueMember="OrganizationName"   
+                DisplayMember="OrganizationName"
+                ReturnType="Next"
+                LabelText="Select your unit"
+                IsLabelFloating="True"
+                ItemsSource="{Binding Organizations}"
+                SelectedValue="{Binding SelectedFactory}"
+                SelectionChangedCommand="{Binding LoadingEmployeesWhenOrganizationSelectionChangedCommand}"
+                PickerShowMode="BottomSheet"/>
+
+            <dxe:ComboBoxEdit 
+                ValueMember="CardNumber"
+                DisplayMember="CardNumber"
+                ReturnType="Next"
+                LabelText="Select your card number"
+                IsFilterEnabled="True"
+                FilterText="{Binding FormattedDisplayText}"
+                FilterCondition="Contains"
+                FilterComparisonType="CurrentCultureIgnoreCase"
+                IsLabelFloating="True"
+                ItemsSource="{Binding Employees}"
+                SelectedValue="{Binding CardNumber}"
+                SelectionChangedCommand="{Binding SelectionChangedForUserCommand}"
+                PickerShowMode="Popup">
+                <dxe:ComboBoxEdit.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="120,*">
+                            <Label Grid.Column="0" Padding="5" Text="{Binding CardNumber}" TextColor="{StaticResource Asian}" FontAttributes="Bold"/>
+                            <Label Grid.Column="1" Padding="5" Text="{Binding Name}" TextColor="{StaticResource Asian}"  />
+                        </Grid>
+                    </DataTemplate>
+                </dxe:ComboBoxEdit.ItemTemplate>
+            </dxe:ComboBoxEdit>
+
+            <!--<dxe:AutoCompleteEdit 
+                DisplayMember="CardNumber"
+                ItemsSource="{Binding FilterEmployees}"
+                TextChangedCommand="{Binding SearchCardNumberTextChangedCommand}" 
+                Text="{Binding CardNumber}"
+                LabelText="Card Number"
+                PlaceholderText="Type card number here"
+                NoResultsFoundText="Not found"
+                LoadingProgressMode="Auto"
+                SelectionChangedCommand="{Binding SelectionChangedForUserCommand}"/>-->
+
+            <dxe:TextEdit 
+                Text="{Binding Username, Mode=TwoWay}"
+                LabelText="Username"
+                IsReadOnly="True"/>
+
+            <dxe:TextEdit 
+                LabelText="Name"
+                Text="{Binding FullName, Mode=TwoWay}"
+                IsReadOnly="True"/>
+
+
+            <dxe:PasswordEdit
+                Text="{Binding Password, Mode=TwoWay}"
+                LabelText="Password"
+                PlaceholderText="Enter password"/>
+
+            <dxe:TextEdit Mask="00000000000"
+                LabelText="Phone"
+                Keyboard="Telephone"
+                Text="{Binding Phone, Mode=TwoWay}"/>
+
+            <dxe:TextEdit 
+                LabelText="Email"
+                Text="{Binding EmailAddress, Mode=TwoWay}"/>
+
+            <dx:DXButton 
+                Margin="0,10,0,0"
+                Padding="10"
+                Content="Submit"
+                WidthRequest="150"
+                FontAttributes="Bold"
+                Command="{Binding SaveUserCommand}"
+                BackgroundColor="#3F88F7"/>
+
+
+            <dx:DXButton
+                Margin="15,15,15,15"
+                Padding="6"
+                IconHeight="18"
+                IconIndent="1"
+                ButtonType="ToolButton"
+                Content="Already have an account? Sign in"
+                TextColor="{StaticResource Asian}"
+                Icon="sign_in"
+                BackgroundColor="Transparent"
+                IconColor="{StaticResource Asian}"
+                Clicked="SigninButton_Clicked"/>
+        </dx:DXStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="True"
+             x:Class="AADizErp.Pages.RequestPages.AttendanceRequestPage"             
+             xmlns:local="clr-namespace:AADizErp.Pages.RequestPages"
+             xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+             xmlns:dxcv="clr-namespace:DevExpress.Maui.CollectionView;assembly=DevExpress.Maui.CollectionView"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:vm="clr-namespace:AADizErp.ViewModels.RequestVM"
+             x:DataType="vm:RemoteAttendancePageViewModel"
+             xmlns:models="clr-namespace:AADizErp.Models.Dtos"
+             Title="Attendance Request"
+             BackgroundColor="{StaticResource AppBgColor}">
+
+    <Grid RowDefinitions="Auto,Auto, *" Padding="15" >
+        <dxcv:DXCollectionView 
+                Grid.Row="2"
+                x:Name="collectionView"
+                IsRefreshing="{Binding IsLoading}"
+                IsPullToRefreshEnabled="True"
+                PullToRefreshCommand="{Binding PullToRefreshAttendancesCommand}"
+                IsLoadMoreEnabled="True"
+                LoadMoreCommand="{Binding LoadMoreRemoteAttendanceDataCommand}"
+                IndicatorColor="{StaticResource Asian}"
+                ItemsSource="{Binding Attendances}"
+                DetailNewItemFormTemplate="{DataTemplate local:SaveAttendancePage}">
+            <dxcv:DXCollectionView.ItemTemplate>
+                <DataTemplate  x:DataType="{x:Type models:RemoteAttendanceDto}">
+                    <Frame HasShadow="False" BorderColor="{StaticResource Asian}" Margin="5,5,5,2" Padding="15,5,15,5">
+                        <StackLayout HorizontalOptions="FillAndExpand"   Background="White">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Grid Grid.Column="0" RowDefinitions="*,*,*">
+
+                                    <Grid Grid.Row="0" ColumnDefinitions="Auto,*" RowDefinitions="*,*,*" ColumnSpacing="5">
+                                        <Label Grid.Column="0" Grid.Row="0" Text="Name" TextColor="Black"/>
+                                        <Label Grid.Column="1" Grid.Row="0" Text="{Binding FullName}" TextColor="Black"/>
+
+                                        <Label Grid.Column="0" Grid.Row="1" Text="Reason" TextColor="Black"/>
+                                        <Label Grid.Column="1" Grid.Row="1" Text="{Binding Reason}" TextColor="OrangeRed"/>
+
+                                        <Label Grid.Column="0" Grid.Row="2" Text="Date" TextColor="Black"/>
+                                        <Label Grid.Column="1" Grid.Row="2" Text="{Binding Created}" TextColor="Black"/>
+                                    </Grid>
+                                </Grid>
+
+                                <Grid Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center">
+                                    <Label Text="{Binding Status}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="Approved">
+                                                <Setter Property="TextColor" Value="Green" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="Pending">
+                                                <Setter Property="TextColor" Value="Orange" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                </Grid>
+                            </Grid>
+
+                        </StackLayout>
+                    </Frame>
+                </DataTemplate>
+            </dxcv:DXCollectionView.ItemTemplate>
+
+            <dxcv:DXCollectionView.Behaviors>
+                <toolkit:EventToCommandBehavior EventName="ValidateAndSave" Command="{Binding ValidateAndSaveCommand}" x:TypeArguments="dx:ValidateItemEventArgs"/>
+                <toolkit:EventToCommandBehavior EventName="CreateDetailFormViewModel" Command="{Binding CreateDetailFormViewModelCommand}" x:TypeArguments="dx:CreateDetailFormViewModelEventArgs"/>
+            </dxcv:DXCollectionView.Behaviors>
+
+        </dxcv:DXCollectionView>
+
+
+        <dx:DXButton
+                Grid.RowSpan="3"
+                Content="+"  
+                Margin="20" 
+                Padding="20,10,20,10"
+                VerticalOptions="End" 
+                HorizontalOptions="End"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                CornerRadius="15"
+                TextColor="White"
+                FontSize="25" 
+                FontAttributes="Bold" 
+                Command="{Binding Source={x:Reference collectionView}, Path=Commands.ShowDetailNewItemForm}"/>
+    </Grid>
+
+</ContentPage>

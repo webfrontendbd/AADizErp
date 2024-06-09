@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+             xmlns:dxg="clr-namespace:DevExpress.Maui.DataGrid;assembly=DevExpress.Maui.DataGrid"
+             xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="true"
+             x:Class="AADizErp.Pages.HRPages.DailyAbsentDetailPage"
+             xmlns:vm="clr-namespace:AADizErp.ViewModels.HrVM"
+             x:DataType="vm:DailyAbsentDetailPageViewModel"
+             Title="Daily Absent Details">
+    <ScrollView Padding="{OnPlatform iOS='10,15,10,15', Default='10'}">
+
+        <dx:DXStackLayout>
+            <dxe:ComboBoxEdit  
+                ValueMember="OrganizationName"   
+                DisplayMember="OrganizationName"
+                ReturnType="Next"
+                LabelText="Select an organization"
+                IsLabelFloating="True"
+                ItemsSource="{Binding Organizations}"
+                SelectedIndex="{Binding SelectedFactoryIndex}"
+                SelectionChangedCommand="{Binding GetDailyAbsentDetailsCommand }"
+                PickerShowMode="BottomSheet"/>
+
+            <dxe:DateEdit
+                IsLabelFloating="True"
+                LabelText="Filter dashboard by date"
+                PlaceholderText="Select a date"
+                Margin="0,0,0,10"
+                DateChangedCommand="{Binding GetDailyAbsentDetailsCommand }"
+                Date="{Binding CurrentDate, Mode=TwoWay}"
+                DisplayFormat="dd-MMM-yyyy"/>
+
+            <dxg:DataGridView ItemsSource="{Binding Employees}">
+                <dxg:DataGridView.GroupSummaries>
+                    <dxg:GridColumnSummary FieldName="EmployeeName" Type="Count" DisplayFormat="Total :- {0}"/>
+                </dxg:DataGridView.GroupSummaries>
+                <dxg:DataGridView.Columns>
+                    <dxg:TextColumn FieldName="FloorDesc" Caption="Floor" IsGrouped="True" VerticalContentAlignment="Center" />
+                    <dxg:TextColumn FieldName="SectionName" Caption="Section"  MinWidth="150"/>
+                    <dxg:TextColumn FieldName="CardNumber"  Caption="Card#" MinWidth="100" VerticalContentAlignment="Center" />
+                    <dxg:TextColumn FieldName="EmployeeName" Caption="Name" MinWidth="180"  VerticalContentAlignment="Center" />
+                    <dxg:TextColumn FieldName="DesName" Caption="Designation" MinWidth="180"  VerticalContentAlignment="Center" />
+                    <dxg:TextColumn FieldName="Status" Caption="Status" MinWidth="80" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                </dxg:DataGridView.Columns>
+                
+                <!--Total Summary view-->
+                <dxg:DataGridView.TotalSummaries>
+                    <dxg:GridColumnSummary FieldName="EmployeeName" Type="Count" DisplayFormat="Grand Total :- {0}"/>
+                </dxg:DataGridView.TotalSummaries>
+                
+                <!--Customize cell appearance-->
+                <dxg:DataGridView.CellAppearance>
+                    <dxg:CellAppearance Padding="5" BackgroundColor="#FFFFFF" BorderColor="WhiteSmoke"
+                       FontSize="12" FontColor="Black" 
+                       SelectionColor="{StaticResource Asian}" SelectionFontColor="White"/>
+                </dxg:DataGridView.CellAppearance>
+                
+                <!--Customize column header appearance-->
+                <dxg:DataGridView.ColumnHeaderAppearance>
+                    <dxg:ColumnHeaderAppearance 
+                        BackgroundColor="{StaticResource Asian}"
+                        FontSize="16" 
+                        FontColor="#FFFFFF" 
+                        FontAttributes="Bold" 
+                        HorizontalLineThickness="2"/>
+                </dxg:DataGridView.ColumnHeaderAppearance>
+                
+                <!--Customize the appearance of the total summary panel.-->
+                <dxg:DataGridView.TotalSummaryAppearance>
+                    <dxg:TotalSummaryAppearance Padding="2, 10" BackgroundColor="{StaticResource Asian}" BorderColor="{StaticResource Asian}"
+                               FontSize="14" FontAttributes="Bold" FontColor="#FFFFFF"/>
+                </dxg:DataGridView.TotalSummaryAppearance>
+
+                
+            </dxg:DataGridView>
+
+        </dx:DXStackLayout>
+    </ScrollView>
+</ContentPage>
