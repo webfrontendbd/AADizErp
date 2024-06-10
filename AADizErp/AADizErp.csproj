@@ -94,6 +94,7 @@
 	  <None Remove="Resources\Images\user_solid.svg" />
 	  <None Remove="Resources\Images\user_tie.svg" />
 	  <None Remove="Resources\Images\verticaldots.svg" />
+	  <None Remove="Resources\Raw\ding.mp3" />
 	  <None Remove="Resources\Raw\fcm_sdk.json" />
 		<None Remove="Platforms\iOS\GoogleService-Info.plist" />
 	  <None Remove="Platforms\iOS\AADizErp.ipa" />

@@ -10,7 +10,7 @@ namespace AADizErp.Services
 
         public NotificationService(DeviceTokenService tokenService)
         {
-            _tokenService=tokenService;
+            _tokenService = tokenService;
         }
 
         public async Task<bool> SendAttendancePushNotificationToManager(RemoteAttendanceDto remoteAttendanceDto)
@@ -26,14 +26,28 @@ namespace AADizErp.Services
                 Token = managerToken,
                 Notification = new Notification
                 {
-                    Title = remoteAttendanceDto.FullName+ " Remote Attendance",
-                    Body =remoteAttendanceDto.Reason
+                    Title = remoteAttendanceDto.FullName + " Remote Attendance",
+                    Body = remoteAttendanceDto.Reason
                 },
-                Data = andriodNotificationObject
+                Data = andriodNotificationObject,
+                Android = new AndroidConfig
+                {
+                    Notification = new AndroidNotification
+                    {
+                        Sound = "ding"
+                    }
+                },
+                Apns = new ApnsConfig
+                {
+                    Aps = new Aps
+                    {
+                        Sound = "iOSding.wav"
+                    }
+                }
             };
 
-            var response =  SendNotificationToUser(message);
-            if(!String.IsNullOrEmpty(response))
+            var response = SendNotificationToUser(message);
+            if (!String.IsNullOrEmpty(response))
             {
                 isSuccess = true;
             }
@@ -53,13 +67,27 @@ namespace AADizErp.Services
                 Token = managerToken,
                 Notification = new Notification
                 {
-                    Title = leaveRequestDto.FullName+ " Leave Request",
+                    Title = leaveRequestDto.FullName + " Leave Request",
                     Body = leaveRequestDto.Reason
                 },
-                Data = andriodNotificationObject
+                Data = andriodNotificationObject,
+                Android = new AndroidConfig
+                {
+                    Notification = new AndroidNotification
+                    {
+                        Sound = "ding"
+                    }
+                },
+                Apns = new ApnsConfig
+                {
+                    Aps = new Aps
+                    {
+                        Sound = "iOSding.wav"
+                    }
+                }
             };
 
-            var response =  SendNotificationToUser(message);
+            var response = SendNotificationToUser(message);
             if (!String.IsNullOrEmpty(response))
             {
                 isSuccess = true;
@@ -81,13 +109,27 @@ namespace AADizErp.Services
                 Notification = new Notification
                 {
                     Title = remoteAttendanceDto.Status,
-                    Body = remoteAttendanceDto.FullName+ ", Your attendance request has been "+remoteAttendanceDto.Status.ToLower()
+                    Body = remoteAttendanceDto.FullName + ", Your attendance request has been " + remoteAttendanceDto.Status.ToLower()
                 },
-                Data = andriodNotificationObject
+                Data = andriodNotificationObject,
+                Android = new AndroidConfig
+                {
+                    Notification = new AndroidNotification
+                    {
+                        Sound = "ding"
+                    }
+                },
+                Apns = new ApnsConfig
+                {
+                    Aps = new Aps
+                    {
+                        Sound = "iOSding.wav"
+                    }
+                }
             };
 
             var response = SendNotificationToUser(message);
-            if(!String.IsNullOrEmpty(response))
+            if (!String.IsNullOrEmpty(response))
             {
                 isSuccess = true;
             }
@@ -103,13 +145,27 @@ namespace AADizErp.Services
             andriodNotificationObject.Add("NavigationID", "3");
             var message = new Message
             {
-                Token= userToken,
+                Token = userToken,
                 Notification = new Notification
                 {
-                    Title= leaveRequestDto.Status,
-                    Body = leaveRequestDto.FullName+ ", Your leave request has been "+leaveRequestDto.Status.ToLower()
+                    Title = leaveRequestDto.Status,
+                    Body = leaveRequestDto.FullName + ", Your leave request has been " + leaveRequestDto.Status.ToLower()
                 },
-                Data = andriodNotificationObject
+                Data = andriodNotificationObject,
+                Android = new AndroidConfig
+                {
+                    Notification = new AndroidNotification
+                    {
+                        Sound = "ding"
+                    }
+                },
+                Apns = new ApnsConfig
+                {
+                    Aps = new Aps
+                    {
+                        Sound = "iOSding.wav"
+                    }
+                }
             };
 
             var response = SendNotificationToUser(message);
@@ -120,16 +176,16 @@ namespace AADizErp.Services
 
             return isSuccess;
         }
-        
+
         private string SendNotificationToUser(Message message)
         {
             string response = String.Empty;
             try
             {
                 response = FirebaseMessaging.DefaultInstance.SendAsync(message).Result;
-                
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 response = ex.Message;
             }
