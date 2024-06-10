@@ -18,8 +18,8 @@ namespace AADizErp.Services
             bool isSuccess = false;
             var managerToken = await _tokenService.GetManagerDeviceToken(remoteAttendanceDto.ApprovedBy);
 
-            var andriodNotificationObject = new Dictionary<string, string>();
-            andriodNotificationObject.Add("NavigationID", "1");
+            var notificationObject = new Dictionary<string, string>();
+            notificationObject.Add("NavigationID", "1");
 
             var message = new Message
             {
@@ -29,7 +29,7 @@ namespace AADizErp.Services
                     Title = remoteAttendanceDto.FullName + " Remote Attendance",
                     Body = remoteAttendanceDto.Reason
                 },
-                Data = andriodNotificationObject,
+                Data = notificationObject,
                 Android = new AndroidConfig
                 {
                     Notification = new AndroidNotification
@@ -59,8 +59,8 @@ namespace AADizErp.Services
             bool isSuccess = false;
             var managerToken = await _tokenService.GetManagerDeviceToken(leaveRequestDto.ApprovedBy);
 
-            var andriodNotificationObject = new Dictionary<string, string>();
-            andriodNotificationObject.Add("NavigationID", "2");
+            var notificationObject = new Dictionary<string, string>();
+            notificationObject.Add("NavigationID", "2");
 
             var message = new Message
             {
@@ -70,7 +70,7 @@ namespace AADizErp.Services
                     Title = leaveRequestDto.FullName + " Leave Request",
                     Body = leaveRequestDto.Reason
                 },
-                Data = andriodNotificationObject,
+                Data = notificationObject,
                 Android = new AndroidConfig
                 {
                     Notification = new AndroidNotification
@@ -100,8 +100,8 @@ namespace AADizErp.Services
             bool isSuccess = false;
             var userToken = await _tokenService.GetUserDeviceToken(remoteAttendanceDto.RequestedBy);
 
-            var andriodNotificationObject = new Dictionary<string, string>();
-            andriodNotificationObject.Add("NavigationID", "1");
+            var notificationObject = new Dictionary<string, string>();
+            notificationObject.Add("NavigationID", "1");
 
             var message = new Message
             {
@@ -111,7 +111,7 @@ namespace AADizErp.Services
                     Title = remoteAttendanceDto.Status,
                     Body = remoteAttendanceDto.FullName + ", Your attendance request has been " + remoteAttendanceDto.Status.ToLower()
                 },
-                Data = andriodNotificationObject,
+                Data = notificationObject,
                 Android = new AndroidConfig
                 {
                     Notification = new AndroidNotification
@@ -141,8 +141,8 @@ namespace AADizErp.Services
             bool isSuccess = false;
             var userToken = await _tokenService.GetUserDeviceToken(leaveRequestDto.RequestedBy);
 
-            var andriodNotificationObject = new Dictionary<string, string>();
-            andriodNotificationObject.Add("NavigationID", "3");
+            var notificationObject = new Dictionary<string, string>();
+            notificationObject.Add("NavigationID", "3");
             var message = new Message
             {
                 Token = userToken,
@@ -151,7 +151,7 @@ namespace AADizErp.Services
                     Title = leaveRequestDto.Status,
                     Body = leaveRequestDto.FullName + ", Your leave request has been " + leaveRequestDto.Status.ToLower()
                 },
-                Data = andriodNotificationObject,
+                Data = notificationObject,
                 Android = new AndroidConfig
                 {
                     Notification = new AndroidNotification
@@ -191,26 +191,5 @@ namespace AADizErp.Services
             }
             return response;
         }
-
-        //Legacy version of code
-        //private async Task<bool> SendNotificationToUser(PushNotificationRequest request)
-        //{
-        //    bool isSuccess = false;
-        //    string url = "https://fcm.googleapis.com/fcm/send";
-
-        //    using (var client = new HttpClient())
-        //    {
-        //        client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("key", "=" + "AAAAy6OgnnU:APA91bFoQPy4xdLC-2Vych3DMLCk3GHQOXeDZLJD_AunaKGKLPuZOXB8aT6TTcTPtEzGbA6CvhJAHFTs3UceTSreechXqnsYydfFInS6TQRzFgQhoa6vGEKmj6xx2wXV7quqcJ-uV2mX");
-
-        //        string serializeRequest = JsonConvert.SerializeObject(request);
-        //        var response = await client.PostAsync(url, new StringContent(serializeRequest, Encoding.UTF8, "application/json"));
-        //        if (response.StatusCode == System.Net.HttpStatusCode.OK)
-        //        {
-        //            isSuccess=true;
-        //        }
-        //    }
-        //    return isSuccess;
-        //}
-
     }
 }
