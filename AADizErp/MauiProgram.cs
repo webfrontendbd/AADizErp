@@ -1,8 +1,6 @@
 ﻿using AADizErp.ViewModels;
 using DevExpress.Maui;
 using DevExpress.Maui.Core;
-//using Plugin.Fingerprint.Abstractions;
-//using Plugin.Fingerprint;
 using AADizErp.Services;
 using CommunityToolkit.Maui;
 using AADizErp.Services.RequestServices;
@@ -18,6 +16,8 @@ using AADizErp.Pages.HolidayPages;
 using AADizErp.Pages.HRPages;
 using AADizErp.ViewModels.HrVM;
 using Plugin.Maui.Biometric;
+using AADizErp.Pages.SettingsPages;
+using AADizErp.ViewModels.SettingsVM;
 
 namespace AADizErp
 {
@@ -123,6 +123,12 @@ namespace AADizErp
 
             builder.Services.AddTransient<UnreviewedUserListPage>();
             builder.Services.AddTransient<UnreviewedUserPageViewModel>();
+
+            builder.Services.AddTransient<PasswordChangePage>();
+            builder.Services.AddTransient<PasswordChangePageViewModel>();
+
+            builder.Services.AddTransient<DeleteAccountPage>();
+            builder.Services.AddTransient<DeleteAccountPageViewModel>();
 
             #endregion
 

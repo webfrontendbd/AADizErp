@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AADizErp.Pages.SettingsPages.DeleteAccountPage"
+             xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+             xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
+             xmlns:dxco="clr-namespace:DevExpress.Maui.Controls;assembly=DevExpress.Maui.Controls"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="true"
+             xmlns:vm="clr-namespace:AADizErp.ViewModels.SettingsVM"
+             x:DataType="vm:DeleteAccountPageViewModel"
+             Title="Delete Account">
+    <dx:DXStackLayout Padding="15">
+        <Label 
+            Text="Please note that deleting account is a permanent action and cannot be undone. All your data, including your profile, activity history, and any content you’ve shared, will be permanently removed from our servers."
+            VerticalOptions="Center" 
+            HorizontalTextAlignment="Center"
+            TextColor="MediumVioletRed"/>
+
+        <Label 
+            Text="If you encounter any issues or have any questions, feel free to contact our support team at dev.asiangroup@gmail.com"
+            HorizontalTextAlignment="Center"
+            Margin="5"/>
+
+        <Label 
+            Text="Thank you for using Asian App. We hope to serve you again in the future"
+            HorizontalTextAlignment="Center"
+            Margin="5"/>
+
+        <Label 
+            Text="To confirm the deletion of your account, please enter the username and press the Delete button"
+            HorizontalTextAlignment="Center"
+            TextColor="MediumVioletRed"
+            FontAttributes="Bold"
+            Margin="10"/>
+
+        <Grid ColumnDefinitions="*,Auto">
+            <dxe:TextEdit
+                Grid.Column="0"
+                CornerRadius="0"
+                Text="{Binding Username}"
+                BorderColor="MediumVioletRed"
+                PlaceholderText="Type username and press delete button"  />
+
+            <dx:DXButton   
+                Grid.Column="1"
+                Icon="delete"
+                BackgroundColor="MediumVioletRed"
+                CornerRadius="0"
+                TextColor="{StaticResource Asian}"
+                Padding="0"
+                WidthRequest="50"
+                FontAttributes="None"
+                Command="{Binding DeleateUserAccountCommand}">
+            </dx:DXButton>
+        </Grid>
+
+
+    </dx:DXStackLayout>
+</ContentPage>

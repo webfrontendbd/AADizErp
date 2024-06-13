@@ -134,6 +134,15 @@
                             <Label Grid.Row="1" Text="HR" FontSize="12" TextColor="#0d6efd" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                         </Grid>
                     </dx:DXButton>
+
+                    <dx:DXButton Grid.Row="0" Grid.Column="2" BackgroundColor="#FBFBFB" Padding="10" BorderColor="Transparent" CornerRadius="5" Clicked="SettingPageMenu_Tapped">
+                        <Grid RowDefinitions="Auto, Auto">
+                            <dx:DXBorder Grid.Row="0"   BackgroundColor="#dc3545" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
+                                <Image Source="cogs" HorizontalOptions="Center" Aspect="AspectFit"  />
+                            </dx:DXBorder>
+                            <Label Grid.Row="1" Text="Settings" FontSize="12" TextColor="#dc3545" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                        </Grid>
+                    </dx:DXButton>
                 </Grid>
 
             </Grid>

@@ -93,6 +93,50 @@ namespace AADizErp.Services
             //SecureStorage.Remove("Token");
         }
 
+        public async Task<PasswordChangedResponse> ChangedUserPassword(LoginDto loginDto)
+        {
+            try
+            {
+                await SetAuthToken();
+                HttpResponseMessage response = null;
+                response = await _client.PostAsJsonAsync("/user/UserManagement/update-password", loginDto);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string returnContent = await response.Content.ReadAsStringAsync();
+                    var responseUser = System.Text.Json.JsonSerializer.Deserialize<PasswordChangedResponse>(returnContent, _serializerOptions);
+                    return responseUser;
+                }
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = ex.Message;
+            }
+            return default;
+        }
+
+        public async Task<bool> DeleteUserAccount(string username)
+        {
+            try
+            {
+                await SetAuthToken();
+                HttpResponseMessage response = null;
+                response = await _client.PutAsJsonAsync("/user/UserManagement/delete-user-account", username);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string returnContent = await response.Content.ReadAsStringAsync();
+                    var responseUser = System.Text.Json.JsonSerializer.Deserialize<bool>(returnContent, _serializerOptions);
+                    return responseUser;
+                }
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = ex.Message;
+            }
+            return default;
+        }
+
         public async Task SetAuthToken()
         {
             var token = await SecureStorage.GetAsync("Token");

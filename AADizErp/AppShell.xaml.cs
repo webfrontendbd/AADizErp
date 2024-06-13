@@ -3,6 +3,7 @@ using AADizErp.Pages.HRPages;
 using AADizErp.Pages.ManagerPages;
 using AADizErp.Pages.RequestPages;
 using AADizErp.Pages.SalaryPages;
+using AADizErp.Pages.SettingsPages;
 
 namespace AADizErp
 {
@@ -39,6 +40,10 @@ namespace AADizErp
             Routing.RegisterRoute(nameof(EmployeeTimeCardPage), typeof(EmployeeTimeCardPage));
             Routing.RegisterRoute(nameof(DailyAbsentDetailPage), typeof(DailyAbsentDetailPage));
             Routing.RegisterRoute(nameof(UnreviewedUserListPage), typeof(UnreviewedUserListPage));
+
+            Routing.RegisterRoute(nameof(SettingsLandingPage), typeof(SettingsLandingPage));
+            Routing.RegisterRoute(nameof(PasswordChangePage), typeof(PasswordChangePage));
+            Routing.RegisterRoute(nameof(DeleteAccountPage), typeof(DeleteAccountPage));
             InitializeComponent();
         }
     }

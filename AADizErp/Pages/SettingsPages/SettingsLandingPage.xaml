@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+             xmlns:dxco="clr-namespace:DevExpress.Maui.Controls;assembly=DevExpress.Maui.Controls"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="true"
+             x:Class="AADizErp.Pages.SettingsPages.SettingsLandingPage"
+             Title="Settings"
+             Background="{StaticResource Primary}">
+    <dx:DXStackLayout Padding="15">
+        <dx:DXButton 
+            BackgroundColor="#FBFBFB" 
+            Padding="10"
+            Margin="5"
+            ButtonType="Accent"
+            TextColor="Black"
+            Content="Change Password"
+            Icon="password_black_24dp"
+            IconColor="Black"
+            BorderThickness="1"
+            BorderColor="{StaticResource Asian}"
+            FontAttributes="None"
+            TextHorizontalAlignment="Start"
+            Clicked="PasswordChangedPage_Clicked"
+            CornerRadius="0"/>
+
+
+
+        <dx:DXButton 
+            BackgroundColor="MediumVioletRed" 
+            Padding="10"
+            Margin="5"
+            ButtonType="Accent"
+            TextColor="#FBFBFB"
+            Content="Delete this account"
+            Icon="delete"
+            IconColor="#FBFBFB"
+            BorderThickness="0"
+            FontAttributes="None"
+            Clicked="DeleteAccountPage_Clicked"
+            TextHorizontalAlignment="Start"
+            CornerRadius="0"/>
+
+
+    </dx:DXStackLayout>
+</ContentPage>

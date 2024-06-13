@@ -10,6 +10,7 @@ using Google.Apis.Auth.OAuth2;
 using AADizErp.ViewModels.ManagerPagesVM;
 using CommunityToolkit.Mvvm.Messaging;
 using AADizErp.Models;
+using AADizErp.Pages.SettingsPages;
 
 namespace AADizErp
 {
@@ -112,6 +113,12 @@ namespace AADizErp
         private async void TimeCardPageMenu_Tapped(object sender, EventArgs e)
         {
             await Shell.Current.GoToAsync($"{nameof(IndividualTimeCardViewPage)}");
+        }
+
+        private async void SettingPageMenu_Tapped(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync($"{nameof(SettingsLandingPage)}");
+            //await Shell.Current.DisplayAlert("Unauthorized!", "You are not authorized to use this feature", "OK");
         }
 
     }

@@ -48,6 +48,8 @@
 	  <None Remove="Resources\Images\approve.svg" />
 	  <None Remove="Resources\Images\attendance.svg" />
 	  <None Remove="Resources\Images\clipboard.svg" />
+	  <None Remove="Resources\Images\cog.svg" />
+	  <None Remove="Resources\Images\cogs.svg" />
 	  <None Remove="Resources\Images\contact_details.svg" />
 	  <None Remove="Resources\Images\copy.svg" />
 	  <None Remove="Resources\Images\dashboard.svg" />
@@ -256,6 +258,15 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\SalaryPages\PaySlipListViewPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\SettingsPages\DeleteAccountPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\SettingsPages\PasswordChangePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\SettingsPages\SettingsLandingPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="RegistrationPage.xaml">
