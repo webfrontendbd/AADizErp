@@ -96,8 +96,8 @@ namespace AADizErp
             builder.Services.AddTransient<LoginViewModel>();
             builder.Services.AddTransient<LoginPage>();
 
-            //builder.Services.AddTransient<RegistrationPageViewModel>();
-            //builder.Services.AddTransient<RegistrationPage>();
+            builder.Services.AddTransient<RegistrationPageViewModel>();
+            builder.Services.AddTransient<RegistrationPage>();
 
             builder.Services.AddTransient<LoadingPage>();
             builder.Services.AddTransient<LoadingViewModel>();

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
@@ -8,16 +8,16 @@
              x:Class="AADizErp.Pages.SettingsPages.SettingsLandingPage"
              Title="Settings"
              Background="{StaticResource Primary}">
-    <dx:DXStackLayout Padding="15">
+    <dx:DXStackLayout Padding="{OnPlatform iOS='20', Default='20'}">
         <dx:DXButton 
             BackgroundColor="#FBFBFB" 
             Padding="10"
             Margin="5"
             ButtonType="Accent"
-            TextColor="Black"
+            TextColor="{StaticResource Asian}"
             Content="Change Password"
             Icon="password_black_24dp"
-            IconColor="Black"
+            IconColor="{StaticResource Asian}"
             BorderThickness="1"
             BorderColor="{StaticResource Asian}"
             FontAttributes="None"

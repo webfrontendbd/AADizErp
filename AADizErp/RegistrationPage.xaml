@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
@@ -36,16 +36,18 @@
                 ItemsSource="{Binding Employees}"
                 SelectedValue="{Binding CardNumber}"
                 SelectionChangedCommand="{Binding SelectionChangedForUserCommand}"
-                PickerShowMode="Popup">
-                <dxe:ComboBoxEdit.ItemTemplate>
+                PickerShowMode="BottomSheet"/>
+
+
+
+            <!--<dxe:ComboBoxEdit.ItemTemplate>
                     <DataTemplate>
                         <Grid ColumnDefinitions="120,*">
                             <Label Grid.Column="0" Padding="5" Text="{Binding CardNumber}" TextColor="{StaticResource Asian}" FontAttributes="Bold"/>
                             <Label Grid.Column="1" Padding="5" Text="{Binding Name}" TextColor="{StaticResource Asian}"  />
                         </Grid>
                     </DataTemplate>
-                </dxe:ComboBoxEdit.ItemTemplate>
-            </dxe:ComboBoxEdit>
+                </dxe:ComboBoxEdit.ItemTemplate>-->
 
             <!--<dxe:AutoCompleteEdit 
                 DisplayMember="CardNumber"

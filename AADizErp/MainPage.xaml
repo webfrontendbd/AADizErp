@@ -37,12 +37,12 @@
                     <dx:DXButton 
                         Grid.Column="2" 
                         Padding="5"  
-                        TextColor="Red" 
+                        TextColor="MediumVioletRed" 
                         FontAttributes="Bold" 
                         Margin="5,0,0,0" 
                         Content="Logout"
                         FontSize="Micro"
-                        BorderColor="Red"
+                        BorderColor="MediumVioletRed"
                         BorderThickness="1"
                         Command="{Binding LogoutCommand}"
                         BackgroundColor="Transparent"/>
@@ -56,7 +56,7 @@
                     <dx:DXButton Grid.Row="0" Grid.Column="0" BackgroundColor="#FBFBFB" Padding="10" BorderColor="Transparent" CornerRadius="5" Clicked="ProfilePageMenu_Tapped">
                         <Grid RowDefinitions="Auto, Auto">
                             <dx:DXBorder Grid.Row="0" BackgroundColor="{StaticResource Asian}" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
-                                <Image Source="user_tie" HorizontalOptions="Center" Aspect="AspectFit"  />
+                                <Image Source="book" HorizontalOptions="Center" Aspect="AspectFit"  />
                             </dx:DXBorder>
                             <Label Grid.Row="1" Text="e-Service Book" FontSize="12" TextColor="{StaticResource Asian}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                         </Grid>
@@ -64,19 +64,19 @@
 
                     <dx:DXButton Grid.Row="0" Grid.Column="1" BackgroundColor="#FBFBFB" Padding="10" BorderColor="Transparent" CornerRadius="5" Clicked="TimeCardPageMenu_Tapped">
                         <Grid RowDefinitions="Auto, Auto">
-                            <dx:DXBorder Grid.Row="0" BackgroundColor="#dc3545" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
+                            <dx:DXBorder Grid.Row="0" BackgroundColor="MediumVioletRed" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
                                 <Image Source="tasks" HorizontalOptions="Center" Aspect="AspectFit"  />
                             </dx:DXBorder>
-                            <Label Grid.Row="1" Text="Time Card" FontSize="12" TextColor="#dc3545" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <Label Grid.Row="1" Text="Time Card" FontSize="12" TextColor="MediumVioletRed" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                         </Grid>
                     </dx:DXButton>
 
                     <dx:DXButton  Grid.Row="0" Grid.Column="2" BackgroundColor="#FBFBFB" Padding="10" BorderColor="Transparent" CornerRadius="5" Clicked="PaySlipMenu_Tapped">
                         <Grid RowDefinitions="Auto, Auto">
-                            <dx:DXBorder Grid.Row="0" BackgroundColor="#198754" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
+                            <dx:DXBorder Grid.Row="0" BackgroundColor="#20c997" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
                                 <Image Source="pay_slip" HorizontalOptions="Center" Aspect="AspectFit"  />
                             </dx:DXBorder>
-                            <Label Grid.Row="1" Text="Payslip" FontSize="12" TextColor="#198754" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <Label Grid.Row="1" Text="Payslip" FontSize="12" TextColor="#20c997" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                         </Grid>
                     </dx:DXButton>
 
@@ -95,10 +95,10 @@
 
                     <dx:DXButton Grid.Row="0" Grid.Column="1" BackgroundColor="#FBFBFB" Padding="10" BorderColor="Transparent" CornerRadius="5" Clicked="HolidayPageMenu_Tapped">
                         <Grid RowDefinitions="Auto, Auto">
-                            <dx:DXBorder Grid.Row="0"  BackgroundColor="#dc3545" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
+                            <dx:DXBorder Grid.Row="0"  BackgroundColor="MediumVioletRed" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
                                 <Image Source="holiday" HorizontalOptions="Center" Aspect="AspectFit"  />
                             </dx:DXBorder>
-                            <Label Grid.Row="1" Text="Holidays" FontSize="12" TextColor="#dc3545" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <Label Grid.Row="1" Text="Holidays" FontSize="12" TextColor="MediumVioletRed" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                         </Grid>
                     </dx:DXButton>
 
@@ -128,19 +128,19 @@
 
                     <dx:DXButton Grid.Row="0" Grid.Column="1" BackgroundColor="#FBFBFB" Padding="10" BorderColor="Transparent" CornerRadius="5" Clicked="HrPageMenu_Tapped">
                         <Grid RowDefinitions="Auto, Auto">
-                            <dx:DXBorder Grid.Row="0"   BackgroundColor="#0d6efd" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
-                                <Image Source="attendance" HorizontalOptions="Center" Aspect="AspectFit"  />
+                            <dx:DXBorder Grid.Row="0"   BackgroundColor="{StaticResource Asian}" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
+                                <Image Source="hr" HorizontalOptions="Center" Aspect="AspectFit"  />
                             </dx:DXBorder>
-                            <Label Grid.Row="1" Text="HR" FontSize="12" TextColor="#0d6efd" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <Label Grid.Row="1" Text="HR" FontSize="12" TextColor="{StaticResource Asian}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                         </Grid>
                     </dx:DXButton>
 
                     <dx:DXButton Grid.Row="0" Grid.Column="2" BackgroundColor="#FBFBFB" Padding="10" BorderColor="Transparent" CornerRadius="5" Clicked="SettingPageMenu_Tapped">
                         <Grid RowDefinitions="Auto, Auto">
-                            <dx:DXBorder Grid.Row="0"   BackgroundColor="#dc3545" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
+                            <dx:DXBorder Grid.Row="0"   BackgroundColor="MediumVioletRed" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
                                 <Image Source="cogs" HorizontalOptions="Center" Aspect="AspectFit"  />
                             </dx:DXBorder>
-                            <Label Grid.Row="1" Text="Settings" FontSize="12" TextColor="#dc3545" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <Label Grid.Row="1" Text="Settings" FontSize="12" TextColor="MediumVioletRed" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                         </Grid>
                     </dx:DXButton>
                 </Grid>

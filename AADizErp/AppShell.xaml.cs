@@ -13,8 +13,8 @@ namespace AADizErp
         {
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
             Routing.RegisterRoute(nameof(LoadingPage), typeof(LoadingPage));
-            //Routing.RegisterRoute(nameof(RegistrationPage), typeof(RegistrationPage));
-            //Routing.RegisterRoute(nameof(ThankYouPage), typeof(ThankYouPage));
+            Routing.RegisterRoute(nameof(RegistrationPage), typeof(RegistrationPage));
+            Routing.RegisterRoute(nameof(ThankYouPage), typeof(ThankYouPage));
 
             Routing.RegisterRoute(nameof(RequestLandingPage), typeof(RequestLandingPage));
             Routing.RegisterRoute(nameof(AttendanceRequestPage), typeof(AttendanceRequestPage));

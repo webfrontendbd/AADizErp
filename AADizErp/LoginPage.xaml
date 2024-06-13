@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
@@ -20,6 +20,8 @@
                 StartIcon="face_black_24dp"
                 LabelText="Username"
                 Text="{Binding Username}"
+                IconColor="{StaticResource Asian}"
+                BorderColor="{StaticResource Asian}"
                 ErrorText="Username is required"
                 PlaceholderText="Enter Username" 
                 Margin="0,0,0,10" />
@@ -29,6 +31,8 @@
                 StartIcon="password_black_24dp"
                 LabelText="Password"
                 Text="{Binding Password}"
+                IconColor="{StaticResource Asian}"
+                BorderColor="{StaticResource Asian}"
                 ErrorText="The password should contain more than 5 characters, have at least one uppercase and one lowercase letter, and one number."
                 PlaceholderText="Enter password" 
                 Margin="0,0,0,10" />
@@ -72,7 +76,7 @@
                 Command="{Binding FingerPrintAuthenticationCommand}">
             </dx:DXButton>
 
-            <!--<dx:DXButton
+            <dx:DXButton
                 Grid.Row="4"
                 Margin="15,15,15,15"
                 Padding="6"
@@ -84,7 +88,7 @@
                 Icon="sign_out"
                 BackgroundColor="Transparent"
                 IconColor="{StaticResource Asian}"
-                Clicked="SignupButton_Clicked"/>-->
+                Clicked="SignupButton_Clicked"/>
         </Grid>
 
 

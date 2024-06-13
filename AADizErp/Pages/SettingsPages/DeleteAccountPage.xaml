@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AADizErp.Pages.SettingsPages.DeleteAccountPage"
@@ -10,7 +10,7 @@
              xmlns:vm="clr-namespace:AADizErp.ViewModels.SettingsVM"
              x:DataType="vm:DeleteAccountPageViewModel"
              Title="Delete Account">
-    <dx:DXStackLayout Padding="15">
+    <dx:DXStackLayout Padding="{OnPlatform iOS='20', Default='20'}">
         <Label 
             Text="Please note that deleting account is a permanent action and cannot be undone. All your data, including your profile, activity history, and any content you’ve shared, will be permanently removed from our servers."
             VerticalOptions="Center" 
@@ -28,7 +28,7 @@
             Margin="5"/>
 
         <Label 
-            Text="To confirm the deletion of your account, please enter the username and press the Delete button"
+            Text="To confirm the deletion of your account, please enter the username and press the side button"
             HorizontalTextAlignment="Center"
             TextColor="MediumVioletRed"
             FontAttributes="Bold"

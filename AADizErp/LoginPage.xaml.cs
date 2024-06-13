@@ -10,16 +10,16 @@ public partial class LoginPage : ContentPage
 		BindingContext = viewmodel;
 	}
 
-  //  private async void SignupButton_Clicked(object sender, EventArgs e)
-  //  {
-		//try
-		//{
-		//	await Shell.Current.GoToAsync($"{nameof(RegistrationPage)}");
+	private async void SignupButton_Clicked(object sender, EventArgs e)
+	{
+		try
+		{
+			await Shell.Current.GoToAsync($"{nameof(RegistrationPage)}");
 
-		//}
-		//catch (Exception ex)
-		//{
-		//	await Shell.Current.DisplayAlert("Oops!", ex.Message, "OK");
-		//}
-  //  }
+		}
+		catch (Exception ex)
+		{
+			await Shell.Current.DisplayAlert("Oops!", ex.Message, "OK");
+		}
+	}
 }
