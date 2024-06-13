@@ -101,7 +101,7 @@ namespace AADizErp.Services
             var userToken = await _tokenService.GetUserDeviceToken(remoteAttendanceDto.RequestedBy);
 
             var notificationObject = new Dictionary<string, string>();
-            notificationObject.Add("NavigationID", "1");
+            notificationObject.Add("NavigationID", "3");
 
             var message = new Message
             {
@@ -142,7 +142,7 @@ namespace AADizErp.Services
             var userToken = await _tokenService.GetUserDeviceToken(leaveRequestDto.RequestedBy);
 
             var notificationObject = new Dictionary<string, string>();
-            notificationObject.Add("NavigationID", "3");
+            notificationObject.Add("NavigationID", "4");
             var message = new Message
             {
                 Token = userToken,
