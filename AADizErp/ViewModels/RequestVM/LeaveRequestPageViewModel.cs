@@ -53,19 +53,32 @@ namespace AADizErp.ViewModels.RequestVM
                 LeaveSummary = await _leaveService.GetIndividualLeaveSummary(user);
             });
         }
-        private async void GetIndividualLeaveRequests(int pageIndex, int showRecord)
+        private void GetIndividualLeaveRequests(int pageIndex, int showRecord)
         {
             if (totalCount != 0) totalCount = 0;
-            LeaveRequests.Clear();
             IsLoading = true;
-            var user = await App.GetUserInfo();
-            var returnLeaveRequest = await _leaveService.GetListOfIndividualLeaveRequest(pageIndex, showRecord, user.TokenUserMetaInfo.UserName);
-            if (returnLeaveRequest.Count > 0)
+            LeaveRequests.Clear();
+            Task.Run(async () =>
             {
-                totalCount = returnLeaveRequest.Count;
-                LeaveRequests.ReplaceRange(returnLeaveRequest.Data);
-            }
-            IsLoading = false;
+                var user = await App.GetUserInfo();
+                var returnLeaveRequest = await _leaveService.GetListOfIndividualLeaveRequest(pageIndex, showRecord, user.TokenUserMetaInfo.UserName);
+                if (returnLeaveRequest.Count > 0)
+                {
+                    App.Current.Dispatcher.Dispatch(() =>
+                    {
+                        totalCount = returnLeaveRequest.Count;
+                        LeaveRequests.ReplaceRange(returnLeaveRequest.Data);
+                        IsLoading = false;
+                    });
+
+                }
+                else
+                {
+                    IsLoading = false;
+                }
+                
+            });
+            
         }
 
         private void SetInitialLeaveDay()
@@ -81,6 +94,7 @@ namespace AADizErp.ViewModels.RequestVM
         {
             if (totalCount == LeaveRequests.Count())
             {
+                IsLoading = false;
                 return;
             }
             IsLoading = true;

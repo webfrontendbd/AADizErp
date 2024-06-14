@@ -23,23 +23,28 @@ namespace AADizErp.ViewModels.ManagerPagesVM
         }
 
 
-        private async void GetRemoteAttendanceListForStatusUpdate()
+        private void GetRemoteAttendanceListForStatusUpdate()
         {
             IsLoading = true;
             Attendances.Clear();
-            var userInfo = await App.GetUserInfo();
-            _remoteAttendances = await _attnService.GetRemoteAttendanceListByManagerUsername(userInfo.TokenUserMetaInfo.UserName);
-            if (_remoteAttendances != null)
+            Task.Run(async () =>
             {
-                Attendances.ReplaceRange(_remoteAttendances.Take(_pageSize).ToList());
-                IsLoading = false;
-            }
-            else
-            {
-                await Shell.Current.CurrentPage.DisplayAlert("Error", "Not Found", "OK");
-                IsLoading = false;
-            }
-            IsLoading = false;
+                var userInfo = await App.GetUserInfo();
+                _remoteAttendances = await _attnService.GetRemoteAttendanceListByManagerUsername(userInfo.TokenUserMetaInfo.UserName);
+                if (_remoteAttendances != null)
+                {
+                    App.Current.Dispatcher.Dispatch(() =>
+                    {
+                        Attendances.ReplaceRange(_remoteAttendances.Take(_pageSize).ToList());
+                        IsLoading = false;
+                    }); 
+                }
+                else
+                {
+                    IsLoading = false;
+                }
+            });
+
         }
 
         [RelayCommand]

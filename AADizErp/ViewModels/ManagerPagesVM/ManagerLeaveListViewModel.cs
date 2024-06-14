@@ -29,19 +29,29 @@ namespace AADizErp.ViewModels.ManagerPagesVM
             GetListOfLeaveRequestForManager(pageNumber, pageSize);
         }
 
-        private async void GetListOfLeaveRequestForManager(int pageIndex, int showRecord)
+        private void GetListOfLeaveRequestForManager(int pageIndex, int showRecord)
         {
             IsLoading = true;
             if (totalCount != 0) totalCount = 0;
             LeaveRequests.Clear();
-            var user = await App.GetUserInfo();
-            var returnLeaveRequest = await _leaveService.GetListLeaveRequestForManager(pageIndex, showRecord, user.TokenUserMetaInfo.UserName);
-            if (returnLeaveRequest.Count > 0)
+            Task.Run(async () =>
             {
-                totalCount = returnLeaveRequest.Count;
-                LeaveRequests.ReplaceRange(returnLeaveRequest.Data);                
-            }
-            IsLoading = false;
+                var user = await App.GetUserInfo();
+                var returnLeaveRequest = await _leaveService.GetListLeaveRequestForManager(pageIndex, showRecord, user.TokenUserMetaInfo.UserName);
+                if (returnLeaveRequest.Count > 0)
+                {
+                    App.Current.Dispatcher.Dispatch(() =>
+                    {
+                        totalCount = returnLeaveRequest.Count;
+                        LeaveRequests.ReplaceRange(returnLeaveRequest.Data);
+                        IsLoading = false;
+                    });
+                }
+                else
+                {
+                    IsLoading = false;
+                }
+            });
         }
 
         [RelayCommand]
