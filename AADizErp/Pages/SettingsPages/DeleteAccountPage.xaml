@@ -28,7 +28,7 @@
             Margin="5"/>
 
         <Label 
-            Text="To confirm the deletion of your account, please enter the username and press the side button"
+            Text="To confirm the deletion of your account, please enter the username and press the delete button below"
             HorizontalTextAlignment="Center"
             TextColor="MediumVioletRed"
             FontAttributes="Bold"
