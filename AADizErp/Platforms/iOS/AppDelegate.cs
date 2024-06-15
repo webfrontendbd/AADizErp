@@ -13,24 +13,30 @@ namespace AADizErp
 
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
-            Firebase.Core.App.Configure();
-
-            if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
+            try
             {
-                var authOption = UNAuthorizationOptions.Alert | UNAuthorizationOptions.Badge | UNAuthorizationOptions.Sound;
-
-                UNUserNotificationCenter.Current.RequestAuthorization(authOption, (granted, error) =>
+                Firebase.Core.App.Configure();
+                if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
                 {
-                    Console.WriteLine(granted);
-                });
+                    var authOption = UNAuthorizationOptions.Alert | UNAuthorizationOptions.Badge | UNAuthorizationOptions.Sound;
 
-                UNUserNotificationCenter.Current.Delegate = new UserNotificationCenterDelegate();
+                    UNUserNotificationCenter.Current.RequestAuthorization(authOption, (granted, error) =>
+                    {
+                        Console.WriteLine(granted);
+                    });
 
-                Messaging.SharedInstance.AutoInitEnabled = true;
-                Messaging.SharedInstance.AutoInitEnabled = true;
-                Messaging.SharedInstance.Delegate = this;
+                    UNUserNotificationCenter.Current.Delegate = new UserNotificationCenterDelegate();
+
+                    Messaging.SharedInstance.AutoInitEnabled = true;
+                    Messaging.SharedInstance.AutoInitEnabled = true;
+                    Messaging.SharedInstance.Delegate = this;
+                }
+                UIApplication.SharedApplication.RegisterForRemoteNotifications();
             }
-            UIApplication.SharedApplication.RegisterForRemoteNotifications();
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
             return base.FinishedLaunching(application, launchOptions);
         }

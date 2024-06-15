@@ -98,8 +98,9 @@
 	  <None Remove="Resources\Images\verticaldots.svg" />
 	  <None Remove="Resources\Raw\ding.mp3" />
 	  <None Remove="Resources\Raw\fcm_sdk.json" />
-		<None Remove="Platforms\iOS\GoogleService-Info.plist" />
+	  <None Remove="Platforms\iOS\GoogleService-Info.plist" />
 	  <None Remove="Platforms\iOS\AADizErp.ipa" />
+	  <None Remove="Platforms\iOS\Resources\LaunchScreen.xib"/>
 	  <None Remove="Platforms\iOS\Resources\" />
 	</ItemGroup>
 
@@ -275,4 +276,11 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Platforms\iOS\Resources\"/>
+    </ItemGroup>
+	<ItemGroup>
+		<InterfaceDefinition Include="Platforms\iOS\Resources\LaunchScreen.xib" />
+    </ItemGroup>
 </Project>
