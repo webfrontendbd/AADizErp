@@ -15,8 +15,8 @@
 		<ApplicationId>com.asiangroup.hrpayrollerp</ApplicationId>
 		<ApplicationIdGuid>3ABBEC2B-B1A1-4CDE-8F06-9A7C39D38055</ApplicationIdGuid>
 		<!-- Versions -->
-		<ApplicationDisplayVersion>7.0</ApplicationDisplayVersion>
-		<ApplicationVersion>7</ApplicationVersion>
+		<ApplicationDisplayVersion>9.0</ApplicationDisplayVersion>
+		<ApplicationVersion>9</ApplicationVersion>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
@@ -98,20 +98,16 @@
 	  <None Remove="Resources\Images\verticaldots.svg" />
 	  <None Remove="Resources\Raw\ding.mp3" />
 	  <None Remove="Resources\Raw\fcm_sdk.json" />
-	  <None Remove="Platforms\iOS\GoogleService-Info.plist" />
 	  <None Remove="Platforms\iOS\AADizErp.ipa" />
-	  <None Remove="Platforms\iOS\Resources\LaunchScreen.xib"/>
-	  <None Remove="Platforms\iOS\Resources\" />
+	  <None Remove="Platforms\iOS\GoogleService-Info.plist" />
 	</ItemGroup>
 
-	<ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-android'">
 		<GoogleServicesJson Include="Platforms\Android\google-services.json" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<BundleResource Include="Platforms\iOS\GoogleService-Info.plist">
-			<Link>Platforms\iOS\GoogleService-Info.plist</Link>
-		</BundleResource>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-ios'">
+		<BundleResource Include="Platforms\iOS\GoogleService-Info.plist" Link="GoogleService-Info.plist"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
@@ -276,11 +272,4 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="Platforms\iOS\Resources\"/>
-    </ItemGroup>
-	<ItemGroup>
-		<InterfaceDefinition Include="Platforms\iOS\Resources\LaunchScreen.xib" />
-    </ItemGroup>
 </Project>
