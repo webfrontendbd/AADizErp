@@ -11,14 +11,17 @@ using AADizErp.ViewModels.ManagerPagesVM;
 using CommunityToolkit.Mvvm.Messaging;
 using AADizErp.Models;
 using AADizErp.Pages.SettingsPages;
+using AADizErp.Services;
 
 namespace AADizErp
 {
     public partial class MainPage : ContentPage
     {
+        ImageUploadService imageUploadService { get; set; }
         public MainPage(MainPageViewModel viewModel)
         {
             InitializeComponent();
+            imageUploadService = new ImageUploadService();
             WeakReferenceMessenger.Default.Register<PushNotificationReceived>(this, (r, m) =>
             {
                 string msg = m.Value;
@@ -28,6 +31,17 @@ namespace AADizErp
             BindingContext = viewModel;
             ReadFireBaseAdminSdk();
             NavigateToPage();
+        }
+
+        private async void UploadImage_Clicked(object sender, EventArgs e)
+        {
+            var img = await imageUploadService.OpenMediaPickerAsync();
+
+            var imagefile = await imageUploadService.Upload(img);
+
+            Image_Upload.Source = ImageSource.FromStream(() =>
+                imageUploadService.ByteArrayToStream(imageUploadService.StringToByteBase64(imagefile.byteBase64))
+            );
         }
 
         private async void ReadFireBaseAdminSdk()

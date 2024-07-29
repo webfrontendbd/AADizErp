@@ -47,6 +47,7 @@
 	  <None Remove="Resources\Images\approval.svg" />
 	  <None Remove="Resources\Images\approve.svg" />
 	  <None Remove="Resources\Images\attendance.svg" />
+	  <None Remove="Resources\Images\avatar.png" />
 	  <None Remove="Resources\Images\clipboard.svg" />
 	  <None Remove="Resources\Images\cog.svg" />
 	  <None Remove="Resources\Images\cogs.svg" />
@@ -107,7 +108,7 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-ios'">
-		<BundleResource Include="Platforms\iOS\GoogleService-Info.plist" Link="GoogleService-Info.plist"/>
+		<BundleResource Include="Platforms\iOS\GoogleService-Info.plist" Link="GoogleService-Info.plist" />
 	</ItemGroup>
 
 	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
