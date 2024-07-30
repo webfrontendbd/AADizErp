@@ -15,8 +15,11 @@ namespace AADizErp
         internal static readonly string Channel_ID = "TestChannel";
         internal static readonly int NotificationID = 101;
 
+        //new ImageCropper.Maui.Platform.Init();
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            new ImageCropper.Maui.Platform().Init(this);
             base.OnCreate(savedInstanceState);
             // Platform.Init(this, savedInstanceState);
             if (Build.VERSION.SdkInt >= BuildVersionCodes.Tiramisu)

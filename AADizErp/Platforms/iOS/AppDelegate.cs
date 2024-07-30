@@ -15,6 +15,7 @@ namespace AADizErp
         {
             try
             {
+                new ImageCropper.Maui.Platform().Init();
                 Firebase.Core.App.Configure();
                 if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
                 {

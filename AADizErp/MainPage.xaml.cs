@@ -17,11 +17,11 @@ namespace AADizErp
 {
     public partial class MainPage : ContentPage
     {
-        ImageUploadService imageUploadService { get; set; }
+        //ImageUploadService imageUploadService { get; set; }
         public MainPage(MainPageViewModel viewModel)
         {
             InitializeComponent();
-            imageUploadService = new ImageUploadService();
+            //imageUploadService = new ImageUploadService();
             WeakReferenceMessenger.Default.Register<PushNotificationReceived>(this, (r, m) =>
             {
                 string msg = m.Value;
@@ -33,15 +33,34 @@ namespace AADizErp
             NavigateToPage();
         }
 
-        private async void UploadImage_Clicked(object sender, EventArgs e)
+        //private async void UploadImage_Clicked(object sender, EventArgs e)
+        //{
+        //    var img = await imageUploadService.OpenMediaPickerAsync();
+
+        //    var imagefile = await imageUploadService.Upload(img);
+
+        //    Image_Upload.Source = ImageSource.FromStream(() =>
+        //        imageUploadService.ByteArrayToStream(imageUploadService.StringToByteBase64(imagefile.byteBase64))
+        //    );
+        //}
+
+        private async void OnClickedCircle(object sender, EventArgs e)
         {
-            var img = await imageUploadService.OpenMediaPickerAsync();
-
-            var imagefile = await imageUploadService.Upload(img);
-
-            Image_Upload.Source = ImageSource.FromStream(() =>
-                imageUploadService.ByteArrayToStream(imageUploadService.StringToByteBase64(imagefile.byteBase64))
-            );
+            Image_Upload.Source = null;
+            new ImageCropper.Maui.ImageCropper()
+            {
+                CropShape = ImageCropper.Maui.ImageCropper.CropShapeType.Oval,
+                Success = (imageFile) =>
+                {
+                    Dispatcher.Dispatch(() =>
+                    {
+                        Image_Upload.Source = ImageSource.FromFile(imageFile);
+                    });
+                },
+                Failure = () => {
+                    Console.WriteLine("Error capturing an image to crop.");
+                }
+            }.Show(this);
         }
 
         private async void ReadFireBaseAdminSdk()
