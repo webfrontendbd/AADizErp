@@ -55,6 +55,7 @@ namespace AADizErp
             builder.Services.AddSingleton<LeaveService>();
             builder.Services.AddSingleton<HrService>();
             builder.Services.AddSingleton<OccasionService>();
+            builder.Services.AddSingleton<LocalDbService>();
 
             //Pages and viewmodels
             #region Pages and Viewmodels
