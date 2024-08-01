@@ -11,7 +11,7 @@ using AADizErp.ViewModels.ManagerPagesVM;
 using CommunityToolkit.Mvvm.Messaging;
 using AADizErp.Models;
 using AADizErp.Pages.SettingsPages;
-using AADizErp.Services;
+using DevExpress.Maui.Controls;
 
 namespace AADizErp
 {
@@ -57,11 +57,70 @@ namespace AADizErp
                         Image_Upload.Source = ImageSource.FromFile(imageFile);
                     });
                 },
-                Failure = () => {
+                Failure = () =>
+                {
                     Console.WriteLine("Error capturing an image to crop.");
                 }
             }.Show(this);
         }
+        //private void ImageTapped(object sender, EventArgs e)
+        //{
+        //    bottomSheet.State = BottomSheetState.HalfExpanded;
+        //}
+
+        //private async void DeletePhotoClicked(object sender, EventArgs args)
+        //{
+        //    await Dispatcher.DispatchAsync(() => {
+        //        bottomSheet.State = BottomSheetState.Hidden;
+        //        editControl.IsVisible = false;
+        //        preview.Source = null;
+        //    });
+        //}
+
+        //private async void SelectPhotoClicked(object sender, EventArgs args)
+        //{
+        //    var photo = await MediaPicker.PickPhotoAsync();
+        //    await ProcessResult(photo);
+        //    editControl.IsVisible = true;
+        //}
+
+        //private async void TakePhotoClicked(object sender, EventArgs args)
+        //{
+        //    if (!MediaPicker.Default.IsCaptureSupported)
+        //        return;
+
+        //    var photo = await MediaPicker.Default.CapturePhotoAsync();
+        //    await ProcessResult(photo);
+        //    editControl.IsVisible = true;
+        //}
+
+        //private async Task ProcessResult(FileResult result)
+        //{
+        //    await Dispatcher.DispatchAsync(() => {
+        //        bottomSheet.State = BottomSheetState.Hidden;
+        //    });
+
+
+        //    if (result == null)
+        //        return;
+
+        //    ImageSource imageSource = null;
+        //    if (System.IO.Path.IsPathRooted(result.FullPath))
+        //        imageSource = ImageSource.FromFile(result.FullPath);
+        //    else
+        //    {
+        //        var stream = await result.OpenReadAsync();
+        //        imageSource = ImageSource.FromStream(() => stream);
+        //    }
+        //    var editorPage = new ImageEditView(imageSource);
+        //    await Navigation.PushAsync(editorPage);
+
+        //    var cropResult = await editorPage.WaitForResultAsync();
+        //    if (cropResult != null)
+        //        preview.Source = cropResult;
+
+        //    editorPage.Handler.DisconnectHandler();
+        //}
 
         private async void ReadFireBaseAdminSdk()
         {

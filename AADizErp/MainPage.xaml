@@ -11,6 +11,7 @@
              Background="{StaticResource Primary}">
     <!-- Add items here. -->
     <ScrollView VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
+
         <dx:DXBorder Padding="10, 0" CornerRadius="0" BorderColor="Transparent" BackgroundColor="{StaticResource AppBgColor}">
             <Grid RowDefinitions="Auto, Auto, Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="5">
 
@@ -19,6 +20,19 @@
                 </dx:DXBorder>
 
                 <dx:DXBorder Grid.Row="1" Margin="0,-95,0,0"  BorderColor="White" BackgroundColor="{StaticResource Asian}" HorizontalOptions="Center" WidthRequest="120" HeightRequest="{OnPlatform iOS='120', Android='120'}" CornerRadius="60" BorderThickness="8" Padding="0" >
+                    <!--<Grid HeightRequest="140" WidthRequest="140" Margin="0,30,0,10">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ImageTapped"/>
+                        </Grid.GestureRecognizers>
+                        <Label TextColor="#6750a4" Text="Upload Avatar" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        <dx:DXBorder CornerRadius="70" >
+                            <Image x:Name="preview" Source="{Binding EditedItem.PhotoPath}" WidthRequest="140" HeightRequest="140"/>
+                        </dx:DXBorder>
+                        <dx:DXBorder x:Name="editControl" BorderColor="White" BorderThickness="2" BackgroundColor="#e8def8" WidthRequest="48" HeightRequest="48" CornerRadius="70" HorizontalOptions="End" VerticalOptions="End">
+                            <Image Source="pencil" WidthRequest="24" HeightRequest="24"/>
+                        </dx:DXBorder>
+                    </Grid>-->
+                    
                     <Grid>
                         <Image ZIndex="1"
                                x:Name="Image_Upload"
@@ -28,23 +42,26 @@
                                VerticalOptions="Center"
                                HorizontalOptions="Center"/>
                     
-                        <dx:DXButton ZIndex="2"
-                                     WidthRequest="50"
-                                     HeightRequest="50"
-                                     CornerRadius="0"
-                                     Padding="0"
-                                     Margin="50,55,0,0"
-                                     Icon="image"
-                                     BackgroundColor="Transparent"
-                                     TextColor="White"
-                                     BorderColor="White"
-                                     BorderThickness="1"
-                                     Content=""
-                                     Clicked="OnClickedCircle"/>
+                        
 
                     </Grid>
                     
                 </dx:DXBorder>
+
+                <dx:DXButton
+                    Grid.Row="2"
+                    WidthRequest="30"
+                    HeightRequest="30"
+                    CornerRadius="50"
+                    Padding="0"
+                    Margin="65,-55,0,15"
+                    Icon="camera"
+                    BackgroundColor="{StaticResource Asian}"
+                    TextColor="{StaticResource Asian}"
+                    BorderColor="{StaticResource Asian}"
+                    BorderThickness="1"
+                    Content=""
+                    Clicked="OnClickedCircle"/>
 
                 <Label Grid.Row="2" Text="{Binding FullName}" FontAttributes="Bold" TextTransform="Uppercase" TextColor="#383b67" HorizontalTextAlignment="Center" Margin="0" FontSize="15"/>
 
@@ -168,6 +185,16 @@
                         </Grid>
                     </dx:DXButton>
                 </Grid>
+
+                <!--<dxco:BottomSheet x:Name="bottomSheet" HalfExpandedRatio="0.3" AllowedState="HalfExpanded">
+                    <dx:DXStackLayout>
+                        <dx:DXButton Icon="delete" Content="Remove Photo" Tap="DeletePhotoClicked"/>
+                        <dx:DXBorder HeightRequest="1" BorderThickness="1" BorderColor="#303A343D"/>
+                        <dx:DXButton Icon="take_photo" Content="Take Photo" Tap="TakePhotoClicked"/>
+                        <dx:DXBorder HeightRequest="1" BorderThickness="1" BorderColor="#303A343D"/>
+                        <dx:DXButton Icon="gallery" Content="Select from Gallery" Tap="SelectPhotoClicked"/>
+                    </dx:DXStackLayout>
+                </dxco:BottomSheet>-->
 
             </Grid>
         </dx:DXBorder>
