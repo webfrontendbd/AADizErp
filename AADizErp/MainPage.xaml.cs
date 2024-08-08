@@ -18,10 +18,12 @@ namespace AADizErp
     public partial class MainPage : ContentPage
     {
         //ImageUploadService imageUploadService { get; set; }
+        LocalDbService _localDbService { get; set; };
         public MainPage(MainPageViewModel viewModel)
         {
             InitializeComponent();
             //imageUploadService = new ImageUploadService();
+            _localDbService = new LocalDbService();
             WeakReferenceMessenger.Default.Register<PushNotificationReceived>(this, (r, m) =>
             {
                 string msg = m.Value;
@@ -50,10 +52,18 @@ namespace AADizErp
             new ImageCropper.Maui.ImageCropper()
             {
                 CropShape = ImageCropper.Maui.ImageCropper.CropShapeType.Oval,
-                Success = (imageFile) =>
+                Success = async (imageFile) =>
                 {
-                    Dispatcher.Dispatch(() =>
+                    await Dispatcher.DispatchAsync(async () =>
                     {
+                        UserProfileImage image = new UserProfileImage
+                        {
+                            UserName = "",
+                            ProfilePic = imageFile
+                        };
+
+                        await _localDbService.Create(image);
+
                         Image_Upload.Source = ImageSource.FromFile(imageFile);
                     });
                 },
