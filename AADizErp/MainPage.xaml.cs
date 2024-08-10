@@ -12,17 +12,18 @@ using CommunityToolkit.Mvvm.Messaging;
 using AADizErp.Models;
 using AADizErp.Pages.SettingsPages;
 using DevExpress.Maui.Controls;
+using AADizErp.Services;
 
 namespace AADizErp
 {
     public partial class MainPage : ContentPage
     {
-        //ImageUploadService imageUploadService { get; set; }
-        LocalDbService _localDbService { get; set; };
+        ImageUploadService imageUploadService { get; set; }
+        LocalDbService _localDbService { get; set; }
         public MainPage(MainPageViewModel viewModel)
         {
             InitializeComponent();
-            //imageUploadService = new ImageUploadService();
+            imageUploadService = new ImageUploadService();
             _localDbService = new LocalDbService();
             WeakReferenceMessenger.Default.Register<PushNotificationReceived>(this, (r, m) =>
             {
@@ -33,6 +34,7 @@ namespace AADizErp
             BindingContext = viewModel;
             ReadFireBaseAdminSdk();
             NavigateToPage();
+            
         }
 
         //private async void UploadImage_Clicked(object sender, EventArgs e)
@@ -48,6 +50,7 @@ namespace AADizErp
 
         private async void OnClickedCircle(object sender, EventArgs e)
         {
+            UserInfo userInfo = await App.GetUserInfo();
             Image_Upload.Source = null;
             new ImageCropper.Maui.ImageCropper()
             {
@@ -56,14 +59,21 @@ namespace AADizErp
                 {
                     await Dispatcher.DispatchAsync(async () =>
                     {
+                        // Read the image file into a byte array
+                        byte[] imageBytes = await File.ReadAllBytesAsync(imageFile);
+                        // Convert the byte array to a Base64 string
+                        string base64String = Convert.ToBase64String(imageBytes);
+                        // Create the UserProfileImage object with the Base64 string
                         UserProfileImage image = new UserProfileImage
                         {
-                            UserName = "",
-                            ProfilePic = imageFile
+                            UserName = userInfo.Username,
+                            ProfilePic = base64String
                         };
 
+                        // Save the object to the database
                         await _localDbService.Create(image);
 
+                        // Set the ImageSource using the file path
                         Image_Upload.Source = ImageSource.FromFile(imageFile);
                     });
                 },
@@ -219,6 +229,7 @@ namespace AADizErp
 
         private async void SettingPageMenu_Tapped(object sender, EventArgs e)
         {
+            UserProfileImage user = await _localDbService.GetById(2);
             await Shell.Current.GoToAsync($"{nameof(SettingsLandingPage)}");
             //await Shell.Current.DisplayAlert("Unauthorized!", "You are not authorized to use this feature", "OK");
         }
