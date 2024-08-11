@@ -73,7 +73,6 @@ namespace AADizErp
                         // Save the object to the database
                         await _localDbService.Create(image);
 
-                        // Set the ImageSource using the file path
                         Image_Upload.Source = ImageSource.FromFile(imageFile);
                     });
                 },
@@ -83,6 +82,7 @@ namespace AADizErp
                 }
             }.Show(this);
         }
+
         //private void ImageTapped(object sender, EventArgs e)
         //{
         //    bottomSheet.State = BottomSheetState.HalfExpanded;
