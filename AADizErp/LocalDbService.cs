@@ -17,9 +17,11 @@ namespace AADizErp
             _connection.CreateTableAsync<UserProfileImage>();
         }
 
-        public async Task<UserProfileImage> GetById(int id)
+        public async Task<UserProfileImage> GetByUsername(string username)
         {
-            return await _connection.Table<UserProfileImage>().Where(x=>x.Id == id).FirstOrDefaultAsync();
+            return await _connection.Table<UserProfileImage>().Where(x=>x.UserName == username)
+                .OrderByDescending(x => x.Id)
+                .FirstOrDefaultAsync();
         }
 
         public async Task Create(UserProfileImage profileImage)

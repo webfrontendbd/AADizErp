@@ -13,17 +13,16 @@ using AADizErp.Models;
 using AADizErp.Pages.SettingsPages;
 using DevExpress.Maui.Controls;
 using AADizErp.Services;
+using DevExpress.Utils.Design;
 
 namespace AADizErp
 {
     public partial class MainPage : ContentPage
     {
-        ImageUploadService imageUploadService { get; set; }
         LocalDbService _localDbService { get; set; }
         public MainPage(MainPageViewModel viewModel)
         {
             InitializeComponent();
-            imageUploadService = new ImageUploadService();
             _localDbService = new LocalDbService();
             WeakReferenceMessenger.Default.Register<PushNotificationReceived>(this, (r, m) =>
             {
@@ -37,21 +36,9 @@ namespace AADizErp
             
         }
 
-        //private async void UploadImage_Clicked(object sender, EventArgs e)
-        //{
-        //    var img = await imageUploadService.OpenMediaPickerAsync();
-
-        //    var imagefile = await imageUploadService.Upload(img);
-
-        //    Image_Upload.Source = ImageSource.FromStream(() =>
-        //        imageUploadService.ByteArrayToStream(imageUploadService.StringToByteBase64(imagefile.byteBase64))
-        //    );
-        //}
-
         private async void OnClickedCircle(object sender, EventArgs e)
         {
             UserInfo userInfo = await App.GetUserInfo();
-            Image_Upload.Source = null;
             new ImageCropper.Maui.ImageCropper()
             {
                 CropShape = ImageCropper.Maui.ImageCropper.CropShapeType.Oval,
@@ -59,18 +46,14 @@ namespace AADizErp
                 {
                     await Dispatcher.DispatchAsync(async () =>
                     {
-                        // Read the image file into a byte array
                         byte[] imageBytes = await File.ReadAllBytesAsync(imageFile);
-                        // Convert the byte array to a Base64 string
                         string base64String = Convert.ToBase64String(imageBytes);
-                        // Create the UserProfileImage object with the Base64 string
                         UserProfileImage image = new UserProfileImage
                         {
-                            UserName = userInfo.Username,
+                            UserName = userInfo.TokenUserMetaInfo.UserName,
                             ProfilePic = base64String
                         };
 
-                        // Save the object to the database
                         await _localDbService.Create(image);
 
                         Image_Upload.Source = ImageSource.FromFile(imageFile);
@@ -83,67 +66,16 @@ namespace AADizErp
             }.Show(this);
         }
 
-        //private void ImageTapped(object sender, EventArgs e)
-        //{
-        //    bottomSheet.State = BottomSheetState.HalfExpanded;
-        //}
-
-        //private async void DeletePhotoClicked(object sender, EventArgs args)
-        //{
-        //    await Dispatcher.DispatchAsync(() => {
-        //        bottomSheet.State = BottomSheetState.Hidden;
-        //        editControl.IsVisible = false;
-        //        preview.Source = null;
-        //    });
-        //}
-
-        //private async void SelectPhotoClicked(object sender, EventArgs args)
-        //{
-        //    var photo = await MediaPicker.PickPhotoAsync();
-        //    await ProcessResult(photo);
-        //    editControl.IsVisible = true;
-        //}
-
-        //private async void TakePhotoClicked(object sender, EventArgs args)
-        //{
-        //    if (!MediaPicker.Default.IsCaptureSupported)
-        //        return;
-
-        //    var photo = await MediaPicker.Default.CapturePhotoAsync();
-        //    await ProcessResult(photo);
-        //    editControl.IsVisible = true;
-        //}
-
-        //private async Task ProcessResult(FileResult result)
-        //{
-        //    await Dispatcher.DispatchAsync(() => {
-        //        bottomSheet.State = BottomSheetState.Hidden;
-        //    });
-
-
-        //    if (result == null)
-        //        return;
-
-        //    ImageSource imageSource = null;
-        //    if (System.IO.Path.IsPathRooted(result.FullPath))
-        //        imageSource = ImageSource.FromFile(result.FullPath);
-        //    else
-        //    {
-        //        var stream = await result.OpenReadAsync();
-        //        imageSource = ImageSource.FromStream(() => stream);
-        //    }
-        //    var editorPage = new ImageEditView(imageSource);
-        //    await Navigation.PushAsync(editorPage);
-
-        //    var cropResult = await editorPage.WaitForResultAsync();
-        //    if (cropResult != null)
-        //        preview.Source = cropResult;
-
-        //    editorPage.Handler.DisconnectHandler();
-        //}
-
         private async void ReadFireBaseAdminSdk()
         {
+            var userInfo = await App.GetUserInfo();
+            UserProfileImage user = await _localDbService.GetByUsername(userInfo.TokenUserMetaInfo.UserName);
+
+            if (user != null && !string.IsNullOrEmpty(user.ProfilePic))
+            {
+                DisplayImageFromBase64(user.ProfilePic);
+            }
+
             var stream = await FileSystem.OpenAppPackageFileAsync("fcm_sdk.json");
             var reader = new StreamReader(stream);
 
@@ -157,6 +89,13 @@ namespace AADizErp
                     Credential = GoogleCredential.FromJson(jsonContent)
                 });
             }
+        }
+
+        private void DisplayImageFromBase64(string base64String)
+        {
+            byte[] imageBytes = Convert.FromBase64String(base64String);
+            Stream imageStream = new MemoryStream(imageBytes);
+            Image_Upload.Source = ImageSource.FromStream(() => imageStream);
         }
 
         private void NavigateToPage()
@@ -228,8 +167,7 @@ namespace AADizErp
         }
 
         private async void SettingPageMenu_Tapped(object sender, EventArgs e)
-        {
-            UserProfileImage user = await _localDbService.GetById(2);
+        {            
             await Shell.Current.GoToAsync($"{nameof(SettingsLandingPage)}");
             //await Shell.Current.DisplayAlert("Unauthorized!", "You are not authorized to use this feature", "OK");
         }

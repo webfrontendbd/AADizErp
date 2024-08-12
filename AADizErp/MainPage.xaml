@@ -19,19 +19,7 @@
                     <Image  Source="timeline" Aspect="AspectFill"/>
                 </dx:DXBorder>
 
-                <dx:DXBorder Grid.Row="1" Margin="0,-95,0,0"  BorderColor="White" BackgroundColor="{StaticResource Asian}" HorizontalOptions="Center" WidthRequest="120" HeightRequest="{OnPlatform iOS='120', Android='120'}" CornerRadius="60" BorderThickness="8" Padding="0" >
-                    <!--<Grid HeightRequest="140" WidthRequest="140" Margin="0,30,0,10">
-                        <Grid.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="ImageTapped"/>
-                        </Grid.GestureRecognizers>
-                        <Label TextColor="#6750a4" Text="Upload Avatar" VerticalOptions="Center" HorizontalOptions="Center"/>
-                        <dx:DXBorder CornerRadius="70" >
-                            <Image x:Name="preview" Source="{Binding EditedItem.PhotoPath}" WidthRequest="140" HeightRequest="140"/>
-                        </dx:DXBorder>
-                        <dx:DXBorder x:Name="editControl" BorderColor="White" BorderThickness="2" BackgroundColor="#e8def8" WidthRequest="48" HeightRequest="48" CornerRadius="70" HorizontalOptions="End" VerticalOptions="End">
-                            <Image Source="pencil" WidthRequest="24" HeightRequest="24"/>
-                        </dx:DXBorder>
-                    </Grid>-->
+                <dx:DXBorder Grid.Row="1" Margin="0,-95,0,0"  BorderColor="White" BackgroundColor="{StaticResource Asian}" HorizontalOptions="Center" WidthRequest="120" HeightRequest="{OnPlatform iOS='120', Android='120'}" CornerRadius="60" BorderThickness="8" Padding="0" >                    
                     
                     <Grid>
                         <Image ZIndex="1"
@@ -40,28 +28,29 @@
                                Aspect="AspectFill"
                                WidthRequest="120"
                                VerticalOptions="Center"
-                               HorizontalOptions="Center"/>
-                    
-                        
-
+                               HorizontalOptions="Center"/>  
                     </Grid>
                     
                 </dx:DXBorder>
 
                 <dx:DXButton
                     Grid.Row="2"
-                    WidthRequest="30"
-                    HeightRequest="30"
+                    WidthRequest="20"
+                    HeightRequest="32"
                     CornerRadius="50"
                     Padding="0"
-                    Margin="65,-55,0,15"
+                    Margin="70,-30,0,15"
                     Icon="camera"
-                    BackgroundColor="{StaticResource Asian}"
-                    TextColor="{StaticResource Asian}"
-                    BorderColor="{StaticResource Asian}"
-                    BorderThickness="1"
+                    IconColor="MediumVioletRed"
+                    BackgroundColor="Transparent"
                     Content=""
-                    Clicked="OnClickedCircle"/>
+                    Clicked="OnClickedCircle">
+                    <dx:DXButton.Shadow>
+                        <Shadow Brush="WhiteSmoke"
+                                Offset="5,5"
+                                Opacity="0.8" />    
+                    </dx:DXButton.Shadow>
+                </dx:DXButton>
 
                 <Label Grid.Row="2" Text="{Binding FullName}" FontAttributes="Bold" TextTransform="Uppercase" TextColor="#383b67" HorizontalTextAlignment="Center" Margin="0" FontSize="15"/>
 
