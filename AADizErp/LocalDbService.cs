@@ -19,7 +19,8 @@ namespace AADizErp
 
         public async Task<UserProfileImage> GetByUsername(string username)
         {
-            return await _connection.Table<UserProfileImage>().Where(x=>x.UserName == username)
+            return await _connection.Table<UserProfileImage>()
+                .Where(x => x.UserName == username)
                 .OrderByDescending(x => x.Id)
                 .FirstOrDefaultAsync();
         }

@@ -18,6 +18,7 @@ using AADizErp.ViewModels.HrVM;
 using Plugin.Maui.Biometric;
 using AADizErp.Pages.SettingsPages;
 using AADizErp.ViewModels.SettingsVM;
+using CommunityToolkit.Maui.ApplicationModel;
 
 namespace AADizErp
 {
@@ -46,6 +47,7 @@ namespace AADizErp
             builder.Services.AddSingleton<IBiometric>(BiometricAuthenticationService.Default);
             builder.Services.AddSingleton<IGeolocation>(provider => Geolocation.Default);
             builder.Services.AddSingleton<IMap>(provider => Map.Default);
+            builder.Services.AddSingleton<IBadge>(Badge.Default);
 
             //Custom Services
             builder.Services.AddSingleton<NotificationService>();
