@@ -161,6 +161,7 @@ namespace AADizErp.Services.HrServices
 
             return default;
         }
+
         public async Task SetAuthToken()
         {
             var token = await SecureStorage.GetAsync("Token");

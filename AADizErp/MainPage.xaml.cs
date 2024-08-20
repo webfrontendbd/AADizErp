@@ -21,8 +21,7 @@ namespace AADizErp
     public partial class MainPage : ContentPage
     {
         LocalDbService _localDbService { get; set; }
-        private readonly IBadge badge;
-        public MainPage(MainPageViewModel viewModel, IBadge badge)
+        public MainPage(MainPageViewModel viewModel)
         {
             InitializeComponent();
             _localDbService = new LocalDbService();
@@ -33,7 +32,6 @@ namespace AADizErp
             });
 
             BindingContext = viewModel;
-            this.badge = badge;
             ReadFireBaseAdminSdk();
             NavigateToPage();
             
@@ -41,7 +39,6 @@ namespace AADizErp
 
         private async void OnClickedCircle(object sender, EventArgs e)
         {
-            badge.SetCount(1);
             UserInfo userInfo = await App.GetUserInfo();
             new ImageCropper.Maui.ImageCropper()
             {

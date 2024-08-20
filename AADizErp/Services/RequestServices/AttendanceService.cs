@@ -198,6 +198,23 @@ namespace AADizErp.Services.RequestServices
             return default;
         }
 
+        public async Task<int> GetAttendanceRequestSeenDataAsync()
+        {
+            try
+            {
+                await SetAuthToken();
+                var response = await _client.GetStringAsync($"/hr/Attendance/get-attendance-request-seen");
+                int dResponse = System.Text.Json.JsonSerializer.Deserialize<int>(response, _serializerOptions);
+                return dResponse;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return default;
+        }
+
         public async Task SetAuthToken()
         {
             var token = await SecureStorage.GetAsync("Token");

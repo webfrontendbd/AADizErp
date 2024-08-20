@@ -39,5 +39,6 @@ namespace AADizErp
         {
             await _connection.DeleteAsync(profileImage);
         }
+
     }
 }

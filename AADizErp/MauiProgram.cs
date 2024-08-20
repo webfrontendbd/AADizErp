@@ -47,7 +47,8 @@ namespace AADizErp
             builder.Services.AddSingleton<IBiometric>(BiometricAuthenticationService.Default);
             builder.Services.AddSingleton<IGeolocation>(provider => Geolocation.Default);
             builder.Services.AddSingleton<IMap>(provider => Map.Default);
-            builder.Services.AddSingleton<IBadge>(Badge.Default);
+            //builder.Services.AddSingleton<IBadge>(Badge.Default);
+            builder.Services.AddSingleton(NotificationCounter.Default);
 
             //Custom Services
             builder.Services.AddSingleton<NotificationService>();
