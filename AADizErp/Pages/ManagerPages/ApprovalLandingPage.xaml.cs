@@ -1,10 +1,13 @@
+using AADizErp.ViewModels.ManagerPagesVM;
+
 namespace AADizErp.Pages.ManagerPages;
 
 public partial class ApprovalLandingPage : ContentPage
 {
-	public ApprovalLandingPage()
+	public ApprovalLandingPage(ApprovalLandingPageViewModel viewmodel)
 	{
 		InitializeComponent();
+        BindingContext=viewmodel;
 	}
     private async void AttendanceForApprovalMenu_Tapped(object sender, EventArgs e)
     {

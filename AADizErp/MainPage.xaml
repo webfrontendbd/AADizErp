@@ -147,12 +147,21 @@
 
 
                 <Grid Grid.Row="7" RowDefinitions="Auto, Auto" ColumnDefinitions="*,*,*" ColumnSpacing="5">
-                    <dx:DXButton Grid.Row="0" Grid.Column="0"  BackgroundColor="#FBFBFB" Padding="10" BorderColor="Transparent" CornerRadius="5" Clicked="ApprovalMenu_Tapped">
-                        <Grid RowDefinitions="Auto, Auto">
-                            <dx:DXBorder Grid.Row="0"   BackgroundColor="#20c997" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
+                    <dx:DXButton Grid.Row="0" Grid.Column="0"  BackgroundColor="#FBFBFB" Padding="10" BorderColor="Transparent" CornerRadius="5" Clicked="ApprovalMenu_Tapped" >
+                        <Grid RowDefinitions="Auto, Auto, Auto"  WidthRequest="85" >
+                            <dx:DXBorder 
+                                Grid.Row="0"
+                                IsVisible="{Binding IsApprovalVisible}"
+                                Background="MediumVioletRed" 
+                                CornerRadius="50" 
+                                WidthRequest="10" 
+                                HeightRequest="10"
+                                Margin="0,0,-72,0" />
+                            
+                            <dx:DXBorder Grid.Row="1"   BackgroundColor="#20c997" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
                                 <Image Source="approval" HorizontalOptions="Center" Aspect="AspectFit"  />
                             </dx:DXBorder>
-                            <Label Grid.Row="1" Text="e-Approval" FontSize="12" TextColor="#20c997" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <Label Grid.Row="2" Text="e-Approval" FontSize="12" TextColor="#20c997" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                         </Grid>
                     </dx:DXButton>
 

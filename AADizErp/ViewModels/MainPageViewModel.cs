@@ -14,6 +14,8 @@ namespace AADizErp.ViewModels
         [ObservableProperty]
         private string fullName;
         [ObservableProperty]
+        private bool isApprovalVisible;
+        [ObservableProperty]
         private string organization;
         private string _deviceToken;
 
@@ -38,7 +40,15 @@ namespace AADizErp.ViewModels
                 _deviceToken = Preferences.Get("DeviceToken", "");
             }
             int count = await _attnService.GetAttendanceRequestSeenDataAsync();
-            _notificationCounter.SetNotificationCount(count);
+            if (count > 0)
+            {
+                IsApprovalVisible = true;
+                _notificationCounter.SetNotificationCount(count);
+            }
+            else 
+            { 
+                IsApprovalVisible= false;
+            }
             var user = await App.GetUserInfo();
             if (user != null)
             {

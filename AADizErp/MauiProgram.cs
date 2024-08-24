@@ -73,6 +73,7 @@ namespace AADizErp
             builder.Services.AddTransient<LeaveRequestFormPopup>();
 
             builder.Services.AddTransient<ApprovalLandingPage>();
+            builder.Services.AddTransient<ApprovalLandingPageViewModel>();
 
             builder.Services.AddTransient<ManagerAttendanceListViewModel>();
             builder.Services.AddTransient<ManagerViewAttnRequestPage>();
