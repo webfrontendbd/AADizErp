@@ -21,13 +21,21 @@ namespace AADizErp.ViewModels
 
         private readonly AuthenticationService _authService;
         private readonly AttendanceService _attnService;
+        private readonly LeaveService _leaveService;
         private readonly DeviceTokenService _tokenService;
         private readonly INotificationCounter _notificationCounter;
-        public MainPageViewModel(AuthenticationService authService, DeviceTokenService tokenService, AttendanceService attndance, INotificationCounter notificationCounter)
+        public MainPageViewModel(
+            AuthenticationService authService,
+            DeviceTokenService tokenService,
+            AttendanceService attndance,
+            INotificationCounter notificationCounter,
+            LeaveService leaveService
+            )
         {
             _authService = authService;
             _tokenService = tokenService;
             _attnService = attndance;
+            _leaveService = leaveService;
             _notificationCounter = notificationCounter;
             LoadUserInformation();
         }
@@ -35,20 +43,26 @@ namespace AADizErp.ViewModels
         public async void LoadUserInformation()
         {
             //CheckAuthentication();
+            int totalCount = 0;
             if (Preferences.ContainsKey("DeviceToken"))
             {
                 _deviceToken = Preferences.Get("DeviceToken", "");
             }
             int count = await _attnService.GetAttendanceRequestSeenDataAsync();
-            if (count > 0)
+            int leaveCount = await _leaveService.GetLeaveRequestSeenDataAsync();
+
+            if (count > 0 || leaveCount>0)
             {
-                IsApprovalVisible = true;
-                _notificationCounter.SetNotificationCount(count);
+                totalCount += count;
+                totalCount += leaveCount;
+                IsApprovalVisible = true;                
             }
             else 
             { 
                 IsApprovalVisible= false;
             }
+
+            _notificationCounter.SetNotificationCount(totalCount);
             var user = await App.GetUserInfo();
             if (user != null)
             {

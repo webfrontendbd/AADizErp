@@ -25,13 +25,11 @@ namespace AADizErp.ViewModels.RequestVM
 
         private readonly AttendanceService _attnService;
         private readonly NotificationService _notify;
-        private readonly IBadge _badge;
 
-        public RemoteAttendancePageViewModel(AttendanceService attnService, NotificationService notify, IBadge badge)
+        public RemoteAttendancePageViewModel(AttendanceService attnService, NotificationService notify)
         {
             _attnService=attnService;
             _notify=notify;
-            _badge = badge;
             GetRemoteAttendanceList(pageNumber, pageSize);
         }
 

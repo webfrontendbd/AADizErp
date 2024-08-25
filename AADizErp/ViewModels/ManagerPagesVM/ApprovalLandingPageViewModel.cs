@@ -13,23 +13,62 @@ namespace AADizErp.ViewModels.ManagerPagesVM
     public partial class ApprovalLandingPageViewModel : BaseViewModel
     {
         private readonly AttendanceService _attnService;
+        private readonly LeaveService _leaveService;
         [ObservableProperty]
         private bool isAttendanceVisible;
         [ObservableProperty]
         private bool isLeaveVisible;
-        public ApprovalLandingPageViewModel(AttendanceService attnService)
+        public ApprovalLandingPageViewModel(AttendanceService attnService, LeaveService leaveService)
         {
             _attnService = attnService;
+            _leaveService = leaveService;
             GetAttendanceLeaveStatusUpdate();
         }
-        private void GetAttendanceLeaveStatusUpdate()
+        private async void GetAttendanceLeaveStatusUpdate()
         {
-            Task.Run(async () =>
+            var userInfo = await App.GetUserInfo();
+            int count = await _attnService.GetAttendanceRequestSeenDataAsync();
+            int leaveCount = await _leaveService.GetLeaveRequestSeenDataAsync();
+            if (count > 0)
             {
-                var userInfo = await App.GetUserInfo();
                 IsAttendanceVisible = true;
+            }
+            else
+            {
+                IsAttendanceVisible = false;
+            }
+
+            if (leaveCount > 0)
+            {
                 IsLeaveVisible = true;
-            });
+            }
+            else
+            {
+                IsLeaveVisible = false;
+            }
+            //Task.Run(async () =>
+            //{
+            //    var userInfo = await App.GetUserInfo();
+            //    int count = await _attnService.GetAttendanceRequestSeenDataAsync();
+            //    int leaveCount = await _leaveService.GetLeaveRequestSeenDataAsync();
+            //    if (count > 0)
+            //    {
+            //        IsAttendanceVisible = true;
+            //    }
+            //    else
+            //    {
+            //        IsAttendanceVisible = true;
+            //    }
+
+            //    if (leaveCount > 0)
+            //    {
+            //        IsLeaveVisible = true;
+            //    }
+            //    else
+            //    {
+            //        IsLeaveVisible = false;
+            //    }
+            //});
         }
     }
 }
