@@ -15,6 +15,7 @@
         public string Status { get; set; }
         public string ApprovedBy { get; set; }
         public bool RequestMoved { get; set; } = false;
+        public bool RequestSeen { get; set; }
         public int TotalDays
         {
             get

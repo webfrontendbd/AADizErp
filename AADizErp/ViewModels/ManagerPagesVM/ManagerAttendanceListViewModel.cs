@@ -58,14 +58,16 @@ namespace AADizErp.ViewModels.ManagerPagesVM
 
         [RelayCommand]
         async Task ViewAttendanceDetails(RemoteAttendanceDto remoteAttendanceDto)
-        {
-            
+        {            
             if (remoteAttendanceDto == null) return;
-            remoteAttendanceDto.RequestSeen = true;
-            var requestSeenReturnObject = await _attnService.AttendanceRequestApproval(remoteAttendanceDto);
+            if (!remoteAttendanceDto.RequestSeen)
+            {
+                remoteAttendanceDto.RequestSeen = true;
+                await _attnService.AttendanceRequestApproval(remoteAttendanceDto);
+            }            
             await Shell.Current.GoToAsync($"{nameof(MgrAttendanceDetailsPage)}", true, new Dictionary<string, object>
             {
-                {nameof(RemoteAttendanceDto), requestSeenReturnObject}
+                {nameof(RemoteAttendanceDto), remoteAttendanceDto}
             });
         }
     }

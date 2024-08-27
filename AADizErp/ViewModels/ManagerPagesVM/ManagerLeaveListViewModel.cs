@@ -76,9 +76,14 @@ namespace AADizErp.ViewModels.ManagerPagesVM
             }
         }
         [RelayCommand]
-        void LeaveApprovalPopupAction(LeaveRequestDto leaveDto)
+        async Task LeaveApprovalPopupAction(LeaveRequestDto leaveDto)
         {
             if (leaveDto == null) return;
+            if (!leaveDto.RequestSeen)
+            {
+                leaveDto.RequestSeen = true;
+                await _leaveService.LeaveApprovalStatusChangedByManager(leaveDto);
+            }
             LeaveRequest = leaveDto;
             IsPopupOpen = true;            
         }
