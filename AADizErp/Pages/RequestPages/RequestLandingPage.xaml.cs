@@ -15,4 +15,9 @@ public partial class RequestLandingPage : ContentPage
     {
         await Shell.Current.GoToAsync($"{nameof(LeaveRequestPage)}");
     }
+
+    private async void ConveyanceRequest_Clicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync($"{nameof(ConveyanceViewPage)}");
+    }
 }

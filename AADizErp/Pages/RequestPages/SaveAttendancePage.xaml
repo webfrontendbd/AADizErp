@@ -14,12 +14,33 @@
              BackgroundColor="{StaticResource AppBgColor}">
     <ContentPage.Triggers>
         <DataTrigger Binding="{Binding IsNew}" Value="True" TargetType="ContentPage">
-            <Setter Property="Title" Value="Add new Employee"/>
+            <Setter Property="Title" Value="Send Remote Attendance"/>
         </DataTrigger>
     </ContentPage.Triggers>
 
-    <ScrollView Padding="{OnPlatform iOS='30,60,30,30', Default='30'}">
-        <dx:DXStackLayout Padding="5">
+
+    <ScrollView Grid.Row="1" Padding="{OnPlatform iOS='30,60,30,30', Default='30'}">
+
+        <dx:DXStackLayout  Padding="5">
+            <Label 
+                Background="Yellow" 
+                HorizontalTextAlignment="Center" 
+                TextColor="Red" 
+                FontAttributes="Bold" 
+                FontSize="Medium" 
+                Text="Attention: "/>
+            
+            <Label 
+                FontSize="Header" 
+                TextColor="MediumVioletRed" 
+                Text="Your attendance request will be tracked using your live location. If it does not match the requested location, it will be declined."
+                HorizontalTextAlignment="Center"/>
+            
+            <Label 
+                TextColor="{StaticResource Asian}"
+                HorizontalTextAlignment="Center" 
+                Text="You can submit only one request per day.  Please use it wisely."/>
+            
             <dxdf:DataFormView x:Name="dataForm"
                            DataObject="{Binding Item}"
                            EditorLabelColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
@@ -41,12 +62,12 @@
                     IsInplaceLabelFloating="True" />
             </dxdf:DataFormView>
 
-            <dx:DXButton Grid.Row="2"  
+            <dx:DXButton
                      Content="Submit Request" 
                      VerticalOptions="Center"
                      HorizontalOptions="Center"
                      Clicked="SaveItemClick"/>
+            
         </dx:DXStackLayout>
     </ScrollView>
-
 </ContentPage>

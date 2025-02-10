@@ -1,12 +1,12 @@
-﻿using AADizErp.Services.RequestServices;
-using CommunityToolkit.Mvvm.ComponentModel;
-using DevExpress.Utils.Design;
-using MvvmHelpers;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Text;
+using MvvmHelpers;
 using System.Threading.Tasks;
+using DevExpress.Utils.Design;
+using System.Collections.Generic;
+using AADizErp.Services.RequestServices;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AADizErp.ViewModels.ManagerPagesVM
 {
