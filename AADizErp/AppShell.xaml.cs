@@ -44,6 +44,7 @@ namespace AADizErp
             Routing.RegisterRoute(nameof(SettingsLandingPage), typeof(SettingsLandingPage));
             Routing.RegisterRoute(nameof(PasswordChangePage), typeof(PasswordChangePage));
             Routing.RegisterRoute(nameof(DeleteAccountPage), typeof(DeleteAccountPage));
+            Routing.RegisterRoute(nameof(ConveyanceViewPage), typeof(ConveyanceViewPage));
             InitializeComponent();
         }
     }

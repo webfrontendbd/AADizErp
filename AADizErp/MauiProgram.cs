@@ -59,6 +59,7 @@ namespace AADizErp
             builder.Services.AddSingleton<HrService>();
             builder.Services.AddSingleton<OccasionService>();
             builder.Services.AddSingleton<LocalDbService>();
+            builder.Services.AddSingleton<ConveyanceService>();
 
             //Pages and viewmodels
             #region Pages and Viewmodels
@@ -134,6 +135,9 @@ namespace AADizErp
 
             builder.Services.AddTransient<DeleteAccountPage>();
             builder.Services.AddTransient<DeleteAccountPageViewModel>();
+
+            builder.Services.AddTransient<ConveyanceViewPage>();
+            builder.Services.AddTransient<ConveyanceViewPageViewModel>();
 
             #endregion
 

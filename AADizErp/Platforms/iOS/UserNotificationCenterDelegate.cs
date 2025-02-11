@@ -1,5 +1,6 @@
 ﻿using AADizErp.Models;
 using CommunityToolkit.Mvvm.Messaging;
+using UIKit;
 using UserNotifications;
 
 namespace AADizErp.Platforms.iOS
@@ -17,7 +18,18 @@ namespace AADizErp.Platforms.iOS
         }
         public override void WillPresentNotification(UNUserNotificationCenter center, UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler)
         {
-            completionHandler(UNNotificationPresentationOptions.Banner);
+            var badgeCount = notification.Request.Content.Badge?.Int32Value ?? 0;
+            if (UIDevice.CurrentDevice.CheckSystemVersion(17, 0))
+            {
+                UNUserNotificationCenter.Current.SetBadgeCount(new IntPtr(badgeCount), null);
+            }
+            else
+            {
+                UIApplication.SharedApplication.ApplicationIconBadgeNumber = badgeCount;
+            }
+            completionHandler(UNNotificationPresentationOptions.Badge);
+
+            //completionHandler(UNNotificationPresentationOptions.Banner);
         }
     }
 }
