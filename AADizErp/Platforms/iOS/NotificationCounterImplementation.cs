@@ -9,20 +9,8 @@ namespace AADizErp
         {
             UNUserNotificationCenter.Current.RequestAuthorization(UNAuthorizationOptions.Badge, (isAuthorized, _) =>
             {
-                if (!isAuthorized)
-                {
-                    return;
-                }
-
-                if (OperatingSystem.IsIOSVersionAtLeast(16))
-                {
-                    UNUserNotificationCenter.Current.SetBadgeCount(new IntPtr(count), null);
-                }
-                else
-                {
-                    UIApplication.SharedApplication.ApplicationIconBadgeNumber = count;
-                }
             });
+            UIApplication.SharedApplication.ApplicationIconBadgeNumber = count;
         }
     }
 }

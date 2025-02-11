@@ -14,6 +14,7 @@
         public string RequestedBy { get; set; }
         public string Status { get; set; }
         public string ApprovedBy { get; set; }
+        public string CompanyName { get; set; }
         public bool AttendanceMoved { get; set; }
         public bool RequestSeen { get; set; }
         public string Created { get; set; }
