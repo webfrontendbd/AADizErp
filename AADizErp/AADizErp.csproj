@@ -15,8 +15,8 @@
 		<ApplicationId>com.asiangroup.hrpayrollerp</ApplicationId>
 		<ApplicationIdGuid>3ABBEC2B-B1A1-4CDE-8F06-9A7C39D38055</ApplicationIdGuid>
 		<!-- Versions -->
-		<ApplicationDisplayVersion>9.0</ApplicationDisplayVersion>
-		<ApplicationVersion>9</ApplicationVersion>
+		<ApplicationDisplayVersion>11.0</ApplicationDisplayVersion>
+		<ApplicationVersion>11</ApplicationVersion>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
