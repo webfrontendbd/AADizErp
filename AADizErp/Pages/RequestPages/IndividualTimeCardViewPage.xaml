@@ -201,7 +201,7 @@
                 <dxcv:DXCollectionView.ItemTemplate>
                     <DataTemplate  x:DataType="{x:Type models:IndividualTimeCardDto}">
                         <Frame HasShadow="False" BorderColor="{StaticResource Asian}" Margin="5,5,5,2" Padding="15,5,15,5">
-                            <StackLayout HorizontalOptions="FillAndExpand"   Background="White">
+                            <dx:DXStackLayout HorizontalOptions="Fill"   Background="White">
                                 <Grid ColumnDefinitions="*,Auto">
                                     <Grid Grid.Column="0">
 
@@ -238,7 +238,7 @@
                                     </Grid>
                                 </Grid>
 
-                            </StackLayout>
+                            </dx:DXStackLayout>
                         </Frame>
                     </DataTemplate>
                 </dxcv:DXCollectionView.ItemTemplate>
