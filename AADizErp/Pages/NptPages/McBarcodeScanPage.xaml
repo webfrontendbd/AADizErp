@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AADizErp.Pages.NptPages.McBarcodeScanPage"
+             xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
+             ios:Page.UseSafeArea="True"
+             Title="Scan Machine Barcode">
+    <dx:DXStackLayout>
+        <zxing:CameraBarcodeReaderView
+            x:Name="cameraBarcodeReaderView"
+            WidthRequest="200"
+            HeightRequest="200"
+            BarcodesDetected="BarcodesDetected" />
+
+        <zxing:BarcodeGeneratorView
+            HeightRequest="100"
+            WidthRequest="100"
+            ForegroundColor="DarkBlue"
+            Value="https://dotnet.microsoft.com"
+            Format="QrCode"
+            Margin="3" />
+    </dx:DXStackLayout>
+</ContentPage>

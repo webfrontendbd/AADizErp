@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AADizErp.Pages.NptPages.NptLandingPage"
+             xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="True"
+             BackgroundColor="{StaticResource AppBgColor}"
+             Title="Npt Landing">
+    <ScrollView Padding="{OnPlatform iOS='10,15,10,15', Default='10'}">
+        <dx:DXStackLayout>
+
+            <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*,*" ColumnSpacing="5" RowSpacing="5">
+                <dx:DXButton  Grid.Row="0" Grid.Column="0" BackgroundColor="#FBFBFB" CornerRadius="5" Padding="10,15,10,15" BorderColor="Transparent" Clicked="McScanPageButton_Clicked">
+                    <Grid RowDefinitions="Auto, Auto">
+                        <dx:DXBorder Grid.Row="0"  BackgroundColor="White" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}"   BorderColor="Transparent">
+                            <Image Source="sewingmc" HorizontalOptions="Center" Aspect="Fill"  />
+                        </dx:DXBorder>
+                        <Label Grid.Row="1" Text="MC NPT" FontSize="12" TextColor="{StaticResource Asian}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                    </Grid>
+                </dx:DXButton>
+
+                <dx:DXButton Grid.Row="0" Grid.Column="1" BackgroundColor="#FBFBFB" CornerRadius="5" Padding="10,15,10,15" BorderColor="Transparent" >
+                    <Grid RowDefinitions="Auto, Auto">
+                        <dx:DXBorder Grid.Row="0"  BackgroundColor="White" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
+                            <Image Source="processing" HorizontalOptions="Center" Aspect="AspectFit"  />
+                        </dx:DXBorder>
+                        <Label Grid.Row="1" Text="Line Input " FontSize="12" TextColor="Black" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                    </Grid>
+                </dx:DXButton>
+
+                <dx:DXButton Grid.Row="1" Grid.Column="0" BackgroundColor="#FBFBFB" CornerRadius="5" Padding="10,15,10,15" BorderColor="Transparent">
+                    <Grid RowDefinitions="Auto, Auto">
+                        <dx:DXBorder  Grid.Row="0" BackgroundColor="#055160" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
+
+                            <Image Source="absent" HorizontalOptions="Center" Aspect="AspectFit"  />
+                        </dx:DXBorder>
+                        <Label Grid.Row="1" Text="Absenteeism" FontSize="12" TextColor="#055160" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                    </Grid>
+                </dx:DXButton>
+            </Grid>
+
+        </dx:DXStackLayout>
+    </ScrollView>
+</ContentPage>

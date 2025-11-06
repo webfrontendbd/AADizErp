@@ -6,6 +6,9 @@ using CommunityToolkit.Maui.ApplicationModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using DevExpress.Maui.Core;
+//using IntelliJ.Lang.Annotations;
+
+//using IntelliJ.Lang.Annotations;
 using MvvmHelpers;
 
 namespace AADizErp.ViewModels.RequestVM
@@ -16,6 +19,15 @@ namespace AADizErp.ViewModels.RequestVM
         private int pageSize = 10;
         private int totalCount = 0;
 
+        [ObservableProperty]
+        bool isBusy;
+
+        public bool IsNotBusy => !IsBusy;
+
+        partial void OnIsBusyChanged(bool value)
+        {
+            OnPropertyChanged(nameof(IsNotBusy));
+        }
         [ObservableProperty]
         private ObservableRangeCollection<RemoteAttendanceDto> attendances = new();
         [ObservableProperty]
@@ -124,67 +136,99 @@ namespace AADizErp.ViewModels.RequestVM
         [RelayCommand]
         async Task ValidateAndSave(ValidateItemEventArgs e)
         {
-            RemoteAttendanceDto obj = (RemoteAttendanceDto)e.Item;
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                await Shell.Current.DisplayAlert("Oops!", "You are disconnected", "OK");
+            if (IsBusy)
                 return;
-            }
-            else
+
+            IsBusy = true;
+
+            try
             {
-                if (String.IsNullOrWhiteSpace(obj.Reason)){
-                    await Shell.Current.DisplayAlert("Reason Missing!", "Please enter a valid reason", "OK");
+                var obj = (RemoteAttendanceDto)e.Item;
+
+                if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+                {
+                    await Shell.Current.DisplayAlert("Oops!", "You are disconnected from the internet.", "OK");
                     return;
+                }
+
+                if (string.IsNullOrWhiteSpace(obj.Reason))
+                {
+                    await Shell.Current.DisplayAlert("Reason Missing!", "Please enter a valid reason.", "OK");
+                    return;
+                }
+
+                // Get required data
+                string token = await App.GetAuthToken();
+                var tokenInfo = await App.GetUserInfo();
+                var location = await _attnService.GetCurrentLocation();
+
+                if (location == null)
+                {
+                    await Shell.Current.DisplayAlert("Location Error!", "Unable to get your current location.", "OK");
+                    return;
+                }
+
+                var placemarks = await Geocoding.Default.GetPlacemarksAsync(location.Latitude, location.Longitude);
+                var placemark = placemarks?.FirstOrDefault();
+
+                // Fill object
+                RemoteAttendance.JobId = tokenInfo?.TokenUserMetaInfo?.EmployeeNumber;
+                RemoteAttendance.FullName = tokenInfo?.TokenUserMetaInfo?.Name;
+                RemoteAttendance.Latitude = location.Latitude;
+                RemoteAttendance.Longitude = location.Longitude;
+                RemoteAttendance.RequestedBy = tokenInfo?.TokenUserMetaInfo?.UserName;
+                RemoteAttendance.ApprovedBy = tokenInfo?.TokenUserMetaInfo?.ManagerUserName;
+                RemoteAttendance.Reason = obj.Reason;
+                RemoteAttendance.RequestedTime = DateTime.Now.ToString("dd-MMM-yyyy hh:mm tt");
+
+                // Build address safely
+                RemoteAttendance.AttendanceArea = string.Join(", ",
+                    new[] {
+                placemark?.AdminArea,
+                placemark?.CountryCode,
+                placemark?.CountryName,
+                placemark?.FeatureName,
+                placemark?.Locality,
+                placemark?.PostalCode,
+                placemark?.SubAdminArea,
+                placemark?.SubLocality,
+                placemark?.SubThoroughfare,
+                placemark?.Thoroughfare
+                    }.Where(x => !string.IsNullOrWhiteSpace(x)));
+
+                // Submit
+                var returnAttn = await _attnService.SubmitAttendanceRequest(RemoteAttendance);
+
+                if (returnAttn == null)
+                {
+                    await Shell.Current.DisplayAlert("Duplicate Found!", "You can't enter attendance twice in one day.", "OK");
+                    return;
+                }
+
+                // Try to send notification
+                bool sent = await _notify.SendAttendancePushNotificationToManager(returnAttn);
+                if (sent)
+                {
+                    //await Shell.Current.DisplayAlert("Success!", "Your attendance has been submitted and your manager has been notified.", "OK");
+                    Attendances.Add(returnAttn);
                 }
                 else
                 {
-                    try
-                    {
-                        string token = await App.GetAuthToken();
-                        var location = await _attnService.GetCurrentLocation();
-                        IEnumerable<Placemark> placemarks = await Geocoding.Default.GetPlacemarksAsync(location.Latitude, location.Longitude);
-                        Placemark placemark = placemarks?.FirstOrDefault();
-
-                        var tokenInfo = await App.GetUserInfo();
-
-                        RemoteAttendance.JobId = tokenInfo.TokenUserMetaInfo.EmployeeNumber;
-                        RemoteAttendance.FullName = tokenInfo.TokenUserMetaInfo.Name;
-                        RemoteAttendance.Latitude = location.Latitude;
-                        RemoteAttendance.Longitude = location.Longitude;
-                        RemoteAttendance.RequestedBy = tokenInfo.TokenUserMetaInfo.UserName;
-                        RemoteAttendance.ApprovedBy = tokenInfo.TokenUserMetaInfo.ManagerUserName;
-                        RemoteAttendance.Reason = obj.Reason;
-                        RemoteAttendance.RequestedTime = DateTime.Now.ToString("dd-MMM-yyyy hh:mm tt");
-
-                        RemoteAttendance.AttendanceArea = $"{placemark.AdminArea}, {placemark.CountryCode}, {placemark.CountryName}, {placemark.FeatureName}, {placemark.Locality}, {placemark.PostalCode}, {placemark.SubAdminArea}, {placemark.SubLocality}, {placemark.SubThoroughfare}, {placemark.Thoroughfare}";
-
-                        var returnAttn = await _attnService.SubmitAttendanceRequest(RemoteAttendance);
-                        if(returnAttn != null)
-                        {
-                          if(!await _notify.SendAttendancePushNotificationToManager(returnAttn))
-                            {
-                                await Shell.Current.DisplayAlert("Notification!", "We've sent a notfication", "OK");
-                                return;
-                            }
-                        }
-                        else
-                        {
-                            await Shell.Current.DisplayAlert("Duplicate Found!", "You can't enter twice a day", "OK");
-                            return;
-                        }
-                        Attendances.Add(returnAttn);
-                        RemoteAttendance =new();
-
-                    }
-                    catch
-                    {
-                        await Shell.Current.DisplayAlert("Submitted", "Your request submitted", "OK");
-                    }
+                    await Shell.Current.DisplayAlert("Submitted", "Your attendance has been submitted, but notification could not be sent.", "OK");
                 }
+
+                //Attendances.Add(returnAttn);
+                RemoteAttendance = new();
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error", $"Something went wrong while submitting your attendance.\n\n{ex.Message}", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
-
-        
 
     }
 }

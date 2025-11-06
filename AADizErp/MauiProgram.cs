@@ -1,24 +1,26 @@
-﻿using AADizErp.ViewModels;
+﻿using AADizErp.Pages.HolidayPages;
+using AADizErp.Pages.HRPages;
+using AADizErp.Pages.ManagerPages;
+using AADizErp.Pages.NptPages;
+using AADizErp.Pages.RequestPages;
+using AADizErp.Pages.SalaryPages;
+using AADizErp.Pages.SettingsPages;
+using AADizErp.Services;
+using AADizErp.Services.HrServices;
+using AADizErp.Services.RequestServices;
+using AADizErp.ViewModels;
+using AADizErp.ViewModels.HolidayVm;
+using AADizErp.ViewModels.HrVM;
+using AADizErp.ViewModels.ManagerPagesVM;
+using AADizErp.ViewModels.RequestVM;
+using AADizErp.ViewModels.SalaryPagesVM;
+using AADizErp.ViewModels.SettingsVM;
+using CommunityToolkit.Maui;
+using CommunityToolkit.Maui.ApplicationModel;
 using DevExpress.Maui;
 using DevExpress.Maui.Core;
-using AADizErp.Services;
-using CommunityToolkit.Maui;
-using AADizErp.Services.RequestServices;
-using AADizErp.Pages.RequestPages;
-using AADizErp.Services.HrServices;
-using AADizErp.ViewModels.RequestVM;
-using AADizErp.Pages.ManagerPages;
-using AADizErp.ViewModels.ManagerPagesVM;
-using AADizErp.ViewModels.SalaryPagesVM;
-using AADizErp.Pages.SalaryPages;
-using AADizErp.ViewModels.HolidayVm;
-using AADizErp.Pages.HolidayPages;
-using AADizErp.Pages.HRPages;
-using AADizErp.ViewModels.HrVM;
 using Plugin.Maui.Biometric;
-using AADizErp.Pages.SettingsPages;
-using AADizErp.ViewModels.SettingsVM;
-using CommunityToolkit.Maui.ApplicationModel;
+using ZXing.Net.Maui.Controls;
 
 namespace AADizErp
 {
@@ -32,6 +34,7 @@ namespace AADizErp
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseBarcodeReader()
                 .UseMauiCommunityToolkit()
                 .UseDevExpress()
                 .ConfigureFonts(fonts =>
@@ -138,6 +141,12 @@ namespace AADizErp
 
             builder.Services.AddTransient<ConveyanceViewPage>();
             builder.Services.AddTransient<ConveyanceViewPageViewModel>();
+
+            builder.Services.AddTransient<NptLandingPage>();
+            builder.Services.AddTransient<McBarcodeScanPage>();
+
+            builder.Services.AddTransient<AddUnconfirmEmployeePage>();
+            builder.Services.AddTransient<AddEmployeeViewModel>();
 
             #endregion
 

@@ -90,6 +90,20 @@
                     </Grid>
                 </dx:DXButton>
 
+                <dx:DXButton 
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    CornerRadius="5"
+                    Clicked="UnconfirmEmployeeListButton_Clicked"
+                    BackgroundColor="#FBFBFB">  
+                    <Grid RowDefinitions="Auto, *">
+                        <dx:DXBorder Grid.Row="0"  BackgroundColor="{StaticResource AppBgColor}" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
+                            <Image Source="user_solid.png" HorizontalOptions="Center" Aspect="AspectFit"  />
+                        </dx:DXBorder>
+                        <Label Grid.Row="1" Text="New Employee" FontSize="Caption" TextColor="{StaticResource Asian}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                    </Grid>
+                </dx:DXButton>
+
 
 
             </Grid>

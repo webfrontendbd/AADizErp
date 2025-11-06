@@ -1,6 +1,7 @@
 ﻿using AADizErp.Pages.HolidayPages;
 using AADizErp.Pages.HRPages;
 using AADizErp.Pages.ManagerPages;
+using AADizErp.Pages.NptPages;
 using AADizErp.Pages.RequestPages;
 using AADizErp.Pages.SalaryPages;
 using AADizErp.Pages.SettingsPages;
@@ -41,10 +42,15 @@ namespace AADizErp
             Routing.RegisterRoute(nameof(DailyAbsentDetailPage), typeof(DailyAbsentDetailPage));
             Routing.RegisterRoute(nameof(UnreviewedUserListPage), typeof(UnreviewedUserListPage));
 
+            Routing.RegisterRoute(nameof(AddUnconfirmEmployeePage), typeof(AddUnconfirmEmployeePage));
+
             Routing.RegisterRoute(nameof(SettingsLandingPage), typeof(SettingsLandingPage));
             Routing.RegisterRoute(nameof(PasswordChangePage), typeof(PasswordChangePage));
             Routing.RegisterRoute(nameof(DeleteAccountPage), typeof(DeleteAccountPage));
             Routing.RegisterRoute(nameof(ConveyanceViewPage), typeof(ConveyanceViewPage));
+
+            Routing.RegisterRoute(nameof(NptLandingPage), typeof(NptLandingPage));
+            Routing.RegisterRoute(nameof(McBarcodeScanPage), typeof(McBarcodeScanPage));
             InitializeComponent();
         }
     }

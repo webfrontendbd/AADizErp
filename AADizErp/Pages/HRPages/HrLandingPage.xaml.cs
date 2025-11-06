@@ -30,4 +30,9 @@ public partial class HrLandingPage : ContentPage
     {
         await Shell.Current.GoToAsync($"{nameof(UnreviewedUserListPage)}");
     }
+    private async void UnconfirmEmployeeListButton_Clicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync($"{nameof(AddUnconfirmEmployeePage)}");
+    }
+
 }

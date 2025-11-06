@@ -15,6 +15,7 @@ using DevExpress.Maui.Controls;
 using AADizErp.Services;
 using DevExpress.Utils.Design;
 using CommunityToolkit.Maui.ApplicationModel;
+using AADizErp.Pages.NptPages;
 
 namespace AADizErp
 {
@@ -171,6 +172,11 @@ namespace AADizErp
         {            
             await Shell.Current.GoToAsync($"{nameof(SettingsLandingPage)}");
             //await Shell.Current.DisplayAlert("Unauthorized!", "You are not authorized to use this feature", "OK");
+        }
+
+        private async void NptMenu_Tapped(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync($"{nameof(NptLandingPage)}");
         }
 
     }

@@ -113,29 +113,48 @@ namespace AADizErp.ViewModels.RequestVM
         }
 
         [RelayCommand]
-        async Task StartDateSelected()
+        void StartDateSelected()
         {
             SetLeaveMinimumDate(LeaveStartDate);
 
-            if (LeaveStartDate > LeaveEndDate)
+            if (LeaveEndDate < LeaveStartDate)
             {
-                await Shell.Current.DisplayAlert("Oops!", "Your date selection is wrong! Please try again", "OK");
-                LeaveEndDate = DateTime.Now;
+                //await Shell.Current.DisplayAlert("Oops!", "Your date selection is wrong! Please try again", "OK");
+                LeaveEndDate = LeaveStartDate;
                 return;
             }
             TotalLeaveDays = (int)(LeaveEndDate - LeaveStartDate).TotalDays+1;
         }
 
+        //[RelayCommand]
+        //async Task EndDateSelected()
+        //{
+        //    if (LeaveEndDate < LeaveStartDate)
+        //    {
+        //        await Shell.Current.DisplayAlert("Oops!", "Your date selection is wrong! Please try again", "OK");
+        //        LeaveEndDate = LeaveStartDate;
+        //        return;
+        //    }
+        //    TotalLeaveDays = (int)(LeaveEndDate - LeaveStartDate).TotalDays + 1;
+        //}
+
         [RelayCommand]
         async Task EndDateSelected()
         {
-            if (LeaveStartDate > LeaveEndDate)
+            // Normalize time portion (important if date pickers return DateTime with time)
+            var startDate = LeaveStartDate.Date;
+            var endDate = LeaveEndDate.Date;
+
+            if (endDate < startDate)
             {
-                await Shell.Current.DisplayAlert("Oops!", "Your date selection is wrong! Please try again", "OK");
-                LeaveEndDate = DateTime.Today;
+                await Shell.Current.DisplayAlert("Oops!", "Your date selection is wrong! Please try again.", "OK");
+                LeaveEndDate = LeaveStartDate;
+                TotalLeaveDays = 1;
                 return;
             }
-            TotalLeaveDays = (int)(LeaveEndDate - LeaveStartDate).TotalDays+1;
+
+            // Inclusive day count
+            TotalLeaveDays = (int)(endDate - startDate).TotalDays + 1;
         }
 
         [RelayCommand]
@@ -187,7 +206,7 @@ namespace AADizErp.ViewModels.RequestVM
 
         private void SetLeaveMinimumDate(DateTime startDatetime)
         {
-            MinimumDate = startDatetime;
+            MinimumDate = startDatetime.Date;
         }
     }
 }
