@@ -16,6 +16,7 @@ using AADizErp.Services;
 using DevExpress.Utils.Design;
 using CommunityToolkit.Maui.ApplicationModel;
 using AADizErp.Pages.NptPages;
+using AADizErp.Pages.MisPages;
 
 namespace AADizErp
 {
@@ -179,5 +180,9 @@ namespace AADizErp
             await Shell.Current.GoToAsync($"{nameof(NptLandingPage)}");
         }
 
+        private async void MisMenu_Tapped(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync($"{nameof(MisLandingPage)}");
+        }
     }
 }

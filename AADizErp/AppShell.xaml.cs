@@ -1,6 +1,7 @@
 ﻿using AADizErp.Pages.HolidayPages;
 using AADizErp.Pages.HRPages;
 using AADizErp.Pages.ManagerPages;
+using AADizErp.Pages.MisPages;
 using AADizErp.Pages.NptPages;
 using AADizErp.Pages.RequestPages;
 using AADizErp.Pages.SalaryPages;
@@ -51,6 +52,11 @@ namespace AADizErp
 
             Routing.RegisterRoute(nameof(NptLandingPage), typeof(NptLandingPage));
             Routing.RegisterRoute(nameof(McBarcodeScanPage), typeof(McBarcodeScanPage));
+            Routing.RegisterRoute(nameof(MisLandingPage), typeof(MisLandingPage));
+            Routing.RegisterRoute(nameof(OverTimePage), typeof(OverTimePage));
+            Routing.RegisterRoute(nameof(eAttendancePage), typeof(eAttendancePage));
+            Routing.RegisterRoute(nameof(ProductionPage), typeof(ProductionPage));
+            Routing.RegisterRoute(nameof(MachinesPage), typeof(MachinesPage));
             InitializeComponent();
         }
     }

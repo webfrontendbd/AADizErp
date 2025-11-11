@@ -202,7 +202,26 @@
                             <Label Grid.Row="2" Text="NPT" FontSize="12" TextColor="#20c997" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                         </Grid>
                     </dx:DXButton>
+
+                    <dx:DXButton Grid.Row="0" Grid.Column="1"  BackgroundColor="#FBFBFB" Padding="10" BorderColor="Transparent" CornerRadius="5" Clicked="MisMenu_Tapped" >
+                        <Grid RowDefinitions="Auto, Auto, Auto"  WidthRequest="85" >
+                            <dx:DXBorder 
+                                Grid.Row="0"
+                                IsVisible="{Binding IsApprovalVisible}"
+                                Background="MediumVioletRed" 
+                                CornerRadius="50" 
+                                WidthRequest="10" 
+                                HeightRequest="10"
+                                Margin="0,0,-72,0" />
+
+                            <dx:DXBorder Grid.Row="1"   BackgroundColor="White" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
+                                <Image Source="mis" HorizontalOptions="Center" Aspect="AspectFit"  />
+                            </dx:DXBorder>
+                            <Label Grid.Row="2" Text="MIS" FontSize="12" TextColor="#20c997" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                        </Grid>
+                    </dx:DXButton>
                 </Grid>
+                
                 <!--<dxco:BottomSheet x:Name="bottomSheet" HalfExpandedRatio="0.3" AllowedState="HalfExpanded">
                     <dx:DXStackLayout>
                         <dx:DXButton Icon="delete" Content="Remove Photo" Tap="DeletePhotoClicked"/>

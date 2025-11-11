@@ -22,31 +22,36 @@
                 </Grid>
 
                 <Grid Grid.Row="2" ColumnDefinitions="100,*" ColumnSpacing="10">
-                    <Label Grid.Column="0" Text="Employee ID" VerticalOptions="Center"/>
+                    <Label Grid.Column="0" Text="Employee #" VerticalOptions="Center"/>
                     <Label Grid.Column="1" Text="{Binding RemoteAttendanceDto.JobId}" VerticalOptions="Center"/>
                 </Grid>
 
                 <Grid Grid.Row="3" ColumnDefinitions="100,*" ColumnSpacing="10">
+                    <Label Grid.Column="0" Text="Unit" VerticalOptions="Center"/>
+                    <Label Grid.Column="1" Text="{Binding RemoteAttendanceDto.CompanyName}" VerticalOptions="Center"/>
+                </Grid>
+
+                <Grid Grid.Row="4" ColumnDefinitions="100,*" ColumnSpacing="10">
                     <Label Grid.Column="0" Text="Reason" VerticalOptions="Center"/>
                     <Label Grid.Column="1" Text="{Binding RemoteAttendanceDto.Reason}" VerticalOptions="Center" TextColor="Red"/>
                 </Grid>
 
-                <Grid  Grid.Row="4" ColumnDefinitions="100,*" ColumnSpacing="10">
-                    <Label Grid.Column="0" Text="Attendance Area" VerticalOptions="Center"/>
+                <Grid  Grid.Row="5" ColumnDefinitions="100,*" ColumnSpacing="10">
+                    <Label Grid.Column="0" Text="Area" VerticalOptions="Center"/>
                     <Label Grid.Column="1" Text="{Binding RemoteAttendanceDto.AttendanceArea}" VerticalOptions="Center"/>
                 </Grid>
 
-                <Grid  Grid.Row="5" ColumnDefinitions="100,*" ColumnSpacing="10">
+                <Grid  Grid.Row="6" ColumnDefinitions="100,*" ColumnSpacing="10">
                     <Label Grid.Column="0" Text="Date Time" VerticalOptions="Center"/>
                     <Label Grid.Column="1" Text="{Binding RemoteAttendanceDto.Created}" VerticalOptions="Center"/>
                 </Grid>
 
-                <Grid  Grid.Row="6" ColumnDefinitions="100,*" ColumnSpacing="10">
+                <Grid  Grid.Row="7" ColumnDefinitions="100,*" ColumnSpacing="10">
                     <Label Grid.Column="0" Text="Status" VerticalOptions="Center"/>
                     <Label Grid.Column="1" Text="{Binding RemoteAttendanceDto.Status}" VerticalOptions="Center"/>
                 </Grid>
 
-                <Grid  Grid.Row="7" ColumnDefinitions="100,*" ColumnSpacing="10" Margin="0,20,0,0">
+                <Grid  Grid.Row="8" ColumnDefinitions="100,*" ColumnSpacing="10" Margin="0,20,0,0">
                     <Button Grid.ColumnSpan="2" BackgroundColor="{StaticResource Asian}" Text="Action" VerticalOptions="Center" Command="{Binding AttendanceConfirmationCommand}" CommandParameter="{Binding RemoteAttendanceDto}"/>
 
                 </Grid>

@@ -1,6 +1,7 @@
 ﻿using AADizErp.Pages.HolidayPages;
 using AADizErp.Pages.HRPages;
 using AADizErp.Pages.ManagerPages;
+using AADizErp.Pages.MisPages;
 using AADizErp.Pages.NptPages;
 using AADizErp.Pages.RequestPages;
 using AADizErp.Pages.SalaryPages;
@@ -12,6 +13,7 @@ using AADizErp.ViewModels;
 using AADizErp.ViewModels.HolidayVm;
 using AADizErp.ViewModels.HrVM;
 using AADizErp.ViewModels.ManagerPagesVM;
+using AADizErp.ViewModels.MisPageVM;
 using AADizErp.ViewModels.RequestVM;
 using AADizErp.ViewModels.SalaryPagesVM;
 using AADizErp.ViewModels.SettingsVM;
@@ -147,6 +149,14 @@ namespace AADizErp
 
             builder.Services.AddTransient<AddUnconfirmEmployeePage>();
             builder.Services.AddTransient<AddEmployeeViewModel>();
+
+            builder.Services.AddTransient<MisLandingPage>();
+            builder.Services.AddTransient<OverTimePage>();
+            builder.Services.AddTransient<OverTimePageViewModel>();
+
+            builder.Services.AddTransient<eAttendancePage>();
+            builder.Services.AddTransient<ProductionPage>();
+            builder.Services.AddTransient<MachinesPage>();
 
             #endregion
 
