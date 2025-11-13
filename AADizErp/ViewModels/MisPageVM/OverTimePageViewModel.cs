@@ -2,16 +2,17 @@
 using AADizErp.Models;
 using CommunityToolkit.Mvvm.Input;
 using AADizErp.Models.Dtos.HrDtos;
-using AADizErp.Services.HrServices;
 using CommunityToolkit.Mvvm.ComponentModel;
+using AADizErp.Services.MisServices;
+using AADizErp.Models.Dtos.MisDtos;
 
 namespace AADizErp.ViewModels.MisPageVM
 {
     public partial class OverTimePageViewModel : BaseViewModel
     {
-        private readonly HrService _hrService;
+        private readonly MisServices _misService;
         [ObservableProperty]
-        ObservableRangeCollection<EmployeeInfoDto> employees = new();
+        ObservableRangeCollection<OvertimeDto> overtimes = new();
         [ObservableProperty]
         ObservableRangeCollection<Organization> organizations = new();
         [ObservableProperty]
@@ -19,14 +20,14 @@ namespace AADizErp.ViewModels.MisPageVM
         [ObservableProperty]
         DateTime currentDate = DateTime.Now;
 
-        public OverTimePageViewModel(HrService hrService)
+        public OverTimePageViewModel(MisServices misService)
         {
-            _hrService = hrService;
+            _misService = misService;
             Organizations.Add(new Organization { OrganizationName = "Select an unit", Abbr = "NA" });
-            OrganizationList();
+            OvertimeSummaryOnPageLoad();
         }
 
-        public async void OrganizationList()
+        public async void OvertimeSummaryOnPageLoad()
         {
             var userInfo = await App.GetUserInfo();
             var queryModel = new AppQueryModel
@@ -35,10 +36,10 @@ namespace AADizErp.ViewModels.MisPageVM
                 DateFrom = CurrentDate.ToString("dd-MMM-yyyy"),
                 DateTo = CurrentDate.ToString("dd-MMM-yyyy"),
             };
-            var returnEmployees = await _hrService.GetDailyAbsentDetailsAsync(queryModel.CompanyName, queryModel.DateFrom);
-            if (returnEmployees != null)
+            var returnOvertimes = await _misService.GetGroupOvertimeSummary(queryModel.DateFrom, queryModel.DateTo, queryModel.CompanyName);
+            if (returnOvertimes != null)
             {
-                Employees.AddRange(returnEmployees);
+                Overtimes.AddRange(returnOvertimes);
             }
 
             if (userInfo.Factories.Length > 0)
@@ -55,7 +56,7 @@ namespace AADizErp.ViewModels.MisPageVM
 
         }
         [RelayCommand]
-        async Task GetDailyAbsentDetails()
+        async Task GetDailyOvertimeSummary()
         {
             try
             {
@@ -63,10 +64,10 @@ namespace AADizErp.ViewModels.MisPageVM
                 string qDate = CurrentDate.ToString("dd-MMM-yyyy");
                 if (company != "Select an unit")
                 {
-                    var returnEmployees = await _hrService.GetDailyAbsentDetailsAsync(company, qDate);
-                    if (returnEmployees != null)
+                    var returnObject = await _misService.GetGroupOvertimeSummary(qDate, qDate, company);
+                    if (returnObject != null)
                     {
-                        Employees.ReplaceRange(returnEmployees);
+                        Overtimes.ReplaceRange(returnObject);
                     }
                 }
             }

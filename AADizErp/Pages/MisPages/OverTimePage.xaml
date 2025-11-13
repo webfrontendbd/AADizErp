@@ -21,7 +21,7 @@
                 IsLabelFloating="True"
                 ItemsSource="{Binding Organizations}"
                 SelectedIndex="{Binding SelectedFactoryIndex}"
-                SelectionChangedCommand="{Binding GetDailyAbsentDetailsCommand }"
+                SelectionChangedCommand="{Binding GetDailyOvertimeSummaryCommand }"
                 PickerShowMode="BottomSheet"/>
 
             <dxe:DateEdit
@@ -29,26 +29,26 @@
                 LabelText="Filter dashboard by date"
                 PlaceholderText="Select a date"
                 Margin="0,0,0,10"
-                DateChangedCommand="{Binding GetDailyAbsentDetailsCommand }"
+                DateChangedCommand="{Binding GetDailyOvertimeSummaryCommand }"
                 Date="{Binding CurrentDate, Mode=TwoWay}"
                 DisplayFormat="dd-MMM-yyyy"/>
 
-            <dxg:DataGridView ItemsSource="{Binding Employees}">
-                <dxg:DataGridView.GroupSummaries>
-                    <dxg:GridColumnSummary FieldName="EmployeeName" Type="Count" DisplayFormat="Total :- {0}"/>
-                </dxg:DataGridView.GroupSummaries>
+            <dxg:DataGridView ItemsSource="{Binding Overtimes}">
+                <!--<dxg:DataGridView.GroupSummaries>
+                    <dxg:GridColumnSummary FieldName="Factory" Type="Count" DisplayFormat="Total :- {0}"/>
+                </dxg:DataGridView.GroupSummaries>-->
                 <dxg:DataGridView.Columns>
-                    <dxg:TextColumn FieldName="FloorDesc" Caption="Floor" IsGrouped="True" VerticalContentAlignment="Center" />
-                    <dxg:TextColumn FieldName="SectionName" Caption="Section"  MinWidth="150"/>
-                    <dxg:TextColumn FieldName="CardNumber"  Caption="Card#" MinWidth="100" VerticalContentAlignment="Center" />
-                    <dxg:TextColumn FieldName="EmployeeName" Caption="Name" MinWidth="180"  VerticalContentAlignment="Center" />
-                    <dxg:TextColumn FieldName="DesName" Caption="Designation" MinWidth="180"  VerticalContentAlignment="Center" />
-                    <dxg:TextColumn FieldName="Status" Caption="Status" MinWidth="80" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                    <dxg:TextColumn FieldName="Factory" Caption="Factory" IsGrouped="False" VerticalContentAlignment="Center" />
+                    <dxg:TextColumn FieldName="MP0" Caption="MP0"  MinWidth="150"/>
+                    <dxg:TextColumn FieldName="MP5"  Caption="MP5" MinWidth="100" VerticalContentAlignment="Center" />
+                    <dxg:TextColumn FieldName="MP1" Caption="MP1" MinWidth="180"  VerticalContentAlignment="Center" />
+                    <dxg:TextColumn FieldName="MP15" Caption="MP15" MinWidth="180"  VerticalContentAlignment="Center" />
+                    <dxg:TextColumn FieldName="MP20" Caption="MP20" MinWidth="80" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
                 </dxg:DataGridView.Columns>
 
                 <!--Total Summary view-->
                 <dxg:DataGridView.TotalSummaries>
-                    <dxg:GridColumnSummary FieldName="EmployeeName" Type="Count" DisplayFormat="Grand Total :- {0}"/>
+                    <dxg:GridColumnSummary FieldName="Factory" Type="Count" DisplayFormat="Grand Total :- {0}"/>
                 </dxg:DataGridView.TotalSummaries>
 
                 <!--Customize cell appearance-->

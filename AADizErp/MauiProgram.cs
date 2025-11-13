@@ -8,6 +8,7 @@ using AADizErp.Pages.SalaryPages;
 using AADizErp.Pages.SettingsPages;
 using AADizErp.Services;
 using AADizErp.Services.HrServices;
+using AADizErp.Services.MisServices;
 using AADizErp.Services.RequestServices;
 using AADizErp.ViewModels;
 using AADizErp.ViewModels.HolidayVm;
@@ -65,6 +66,7 @@ namespace AADizErp
             builder.Services.AddSingleton<OccasionService>();
             builder.Services.AddSingleton<LocalDbService>();
             builder.Services.AddSingleton<ConveyanceService>();
+            builder.Services.AddSingleton<MisServices>();
 
             //Pages and viewmodels
             #region Pages and Viewmodels
