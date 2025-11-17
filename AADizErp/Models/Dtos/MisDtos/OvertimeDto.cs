@@ -13,7 +13,7 @@ namespace AADizErp.Models.Dtos.MisDtos
         public string ShortName { get; set; }
         public string MP0 { get; set; }
         public string MP5 { get; set; }
-        public string MP1 { get; set; }
+        public string MP10 { get; set; }
         public string MP15 { get; set; }
         public string MP20 { get; set; }
         public string MP25 { get; set; }
@@ -58,30 +58,9 @@ namespace AADizErp.Models.Dtos.MisDtos
         public string MP220 { get; set; }
         public string MP225 { get; set; }
         public string MP230 { get; set; }
+        public double TotalOtHours { get; set; }
+        public int TotalManpower { get; set; }
 
-        private int ToInt(string value)
-        {
-            return int.TryParse(value, out int v) ? v : 0;
-        }
-
-        public int TotalManpower
-        {
-            get
-            {
-                int sum = 0;
-
-                foreach (var prop in this.GetType().GetProperties())
-                {
-                    if (prop.Name.StartsWith("MP"))
-                    {
-                        string value = prop.GetValue(this)?.ToString();
-                        sum += ToInt(value);
-                    }
-                }
-
-                return sum;
-            }
-        }
     }
 
 }

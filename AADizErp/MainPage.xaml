@@ -197,9 +197,9 @@
                                 Margin="0,0,-72,0" />   
 
                             <dx:DXBorder Grid.Row="1"   BackgroundColor="White" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
-                                <Image Source="npt" HorizontalOptions="Center" Aspect="AspectFit"  />
+                                <Image Source="mc" HorizontalOptions="Center" Aspect="AspectFit"  />
                             </dx:DXBorder>
-                            <Label Grid.Row="2" Text="NPT" FontSize="12" TextColor="#20c997" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <Label Grid.Row="2" Text="Maintenance" FontSize="12" TextColor="#20c997" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                         </Grid>
                     </dx:DXButton>
 

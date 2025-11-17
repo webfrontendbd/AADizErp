@@ -7,19 +7,115 @@
              xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
              ios:Page.UseSafeArea="True"
              Title="Scan Machine Barcode">
-    <dx:DXStackLayout>
-        <zxing:CameraBarcodeReaderView
-            x:Name="cameraBarcodeReaderView"
-            WidthRequest="200"
-            HeightRequest="200"
-            BarcodesDetected="BarcodesDetected" />
+    <Grid>
 
-        <zxing:BarcodeGeneratorView
-            HeightRequest="100"
-            WidthRequest="100"
-            ForegroundColor="DarkBlue"
-            Value="https://dotnet.microsoft.com"
-            Format="QrCode"
-            Margin="3" />
-    </dx:DXStackLayout>
+        <!-- CAMERA VIEW -->
+        <zxing:CameraBarcodeReaderView
+            x:Name="BarcodeScannerView"
+            Grid.Row="0"
+            IsDetecting="True"
+                BarcodesDetected="BarcodeScannerView_BarcodeDetected"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill"/>
+
+        <!-- BLUR OVERLAY -->
+        <BoxView 
+            Color="#00000050"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill"/>
+
+        <!-- SCAN WINDOW AREA -->
+        <Grid
+                WidthRequest="260"
+                HeightRequest="260"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+
+            <dx:DXBorder 
+                CornerRadius="20"
+                 BorderThickness="3"
+                BorderColor="#12EFBF"
+                BackgroundColor="#00000030"/>
+
+            <!-- SCAN LINE -->
+            <BoxView
+                    x:Name="ScanLine"
+                    HeightRequest="4"
+                    WidthRequest="220"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Start"
+                    BackgroundColor="#12EFBF"
+                    CornerRadius="2"
+                    Opacity="0.9"
+                    TranslationY="0" />
+
+        </Grid>
+
+        <!-- RESULT PANEL (DevExpress) -->
+        <dx:DXBorder
+            BackgroundColor="#000000AA"
+            CornerRadius="20"
+            Padding="15"
+            HorizontalOptions="Fill"
+            VerticalOptions="End"
+            Margin="20">
+
+            <VerticalStackLayout Spacing="10">
+
+                <Label
+                    x:Name="ResultLabel"
+                    Text="Align QR Code in the box"
+                    HorizontalTextAlignment="Center"
+                    TextColor="White"
+                    FontSize="18"/>
+
+                <!-- ACTION BUTTONS -->
+                <Grid ColumnDefinitions="*,*,*">
+
+                    <!-- TORCH BUTTON -->
+                    <dx:DXButton
+                        Grid.Column="0"
+                        CornerRadius="40"
+                        HeightRequest="60"
+                        WidthRequest="60"
+                        BackgroundColor="White"
+                        Clicked="Torch_Clicked">
+                        <dx:DXButton.Content>
+                            <Image Source="flash.png" WidthRequest="28"/>
+                        </dx:DXButton.Content>
+                    </dx:DXButton>
+
+                    <!-- SCAN AGAIN BUTTON -->
+                    <dx:DXButton
+                        Grid.Column="1"
+                        CornerRadius="40"
+                        HeightRequest="60"
+                        WidthRequest="60"
+                        BackgroundColor="White"
+                        Clicked="ScanAgain_Clicked">
+                        <dx:DXButton.Content>
+                            <Image Source="refresh.png" WidthRequest="28"/>
+                        </dx:DXButton.Content>
+                    </dx:DXButton>
+
+                    <!-- SWITCH CAMERA -->
+                    <dx:DXButton
+                        Grid.Column="2"
+                        CornerRadius="40"
+                        HeightRequest="60"
+                        WidthRequest="60"
+                        BackgroundColor="White"
+                        Clicked="FlipCamera_Clicked">
+                        <dx:DXButton.Content>
+                            <Image Source="camerasw.png" WidthRequest="28"/>
+                        </dx:DXButton.Content>
+                    </dx:DXButton>
+
+                </Grid>
+
+            </VerticalStackLayout>
+
+        </dx:DXBorder>
+
+    </Grid>
 </ContentPage>
