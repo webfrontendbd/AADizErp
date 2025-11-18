@@ -11,26 +11,20 @@ public partial class McBarcodeScanPage : ContentPage
 	}
     protected void BarcodeScannerView_BarcodeDetected(object sender, BarcodeDetectionEventArgs e)
     {
-
-        // This event runs on a thread-pool thread; marshal to UI thread.
         MainThread.BeginInvokeOnMainThread(async () =>
         {
             if (e.Results?.Any() ?? false)
             {
-                // take first result
                 var result = e.Results.First();
                 var text = result.Value;
 
-                // show result
                 ResultLabel.Text = text;
 
-                // optional: stop detecting if you want a single-shot scan
                 BarcodeScannerView.IsDetecting = false;
 
                 // Save / process scanned data
                 //await SaveScanAsync(text, result.Format.ToString(), DateTime.UtcNow);
 
-                // navigate or show popup
                 await DisplayAlert("Scanned", text, "OK");
 
                 // resume if required
@@ -41,7 +35,6 @@ public partial class McBarcodeScanPage : ContentPage
 
     private void Torch_Clicked(object sender, EventArgs e)
     {
-        //BarcodeScannerView.ScannerOptions.TorchEnabled = !BarcodeScannerView.ScannerOptions.TorchEnabled;
         BarcodeScannerView.IsTorchOn = !BarcodeScannerView.IsTorchOn;
     }
     private void ScanAgain_Clicked(object sender, EventArgs e)
