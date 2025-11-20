@@ -1,0 +1,12 @@
+{
+  "assembly": [
+    {
+      "name": "ZXing.Net.MAUI",
+      "preserve": "all"
+    },
+    {
+      "name": "ZXing.Net.MAUI.Controls",
+      "preserve": "all"
+    }
+  ]
+}

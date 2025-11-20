@@ -1,12 +1,93 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="AADizErp.Pages.NptPages.McStatusUpdatePage"
-             Title="McStatusUpdatePage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
+    xmlns:vm="clr-namespace:AADizErp.ViewModels.McPageVM"
+    x:DataType="vm:McStatusUpdatePageViewModel"
+    x:Class="AADizErp.Pages.NptPages.McStatusUpdatePage"
+    Title="Update Machine Status">
+    <!--xmlns:local="clr-namespace:AADizErp.Converters"-->
+    <!--<ContentPage.Resources>
+        <ResourceDictionary>
+            <local:InverseBoolConverter x:Key="InverseBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>-->
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="18">
+
+            <!-- Machine ID & Factory (full width) -->
+            <dxe:TextEdit
+            LabelText="Machine ID"
+            Text="{Binding MachineInfoDto.Mcid}"
+            IsReadOnly="True" />
+
+            <dxe:TextEdit
+            LabelText="Factory"
+            Text="{Binding MachineInfoDto.Orgname}"
+            IsReadOnly="True" />
+
+            <!-- Brand & Model in one row -->
+            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto" ColumnSpacing="15">
+                <dxe:TextEdit
+                LabelText="Brand"
+                Text="{Binding MachineInfoDto.Brand}"
+                Grid.Column="0" />
+
+                <dxe:TextEdit
+                LabelText="Model"
+                Text="{Binding MachineInfoDto.Model}"
+                Grid.Column="1" />
+            </Grid>
+
+            <!-- Floor & Line in one row -->
+            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto" ColumnSpacing="15">
+                <dxe:ComboBoxEdit
+                ItemsSource="{Binding Floors}"
+                DisplayMember="Floorname"
+                ValueMember="Floorid"
+                SelectedValue="{Binding SelectedFloorId}"
+                LabelText="Floor"
+                Grid.Column="0" />
+
+                <dxe:ComboBoxEdit
+                ItemsSource="{Binding Lines}"
+                DisplayMember="Linename"
+                ValueMember="Lineid"
+                SelectedValue="{Binding SelectedLineId}"
+                LabelText="Line"
+                Grid.Column="1" />
+            </Grid>
+
+            <!-- Serial & Status in one row -->
+            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto" ColumnSpacing="15">
+                <dxe:TextEdit
+                LabelText="Serial"
+                Text="{Binding MachineInfoDto.Serial}"
+                Grid.Column="0" />
+
+                <dxe:ComboBoxEdit
+                LabelText="Status"
+                ItemsSource="{Binding StatusList}"
+                SelectedItem="{Binding SelectedStatus}"
+                Grid.Column="1" />
+            </Grid>
+
+            <!-- Update Button -->
+            <Button
+            Text="Update Machine Status"
+            Command="{Binding UpdateMachineStatusCommand}"
+            IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}"
+            BackgroundColor="#1E88E5"
+            TextColor="White"
+            CornerRadius="10"
+            Padding="12"
+            FontAttributes="Bold"
+            Margin="0,20,0,0"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+
 </ContentPage>

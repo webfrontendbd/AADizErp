@@ -15,6 +15,33 @@ namespace AADizErp.Models.Dtos.McDtos
         public int Floorid { get; set; }
         public string Floorname { get; set; }
         public string Line { get; set; }
+        public string Serial { get; set; }
         public string Status { get; set; }
+        public string Brand { get; set; }
+        public string Model { get; set; }
+        public string UpdatedBy { get; set; }
+    }
+
+    public class MachineStatusUpdateDto
+    {
+        public string Mcid { get; set; }
+        public int Floorid { get; set; }
+        public string Floorname { get; set; }
+        public string Line { get; set; }
+        public string Status { get; set; }
+        public string Serial { get; set; }
+        public string Brand { get; set; }
+        public string Model { get; set; }
+        public string UpdatedBy { get; set; }
+    }
+    public class MachineFloorDto
+    {
+        public int Floorid { get; set; }
+        public string Floorname { get; set; }
+    }
+    public class MachineLineDto
+    {
+        public string Lineid { get; set; }
+        public string Linename { get; set; }
     }
 }

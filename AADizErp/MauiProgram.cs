@@ -1,4 +1,5 @@
-﻿using AADizErp.Pages.HolidayPages;
+﻿using AADizErp;
+using AADizErp.Pages.HolidayPages;
 using AADizErp.Pages.HRPages;
 using AADizErp.Pages.ManagerPages;
 using AADizErp.Pages.MisPages;
@@ -8,12 +9,14 @@ using AADizErp.Pages.SalaryPages;
 using AADizErp.Pages.SettingsPages;
 using AADizErp.Services;
 using AADizErp.Services.HrServices;
+using AADizErp.Services.McServices;
 using AADizErp.Services.MisServices;
 using AADizErp.Services.RequestServices;
 using AADizErp.ViewModels;
 using AADizErp.ViewModels.HolidayVm;
 using AADizErp.ViewModels.HrVM;
 using AADizErp.ViewModels.ManagerPagesVM;
+using AADizErp.ViewModels.McPageVM;
 using AADizErp.ViewModels.MisPageVM;
 using AADizErp.ViewModels.RequestVM;
 using AADizErp.ViewModels.SalaryPagesVM;
@@ -24,7 +27,7 @@ using DevExpress.Maui;
 using DevExpress.Maui.Core;
 using Plugin.Maui.Biometric;
 using ZXing.Net.Maui.Controls;
-
+[assembly: Preserve(AllMembers = true)]
 namespace AADizErp
 {
     public static class MauiProgram
@@ -67,6 +70,8 @@ namespace AADizErp
             builder.Services.AddSingleton<LocalDbService>();
             builder.Services.AddSingleton<ConveyanceService>();
             builder.Services.AddSingleton<MisServices>();
+            builder.Services.AddSingleton<MachineService>();
+            builder.Services.AddSingleton<ZXing.Net.Maui.Controls.CameraView>();
 
             //Pages and viewmodels
             #region Pages and Viewmodels
@@ -159,6 +164,8 @@ namespace AADizErp
             builder.Services.AddTransient<eAttendancePage>();
             builder.Services.AddTransient<ProductionPage>();
             builder.Services.AddTransient<MachinesPage>();
+            builder.Services.AddTransient<McStatusUpdatePage>();
+            builder.Services.AddTransient<McStatusUpdatePageViewModel>();
 
             #endregion
 

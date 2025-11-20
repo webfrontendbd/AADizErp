@@ -16,7 +16,7 @@
                         <dx:DXBorder Grid.Row="0"  BackgroundColor="White" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}"   BorderColor="Transparent">
                             <Image Source="sewingmc" HorizontalOptions="Center" Aspect="Fill"  />
                         </dx:DXBorder>
-                        <Label Grid.Row="1" Text="MC NPT" FontSize="12" TextColor="{StaticResource Asian}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                        <Label Grid.Row="1" Text="MC Update" FontSize="12" TextColor="{StaticResource Asian}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                     </Grid>
                 </dx:DXButton>
 

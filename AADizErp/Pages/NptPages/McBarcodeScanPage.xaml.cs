@@ -5,30 +5,35 @@ namespace AADizErp.Pages.NptPages;
 
 public partial class McBarcodeScanPage : ContentPage
 {
-	public McBarcodeScanPage()
-	{
+    private bool _isNavigating = false;
+
+    public McBarcodeScanPage()
+    {
         InitializeComponent();
-	}
+    }
+
     protected void BarcodeScannerView_BarcodeDetected(object sender, BarcodeDetectionEventArgs e)
     {
+        if (_isNavigating)
+            return;
+
+        _isNavigating = true;
+
         MainThread.BeginInvokeOnMainThread(async () =>
         {
-            if (e.Results?.Any() ?? false)
+            try
             {
-                var result = e.Results.First();
-                var text = result.Value;
-
-                ResultLabel.Text = text;
-
                 BarcodeScannerView.IsDetecting = false;
 
-                // Save / process scanned data
-                //await SaveScanAsync(text, result.Format.ToString(), DateTime.UtcNow);
+                var text = e.Results.First().Value;
 
-                await DisplayAlert("Scanned", text, "OK");
-
-                // resume if required
-                // BarcodeScannerView.IsDetecting = true;
+                await Shell.Current.GoToAsync(
+                    $"{nameof(McStatusUpdatePage)}?Mcid={Uri.EscapeDataString(text)}"
+                );
+            }
+            finally
+            {
+                _isNavigating = false;
             }
         });
     }
@@ -37,16 +42,27 @@ public partial class McBarcodeScanPage : ContentPage
     {
         BarcodeScannerView.IsTorchOn = !BarcodeScannerView.IsTorchOn;
     }
+
     private void ScanAgain_Clicked(object sender, EventArgs e)
     {
-        ResultLabel.Text = "Align QR Code in the box";
+        _isNavigating = false;  // reset
         BarcodeScannerView.IsDetecting = true;
+        ResultLabel.Text = "Align QR Code in the box";
     }
-    private void FlipCamera_Clicked(object sender, EventArgs e)
+
+    private async void FlipCamera_Clicked(object sender, EventArgs e)
     {
-        BarcodeScannerView.CameraLocation =
-            BarcodeScannerView.CameraLocation == CameraLocation.Rear ? CameraLocation.Front : CameraLocation.Rear;
+        try
+        {
+            BarcodeScannerView.CameraLocation =
+                BarcodeScannerView.CameraLocation == CameraLocation.Rear
+                ? CameraLocation.Front
+                : CameraLocation.Rear;
+        }
+        catch
+        {
+            // safe async in event
+            await DisplayAlert("Camera Error", "Unable to switch camera.", "OK");
+        }
     }
-
-
 }

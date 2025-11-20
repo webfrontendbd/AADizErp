@@ -1,8 +1,11 @@
-﻿using AADizErp.Models.Dtos.McDtos;
+﻿using AADizErp.Models;
+using AADizErp.Models.Dtos.McDtos;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -24,6 +27,40 @@ namespace AADizErp.Services.McServices
             };
         }
 
+        public async Task<List<MachineFloorDto>> GetMachineFloorByOrgid()
+        {
+            UserInfo userInfo = await App.GetUserInfo();
+            try
+            {
+                await SetAuthToken();
+                var response = await _client.GetStringAsync($"/machine/maintenance/get-mc-floor-byorg?orgname={userInfo.TokenUserMetaInfo.OrganizationName}&type=floor");
+                return System.Text.Json.JsonSerializer.Deserialize<List<MachineFloorDto>>(response, _serializerOptions);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return default;
+        }
+
+        public async Task<List<MachineLineDto>> GetMachineLineByOrgid()
+        {
+            UserInfo userInfo = await App.GetUserInfo();
+            try
+            {
+                await SetAuthToken();
+                var response = await _client.GetStringAsync($"/machine/maintenance/get-mc-line-byorg?orgname={userInfo.TokenUserMetaInfo.OrganizationName}&type=line");
+                return System.Text.Json.JsonSerializer.Deserialize<List<MachineLineDto>>(response, _serializerOptions);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return default;
+        }
+
 
         public async Task<MachineInfoDto> GetMachinePresentStatusByMcid(string mcid)
         {
@@ -32,6 +69,24 @@ namespace AADizErp.Services.McServices
                 await SetAuthToken();
                 var response = await _client.GetStringAsync($"/machine/maintenance/get-mc-present-status-byid?machineId={mcid}");
                 return System.Text.Json.JsonSerializer.Deserialize<MachineInfoDto>(response, _serializerOptions);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return default;
+        }
+
+        public async Task<int> UpdateMachineStatusByMcid(MachineStatusUpdateDto machineInfoDto)
+        {
+            try
+            {
+                await SetAuthToken();
+                var response = await _client.PutAsJsonAsync($"/machine/maintenance/update-mc-status-byorg", machineInfoDto);
+                response.EnsureSuccessStatusCode();
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<int>(jsonResponse);
             }
             catch (Exception ex)
             {

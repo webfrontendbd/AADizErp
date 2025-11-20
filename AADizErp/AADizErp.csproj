@@ -196,6 +196,13 @@
 	  <DebugSymbols>true</DebugSymbols>
 	  <WarningLevel>4</WarningLevel>
 	</PropertyGroup>
+	<PropertyGroup>
+		<MauiLinkerFlags>--linker-config Properties/Android/AndroidLinkerConfig.json</MauiLinkerFlags>
+		<RunAOTCompilation>false</RunAOTCompilation>
+	</PropertyGroup>
+	<PropertyGroup>
+		<PublishTrimmed>false</PublishTrimmed>
+	</PropertyGroup>
 	<ItemGroup>
 	  <MauiXaml Update="LoadingPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
