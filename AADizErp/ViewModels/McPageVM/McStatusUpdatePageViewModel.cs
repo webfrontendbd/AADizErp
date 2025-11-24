@@ -56,6 +56,8 @@ namespace AADizErp.ViewModels.McPageVM
         private async Task InitializePageAsync(string mcid)
         {
             IsLoading = true;
+            await LoadFloorsAsync();
+            await Task.Delay(50);
 
             MachineInfoDto = await _mcService.GetMachinePresentStatusByMcid(mcid);
             if (MachineInfoDto == null)
@@ -63,8 +65,7 @@ namespace AADizErp.ViewModels.McPageVM
 
             SelectedStatus = MachineInfoDto.Status;
 
-            await LoadFloorsAsync();
-            await Task.Delay(50);
+           
 
             var floorMatched = Floors.FirstOrDefault(f => f.Floorname == MachineInfoDto.Floorname);
             if (floorMatched != null)

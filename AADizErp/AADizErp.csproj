@@ -117,10 +117,10 @@
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="9.0.1" />
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
 		<PackageReference Include="FirebaseAdmin" Version="3.0.0" />
 		<PackageReference Include="ImageCropper.Maui" Version="1.1.0.7" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.60" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.10" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.60" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
 		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.11" />
@@ -129,13 +129,14 @@
 		<!--<PackageReference Include="JetBrains.Annotations" Version="2024.1.0" />-->
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="DevExpress.Maui.Controls" Version="23.2.6" />
-		<PackageReference Include="DevExpress.Maui.Core" Version="23.2.6" />
-		<PackageReference Include="DevExpress.Maui.Charts" Version="23.2.6" />
-		<PackageReference Include="DevExpress.Maui.CollectionView" Version="23.2.6" />
-		<PackageReference Include="DevExpress.Maui.Editors" Version="23.2.6" />
-		<PackageReference Include="DevExpress.Maui.DataGrid" Version="23.2.6" />
-		<PackageReference Include="DevExpress.Maui.Scheduler" Version="23.2.6" />
+		<PackageReference Include="DevExpress.Maui.Controls" Version="24.2.12" />
+		<PackageReference Include="DevExpress.Maui.Core" Version="24.2.12" />
+		<PackageReference Include="DevExpress.Maui.Charts" Version="24.2.12" />
+		<PackageReference Include="DevExpress.Maui.CollectionView" Version="24.2.12" />
+		<PackageReference Include="DevExpress.Maui.Editors" Version="24.2.12" />
+		<PackageReference Include="DevExpress.Maui.DataGrid" Version="24.2.12" />
+		<PackageReference Include="DevExpress.Maui.Scheduler" Version="24.2.12" />
+		
 		<PackageReference Include="MvvmCross" Version="9.2.0" />
 		<!--<PackageReference Include="MvvmCross.Plugins.Fingerprint" Version="3.0.0-beta.1" />-->
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

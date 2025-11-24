@@ -5,7 +5,7 @@
              ios:Page.UseSafeArea="True" 
              x:Class="AADizErp.Pages.RequestPages.AttendanceRequestPage" 
              xmlns:local="clr-namespace:AADizErp.Pages.RequestPages"
-             xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+             xmlns:dx="http://schemas.devexpress.com/maui"
              xmlns:dxcv="clr-namespace:DevExpress.Maui.CollectionView;assembly=DevExpress.Maui.CollectionView"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:vm="clr-namespace:AADizErp.ViewModels.RequestVM"

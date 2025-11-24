@@ -22,7 +22,6 @@ using AADizErp.ViewModels.RequestVM;
 using AADizErp.ViewModels.SalaryPagesVM;
 using AADizErp.ViewModels.SettingsVM;
 using CommunityToolkit.Maui;
-using CommunityToolkit.Maui.ApplicationModel;
 using DevExpress.Maui;
 using DevExpress.Maui.Core;
 using Plugin.Maui.Biometric;
@@ -39,10 +38,16 @@ namespace AADizErp
             ThemeManager.Theme = new Theme(Color.FromArgb("FF6200EE"));
             var builder = MauiApp.CreateBuilder();
             builder
+                .UseDevExpressCharts()
+                .UseDevExpressEditors()
+                .UseDevExpress()
+                .UseDevExpressCollectionView()
+                .UseDevExpressControls()
+                .UseDevExpressDataGrid()
+                .UseDevExpressScheduler()
                 .UseMauiApp<App>()
                 .UseBarcodeReader()
                 .UseMauiCommunityToolkit()
-                .UseDevExpress()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
