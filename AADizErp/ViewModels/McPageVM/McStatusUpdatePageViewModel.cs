@@ -49,6 +49,7 @@ namespace AADizErp.ViewModels.McPageVM
 
         partial void OnMcidChanged(string value)
         {
+            _ = LoadFloorsAsync();
             if (!string.IsNullOrWhiteSpace(value))
                 _ = InitializePageAsync(value);
         }
@@ -56,8 +57,6 @@ namespace AADizErp.ViewModels.McPageVM
         private async Task InitializePageAsync(string mcid)
         {
             IsLoading = true;
-            await LoadFloorsAsync();
-            await Task.Delay(50);
 
             MachineInfoDto = await _mcService.GetMachinePresentStatusByMcid(mcid);
             if (MachineInfoDto == null)
@@ -65,11 +64,7 @@ namespace AADizErp.ViewModels.McPageVM
 
             SelectedStatus = MachineInfoDto.Status;
 
-           
-
-            var floorMatched = Floors.FirstOrDefault(f => f.Floorname == MachineInfoDto.Floorname);
-            if (floorMatched != null)
-                SelectedFloorId = floorMatched.Floorid;
+            SelectedFloorId = MachineInfoDto.Floorid;
 
             await LoadLinesAsync();
             await Task.Delay(50);
@@ -111,14 +106,14 @@ namespace AADizErp.ViewModels.McPageVM
                 await Shell.Current.DisplayAlert("Error", "No machine data loaded", "OK");
                 return;
             }
-            
+
             try
             {
                 MachineStatusUpdateDto updateDto = new MachineStatusUpdateDto
                 {
                     Mcid = MachineInfoDto.Mcid,
                     Floorid = SelectedFloorId,
-                    Floorname = Floors.FirstOrDefault(f => f.Floorid ==  SelectedFloorId)?.Floorname,
+                    Floorname = Floors.FirstOrDefault(f => f.Floorid == SelectedFloorId)?.Floorname,
                     Brand = MachineInfoDto.Brand,
                     Model = MachineInfoDto.Model,
                     Serial = MachineInfoDto.Serial,

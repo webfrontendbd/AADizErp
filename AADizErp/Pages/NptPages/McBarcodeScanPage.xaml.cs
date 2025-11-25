@@ -1,5 +1,4 @@
 using ZXing.Net.Maui;
-using ZXing.Net.Maui.Controls;
 
 namespace AADizErp.Pages.NptPages;
 
@@ -11,6 +10,32 @@ public partial class McBarcodeScanPage : ContentPage
     {
         InitializeComponent();
     }
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        var status = await Permissions.CheckStatusAsync<Permissions.Camera>();
+        if (status != PermissionStatus.Granted)
+        {
+            status = await Permissions.RequestAsync<Permissions.Camera>();
+        }
+
+        if (status == PermissionStatus.Granted)
+        {
+            BarcodeScannerView.IsDetecting = true;
+        }
+        else
+        {
+            await DisplayAlert("Permission Denied", "Camera permission is required to scan QR codes.", "OK");
+        }
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        BarcodeScannerView.IsDetecting = false;
+    }
+
 
     protected void BarcodeScannerView_BarcodeDetected(object sender, BarcodeDetectionEventArgs e)
     {
@@ -31,6 +56,11 @@ public partial class McBarcodeScanPage : ContentPage
                     $"{nameof(McStatusUpdatePage)}?Mcid={Uri.EscapeDataString(text)}"
                 );
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ZXing Crash: {ex}");
+                await DisplayAlert("Error", ex.Message, "OK");
+            }
             finally
             {
                 _isNavigating = false;
@@ -40,7 +70,14 @@ public partial class McBarcodeScanPage : ContentPage
 
     private void Torch_Clicked(object sender, EventArgs e)
     {
-        BarcodeScannerView.IsTorchOn = !BarcodeScannerView.IsTorchOn;
+        try
+        {
+            BarcodeScannerView.IsTorchOn = !BarcodeScannerView.IsTorchOn;
+        }
+        catch
+        {
+            DisplayAlert("Torch Error", "Unable to toggle torch.", "OK");
+        }
     }
 
     private void ScanAgain_Clicked(object sender, EventArgs e)

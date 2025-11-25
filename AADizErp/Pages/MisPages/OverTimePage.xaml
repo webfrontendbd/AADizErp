@@ -10,19 +10,10 @@
              xmlns:vm="clr-namespace:AADizErp.ViewModels.MisPageVM"
              x:DataType="vm:OverTimePageViewModel"
              Title="Daily OT Summary">
+
     <ScrollView Padding="{OnPlatform iOS='10,15,10,15', Default='10'}">
 
         <dx:DXStackLayout>
-            <dxe:ComboBoxEdit  
-                ValueMember="OrganizationName"   
-                DisplayMember="OrganizationName"
-                ReturnType="Next"
-                LabelText="Select an organization"
-                IsLabelFloating="True"
-                ItemsSource="{Binding Organizations}"
-                SelectedIndex="{Binding SelectedFactoryIndex}"
-                SelectionChangedCommand="{Binding GetDailyOvertimeSummaryCommand }"
-                PickerShowMode="BottomSheet"/>
 
             <dxe:DateEdit
                 IsLabelFloating="True"
@@ -34,6 +25,7 @@
                 DisplayFormat="dd-MMM-yyyy"/>
 
             <dxg:DataGridView ItemsSource="{Binding Overtimes}">
+                
                 <!--<dxg:DataGridView.GroupSummaries>
                     <dxg:GridColumnSummary FieldName="Factory" Type="Count" DisplayFormat="Total :- {0}"/>
                 </dxg:DataGridView.GroupSummaries>-->

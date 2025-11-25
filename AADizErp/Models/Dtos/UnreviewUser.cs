@@ -11,5 +11,6 @@
         public string OrganizationName { get; set; }
         public string PhoneNumber { get; set; }
         public bool IsUserConfirmed { get; set; }
+        public string Status { get; set; }
     }
 }

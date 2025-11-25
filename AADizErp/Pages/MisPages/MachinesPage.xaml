@@ -1,12 +1,75 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+            xmlns:dxg="clr-namespace:DevExpress.Maui.DataGrid;assembly=DevExpress.Maui.DataGrid"
+            xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
+            xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+            ios:Page.UseSafeArea="true"
+            xmlns:vm="clr-namespace:AADizErp.ViewModels.MisPageVM"
+            x:DataType="vm:GroupMachineStatusPageViewModel"
              x:Class="AADizErp.Pages.MisPages.MachinesPage"
-             Title="MachinesPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="Group Machines Status">
+    <ScrollView Padding="{OnPlatform iOS='10,15,10,15', Default='10'}">
+
+        <dx:DXStackLayout>
+
+            <dxe:DateEdit
+                IsLabelFloating="True"
+                LabelText="Filter dashboard by date"
+                PlaceholderText="Select a date"
+                Margin="0,0,0,10"
+                DateChangedCommand="{Binding GetDailyMachineStatuSummaryCommand }"
+                Date="{Binding CurrentDate, Mode=TwoWay}"
+                DisplayFormat="dd-MMM-yyyy"/>
+
+            <dxg:DataGridView ItemsSource="{Binding MachineStatusDto}">
+
+                <!--<dxg:DataGridView.GroupSummaries>
+                    <dxg:GridColumnSummary FieldName="Factory" Type="Count" DisplayFormat="Total :- {0}"/>
+                </dxg:DataGridView.GroupSummaries>-->
+                <dxg:DataGridView.Columns>
+
+                    <!-- 1st fixed column -->
+                    <dxg:TextColumn FieldName="Orgname" Caption="Factory" FixedStyle="Start" IsGrouped="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+
+                    <!-- 2nd fixed column -->
+                    <dxg:TextColumn FieldName="Quantity" Caption="Quantity" IsReadOnly="True" FixedStyle="Start" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+
+                    <dxg:TextColumn FieldName="MachineName" Caption="Name"  VerticalContentAlignment="Center" />
+                    <dxg:TextColumn FieldName="Type" Caption="Type"  VerticalContentAlignment="Center" />
+                    <dxg:TextColumn FieldName="Status" Caption="Status"  VerticalContentAlignment="Center" />
+
+
+                </dxg:DataGridView.Columns>
+
+
+                <!--Customize cell appearance-->
+                <dxg:DataGridView.CellAppearance>
+                    <dxg:CellAppearance Padding="5" BackgroundColor="#FFFFFF" BorderColor="WhiteSmoke"
+                       FontSize="12" FontColor="Black" 
+                       SelectionColor="{StaticResource Asian}" SelectionFontColor="White"/>
+                </dxg:DataGridView.CellAppearance>
+
+                <!--Customize column header appearance-->
+                <dxg:DataGridView.ColumnHeaderAppearance>
+                    <dxg:ColumnHeaderAppearance 
+                        BackgroundColor="{StaticResource Asian}"
+                        FontSize="16" 
+                        FontColor="#FFFFFF" 
+                        FontAttributes="Bold" 
+                        HorizontalLineThickness="2"/>
+                </dxg:DataGridView.ColumnHeaderAppearance>
+
+                <!--Customize the appearance of the total summary panel.-->
+                <dxg:DataGridView.TotalSummaryAppearance>
+                    <dxg:TotalSummaryAppearance Padding="2, 10" BackgroundColor="{StaticResource Asian}" BorderColor="{StaticResource Asian}"
+                               FontSize="14" FontAttributes="Bold" FontColor="#FFFFFF"/>
+                </dxg:DataGridView.TotalSummaryAppearance>
+
+
+            </dxg:DataGridView>
+
+        </dx:DXStackLayout>
+    </ScrollView>
 </ContentPage>

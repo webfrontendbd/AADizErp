@@ -7,6 +7,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<SingleProject>true</SingleProject>
 		<RootNamespace>AADizErp</RootNamespace>
+		<AndroidPageSize>4096</AndroidPageSize>
 
 		<!-- Display name -->
 		<ApplicationTitle>Asian App</ApplicationTitle>
@@ -116,16 +117,23 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Maui" Version="9.0.1" />
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="12.3.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		
 		<PackageReference Include="FirebaseAdmin" Version="3.0.0" />
+		<PackageReference Include="Xamarin.Firebase.iOS.CloudMessaging" Version="8.10.0.3" />
+		
 		<PackageReference Include="ImageCropper.Maui" Version="1.1.0.7" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.10" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.60" />
+		
+		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.120" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.120" />
+		
 		<PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
 		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.11" />
-		<PackageReference Include="Xamarin.Firebase.iOS.CloudMessaging" Version="8.10.0.3" />
-		<PackageReference Include="ZXing.Net.Maui.Controls" Version="0.4.0" />
+		
+		<PackageReference Include="ZXing.Net" Version="0.16.10" />
+		<PackageReference Include="ZXing.Net.Maui" Version="0.6.0" />
+		<PackageReference Include="ZXing.Net.Maui.Controls" Version="0.6.0" />
 		<!--<PackageReference Include="JetBrains.Annotations" Version="2024.1.0" />-->
 	</ItemGroup>
 	<ItemGroup>
@@ -203,6 +211,7 @@
 	</PropertyGroup>
 	<PropertyGroup>
 		<PublishTrimmed>false</PublishTrimmed>
+		<AndroidEnableR8>false</AndroidEnableR8>
 	</PropertyGroup>
 	<ItemGroup>
 	  <MauiXaml Update="LoadingPage.xaml">

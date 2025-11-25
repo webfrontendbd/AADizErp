@@ -21,6 +21,15 @@ namespace AADizErp.Models.Dtos.McDtos
         public string Model { get; set; }
         public string UpdatedBy { get; set; }
     }
+    public class GroupMachineStatusDto
+    {
+        public int Orgid { get; set; }
+        public string Orgname { get; set; }
+        public string MachineName { get; set; }
+        public string Type { get; set; }
+        public string Status { get; set; }
+        public int Quantity { get; set; }
+    }
 
     public class MachineStatusUpdateDto
     {

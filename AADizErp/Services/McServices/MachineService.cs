@@ -78,6 +78,23 @@ namespace AADizErp.Services.McServices
             return default;
         }
 
+        public async Task<List<GroupMachineStatusDto>> GetGroupMachineStatusByDate(string reportDate)
+        {
+            UserInfo userInfo = await App.GetUserInfo();
+            try
+            {
+                await SetAuthToken();
+                var response = await _client.GetStringAsync($"/machine/maintenance/get-group-mc-status-all?reportDate={reportDate}");
+                return System.Text.Json.JsonSerializer.Deserialize<List<GroupMachineStatusDto>>(response, _serializerOptions);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return default;
+        }
+
         public async Task<int> UpdateMachineStatusByMcid(MachineStatusUpdateDto machineInfoDto)
         {
             try

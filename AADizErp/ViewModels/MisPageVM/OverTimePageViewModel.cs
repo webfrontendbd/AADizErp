@@ -14,16 +14,11 @@ namespace AADizErp.ViewModels.MisPageVM
         [ObservableProperty]
         ObservableRangeCollection<OvertimeDto> overtimes = new();
         [ObservableProperty]
-        ObservableRangeCollection<Organization> organizations = new();
-        [ObservableProperty]
-        int selectedFactoryIndex;
-        [ObservableProperty]
-        DateTime currentDate = DateTime.Now;
+        DateTime currentDate = DateTime.Today.AddDays(-1);
 
         public OverTimePageViewModel(MisServices misService)
         {
             _misService = misService;
-            Organizations.Add(new Organization { OrganizationName = "Select an unit", Abbr = "NA" });
             OvertimeSummaryOnPageLoad();
         }
 
@@ -42,33 +37,24 @@ namespace AADizErp.ViewModels.MisPageVM
                 Overtimes.AddRange(returnOvertimes);
             }
 
-            if (userInfo.Factories.Length > 0)
-            {
-                for (int i = 0; i < userInfo.Factories.Length; i++)
-                {
-                    var org = new Organization
-                    {
-                        OrganizationName = userInfo.Factories[i]
-                    };
-                    Organizations.Add(org);
-                }
-            }
 
         }
         [RelayCommand]
         async Task GetDailyOvertimeSummary()
         {
+            var userInfo = await App.GetUserInfo();
+            var queryModel = new AppQueryModel
+            {
+                CompanyName = userInfo.TokenUserMetaInfo.OrganizationName,
+                DateFrom = CurrentDate.ToString("dd-MMM-yyyy"),
+                DateTo = CurrentDate.ToString("dd-MMM-yyyy"),
+            };
             try
             {
-                var company = Organizations.ElementAt(SelectedFactoryIndex).OrganizationName;
-                string qDate = CurrentDate.ToString("dd-MMM-yyyy");
-                if (company != "Select an unit")
+                var returnObject = await _misService.GetGroupOvertimeSummary(queryModel.DateFrom, queryModel.DateTo, queryModel.CompanyName);
+                if (returnObject != null)
                 {
-                    var returnObject = await _misService.GetGroupOvertimeSummary(qDate, qDate, company);
-                    if (returnObject != null)
-                    {
-                        Overtimes.ReplaceRange(returnObject);
-                    }
+                    Overtimes.ReplaceRange(returnObject);
                 }
             }
             catch (Exception ex)

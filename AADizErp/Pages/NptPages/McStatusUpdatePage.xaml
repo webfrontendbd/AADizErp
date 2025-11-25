@@ -2,17 +2,17 @@
 <ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:AADizErp.Converters"
     xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
     xmlns:vm="clr-namespace:AADizErp.ViewModels.McPageVM"
     x:DataType="vm:McStatusUpdatePageViewModel"
     x:Class="AADizErp.Pages.NptPages.McStatusUpdatePage"
     Title="Update Machine Status">
-    <!--xmlns:local="clr-namespace:AADizErp.Converters"-->
-    <!--<ContentPage.Resources>
+    <ContentPage.Resources>
         <ResourceDictionary>
             <local:InverseBoolConverter x:Key="InverseBoolConverter" />
         </ResourceDictionary>
-    </ContentPage.Resources>-->
+    </ContentPage.Resources>
 
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="18">
