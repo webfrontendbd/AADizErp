@@ -37,7 +37,7 @@
                     <!-- 2nd fixed column -->
                     <dxg:TextColumn FieldName="TotalOtHours" Caption="OT Hours" IsReadOnly="True" FixedStyle="Start" Width="75" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                     
-                    <dxg:TextColumn FieldName="TotalManpower" Caption="Man Power" IsReadOnly="True" FixedStyle="Start" Width="76" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                    <dxg:TextColumn FieldName="TotalManpower" Caption="Man Power" IsReadOnly="True" FixedStyle="Start" Width="77" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
 
                     <dxg:TextColumn FieldName="MP0" Caption="0" Width="60" VerticalContentAlignment="Center" />
                     <dxg:TextColumn FieldName="MP5" Caption="0.5" Width="60" VerticalContentAlignment="Center" />

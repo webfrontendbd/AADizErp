@@ -167,6 +167,7 @@ namespace AADizErp
             builder.Services.AddTransient<OverTimePageViewModel>();
 
             builder.Services.AddTransient<eAttendancePage>();
+            builder.Services.AddTransient<Mis_eAttendancePageViewModel>();
             builder.Services.AddTransient<ProductionPage>();
             builder.Services.AddTransient<MachinesPage>();
             builder.Services.AddTransient<GroupMachineStatusPageViewModel>();
