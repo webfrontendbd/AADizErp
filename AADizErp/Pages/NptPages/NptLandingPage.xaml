@@ -6,7 +6,7 @@
              xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              ios:Page.UseSafeArea="True"
              BackgroundColor="{StaticResource AppBgColor}"
-             Title="Npt Landing">
+             Title="Maintenance Services">
     <ScrollView Padding="{OnPlatform iOS='10,15,10,15', Default='10'}">
         <dx:DXStackLayout>
 
@@ -16,7 +16,7 @@
                         <dx:DXBorder Grid.Row="0"  BackgroundColor="White" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}"   BorderColor="Transparent">
                             <Image Source="sewingmc" HorizontalOptions="Center" Aspect="Fill"  />
                         </dx:DXBorder>
-                        <Label Grid.Row="1" Text="MC Update" FontSize="12" TextColor="{StaticResource Asian}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                        <Label Grid.Row="1" Text="Machine" FontSize="12" TextColor="{StaticResource Asian}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                     </Grid>
                 </dx:DXButton>
 

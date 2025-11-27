@@ -76,6 +76,7 @@ namespace AADizErp
             builder.Services.AddSingleton<ConveyanceService>();
             builder.Services.AddSingleton<MisServices>();
             builder.Services.AddSingleton<MachineService>();
+            builder.Services.AddSingleton<Mis_eAttendanceServices>();
             //builder.Services.AddSingleton<ZXing.Net.Maui.Controls.CameraView>();
 
             //Pages and viewmodels
@@ -173,6 +174,8 @@ namespace AADizErp
             builder.Services.AddTransient<GroupMachineStatusPageViewModel>();
             builder.Services.AddTransient<McStatusUpdatePage>();
             builder.Services.AddTransient<McStatusUpdatePageViewModel>();
+            builder.Services.AddTransient<MachineInfoPage>();
+            builder.Services.AddTransient<MachineInfoPageViewModel>();
 
             #endregion
 

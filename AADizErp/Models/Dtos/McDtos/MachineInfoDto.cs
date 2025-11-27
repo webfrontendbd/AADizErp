@@ -20,6 +20,7 @@ namespace AADizErp.Models.Dtos.McDtos
         public string Brand { get; set; }
         public string Model { get; set; }
         public string UpdatedBy { get; set; }
+        public DateTime PurchaseDate { get; set; } = DateTime.Now.Date;
     }
     public class GroupMachineStatusDto
     {
@@ -52,5 +53,27 @@ namespace AADizErp.Models.Dtos.McDtos
     {
         public string Lineid { get; set; }
         public string Linename { get; set; }
+    }
+    public class ServiceHistoryModel
+    {
+        public DateTime ServiceDate { get; set; }
+        public string ServiceType { get; set; }
+        public string Remarks { get; set; }
+    }
+
+    public class SparePartsModel
+    {
+        public string PartName { get; set; }
+        public int Quantity { get; set; }
+        public DateTime ChangedDate { get; set; }
+        public string Remarks { get; set; }
+    }
+
+    public class MovementHistoryModel
+    {
+        public string FromLocation { get; set; }
+        public string ToLocation { get; set; }
+        public DateTime MovedDate { get; set; }
+        public string Note { get; set; }
     }
 }

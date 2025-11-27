@@ -36,7 +36,7 @@ namespace AADizErp
             BindingContext = viewModel;
             ReadFireBaseAdminSdk();
             NavigateToPage();
-            
+
         }
 
         private async void OnClickedCircle(object sender, EventArgs e)
@@ -137,8 +137,12 @@ namespace AADizErp
         }
         private async void HrPageMenu_Tapped(object sender, EventArgs e)
         {
+            var allowedRoles = new[] { "Super Admin", "HR Manager", "HR Executive","HR GM", "HR Officer", "IT GM", "IT Executive" };
             var userInfo = await App.GetUserInfo();
-            if (userInfo.Factories.Length > 0)
+
+            if (userInfo.Roles.Any(r => allowedRoles
+            .Contains(r, StringComparer.OrdinalIgnoreCase)) 
+                && userInfo.Factories.Length > 0)
             {
                 await Shell.Current.GoToAsync($"{nameof(HrLandingPage)}");
             }
@@ -170,19 +174,39 @@ namespace AADizErp
         }
 
         private async void SettingPageMenu_Tapped(object sender, EventArgs e)
-        {            
+        {
             await Shell.Current.GoToAsync($"{nameof(SettingsLandingPage)}");
             //await Shell.Current.DisplayAlert("Unauthorized!", "You are not authorized to use this feature", "OK");
         }
 
-        private async void NptMenu_Tapped(object sender, EventArgs e)
+        private async void MaintenanceMenu_Tapped(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync($"{nameof(NptLandingPage)}");
+            var allowedRoles = new[] { "Super Admin", "Maintenance", "Maintenance Manager", "Maintenance GM", "IT GM", "IE Manager" };
+            var userInfo = await App.GetUserInfo();
+            if (userInfo.Roles.Any(r => allowedRoles.Contains(r, StringComparer.OrdinalIgnoreCase)))
+            {
+                await Shell.Current.GoToAsync($"{nameof(NptLandingPage)}");
+            }
+            else
+            {
+                await Shell.Current.DisplayAlert("Unauthorized!", "You are not authorized to use this feature", "OK");
+            }
+
         }
 
         private async void MisMenu_Tapped(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync($"{nameof(MisLandingPage)}");
+            var allowedRoles = new[] { "Super Admin", "IT GM" };
+            var userInfo = await App.GetUserInfo();
+            if (userInfo.Roles.Any(r => allowedRoles.Contains(r, StringComparer.OrdinalIgnoreCase)))
+            {
+                await Shell.Current.GoToAsync($"{nameof(MisLandingPage)}");
+            }
+            else
+            {
+                await Shell.Current.DisplayAlert("Unauthorized!", "You are not authorized to use this feature", "OK");
+            }
+            
         }
     }
 }

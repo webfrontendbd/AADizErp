@@ -25,9 +25,9 @@ namespace AADizErp.Services.MisServices
 
         public async Task<List<RemoteAttendanceDto>> GeteAttendanceListForSuperAdmin(AppQueryModel qm)
         {
+           await SetAuthToken();
             try
             {
-                await SetAuthToken();
                 var response = await _client.GetAsync($"/hr/attendance/get-eattendance-list-for-superadmin?CompanyName={qm.CompanyName}&CardId={qm.CardId}&DateFrom={qm.DateFrom}&DateTo={qm.DateTo}&Status={qm.Status}");
                 response.EnsureSuccessStatusCode();
                 var jsonResponse = await response.Content.ReadAsStringAsync();

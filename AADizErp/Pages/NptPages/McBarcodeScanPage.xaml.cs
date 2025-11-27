@@ -51,10 +51,13 @@ public partial class McBarcodeScanPage : ContentPage
                 BarcodeScannerView.IsDetecting = false;
 
                 var text = e.Results.First().Value;
-
                 await Shell.Current.GoToAsync(
-                    $"{nameof(McStatusUpdatePage)}?Mcid={Uri.EscapeDataString(text)}"
-                );
+                   $"{nameof(MachineInfoPage)}?Mcid={Uri.EscapeDataString(text)}"
+               );
+
+                //await Shell.Current.GoToAsync(
+                //    $"{nameof(McStatusUpdatePage)}?Mcid={Uri.EscapeDataString(text)}"
+                //);
             }
             catch (Exception ex)
             {

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:dx="http://schemas.devexpress.com/maui"
+    xmlns:vm="clr-namespace:AADizErp.ViewModels.McPageVM"
+    x:DataType="vm:MachineInfoPageViewModel"
+    xmlns:models="clr-namespace:AADizErp.Models.Dtos.McDtos"
+    x:Class="AADizErp.Pages.NptPages.MachineInfoPage"
+    Title="Machine Scan Result">
+
+    <dx:TabView HeaderPanelPosition="Bottom"
+                ItemHeaderWidth="*"
+                ItemHeaderIconColor="Red"
+                ItemHeaderTextColor="{StaticResource Asian}"
+                IsSelectedItemIndicatorVisible="False">
+
+        <!-- MACHINE INFO -->
+        <dx:TabViewItem HeaderText="Machine Info">
+            <dx:TabViewItem.Content>
+                <Grid Padding="25" RowDefinitions="Auto, Auto">
+
+                    <Label Text="Machine Basic Information" Grid.Row="0" FontAttributes="Bold" FontSize="18"/>
+
+                    <Grid Grid.Row="1" ColumnDefinitions="150,*" RowSpacing="5" RowDefinitions="Auto,Auto,Auto,Auto">
+
+                        <Label Text="Machine Name:" Grid.Row="0" Grid.Column="0"/>
+                        <Label Text="{Binding MachineInfoDto.Mcid}" Grid.Row="0" Grid.Column="1"/>
+
+                        <Label Text="Model:" Grid.Row="1" Grid.Column="0"/>
+                        <Label Text="{Binding MachineInfoDto.Model}" Grid.Row="1" Grid.Column="1"/>
+
+                        <Label Text="Serial No:" Grid.Row="2" Grid.Column="0"/>
+                        <Label Text="{Binding MachineInfoDto.Serial}" Grid.Row="2" Grid.Column="1"/>
+
+                        <Label Text="Purchase Date:" Grid.Row="3" Grid.Column="0"/>
+                        <Label Text="{Binding MachineInfoDto.PurchaseDate, StringFormat='{0:dd-MMM-yyyy}'}" Grid.Row="3" Grid.Column="1"/>
+
+                    </Grid>
+
+                </Grid>
+            </dx:TabViewItem.Content>
+        </dx:TabViewItem>
+
+
+        <!-- SERVICING HISTORY -->
+        <dx:TabViewItem HeaderText="Servicing History">
+
+            <dx:TabViewItem.Content>
+                <Grid Padding="25">
+                    <dx:DataGridView ItemsSource="{Binding ServiceHistoryList}">
+                        <dx:DateColumn FieldName="ServiceDate" Caption="Date" DisplayFormat="dd-MM-yyyy" />
+                        <dx:TextColumn FieldName="ServiceType" Caption="Service Type" />
+                        <dx:MultilineTextColumn FieldName="Remarks" Caption="Remarks" />
+                    </dx:DataGridView>
+                </Grid>
+
+            </dx:TabViewItem.Content>
+
+        </dx:TabViewItem>
+
+
+        <!-- SPARE PARTS HISTORY -->
+        <dx:TabViewItem HeaderText="Spare Parts">
+            <dx:TabViewItem.Content>
+                <Grid Padding="25">
+                    <dx:DataGridView ItemsSource="{Binding SparePartsHistory}">
+                        <dx:TextColumn FieldName="PartName" Caption="Part" />
+                        <dx:NumberColumn FieldName="Quantity" Caption="Qty" />
+                        <dx:DateColumn FieldName="ChangedDate" Caption="Changed On" DisplayFormat="dd-MM-yyyy" />
+                        <dx:MultilineTextColumn FieldName="Remarks" Caption="Remarks" />
+                    </dx:DataGridView>
+                </Grid>
+
+            </dx:TabViewItem.Content>
+
+        </dx:TabViewItem>
+
+
+        <!-- MOVEMENT HISTORY -->
+        <dx:TabViewItem HeaderText="Movement History">
+            <dx:TabViewItem.Content>
+                <Grid Padding="25">
+                    <dx:DataGridView ItemsSource="{Binding MovementHistory}">
+                        <dx:TextColumn FieldName="FromLocation" Caption="From" />
+                        <dx:TextColumn FieldName="ToLocation" Caption="To" />
+                        <dx:DateColumn FieldName="MovedDate" Caption="Date" DisplayFormat="dd-MM-yyyy"/>
+                        <dx:MultilineTextColumn FieldName="Note" Caption="Note"/>
+                    </dx:DataGridView>
+                </Grid>
+            </dx:TabViewItem.Content>
+
+        </dx:TabViewItem>
+
+    </dx:TabView>
+
+</ContentPage>

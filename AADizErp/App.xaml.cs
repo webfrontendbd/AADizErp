@@ -38,7 +38,7 @@ namespace AADizErp
                 {
                     Username = jsonToken.Claims.Where(c => c.Type == ClaimTypes.Name).Select(c => c.Value).ToString(),
                     TokenUserMetaInfo = tokenMeta,
-                    Roles = jsonToken.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToArray(),
+                    Roles = jsonToken.Claims.Where(c => c.Type == "role").Select(c => c.Value).ToArray(),
                     Permissions = jsonToken.Claims.Where(c => c.Type == "permissions").Select(c => c.Value).ToArray(),
                     Factories = jsonToken.Claims.Where(c => c.Type == "factories").Select(c => c.Value).ToArray(),
                     Buyers = jsonToken.Claims.Where(c => c.Type == "buyer").Select(c => c.Value).ToArray(),
