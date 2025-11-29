@@ -71,9 +71,9 @@ namespace AADizErp.Models.Dtos.McDtos
 
     public class MovementHistoryModel
     {
-        public string FromLocation { get; set; }
-        public string ToLocation { get; set; }
-        public DateTime MovedDate { get; set; }
-        public string Note { get; set; }
+        public string Mcid { get; set; }
+        public int Orgid { get; set; }
+        public string Orgname { get; set; }
+        public string MovedDate { get; set; }
     }
 }

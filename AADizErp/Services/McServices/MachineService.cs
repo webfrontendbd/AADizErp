@@ -95,6 +95,57 @@ namespace AADizErp.Services.McServices
             return default;
         }
 
+        public async Task<List<MovementHistoryModel>> GetMachineMovementHistoryByMcid(string mcid)
+        {
+            UserInfo userInfo = await App.GetUserInfo();
+            try
+            {
+                await SetAuthToken();
+                var response = await _client.GetStringAsync($"/machine/maintenance/get-mc-movement-history-bymcid?mcid={mcid}");
+                return System.Text.Json.JsonSerializer.Deserialize<List<MovementHistoryModel>>(response, _serializerOptions);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return default;
+        }
+
+        public async Task<List<ServiceHistoryModel>> GetMachineServicingHistoryByMcid(string mcid)
+        {
+            UserInfo userInfo = await App.GetUserInfo();
+            try
+            {
+                await SetAuthToken();
+                var response = await _client.GetStringAsync($"/machine/maintenance/get-mc-servicing-history-bymcid?mcid={mcid}");
+                return System.Text.Json.JsonSerializer.Deserialize<List<ServiceHistoryModel>>(response, _serializerOptions);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return default;
+        }
+
+        public async Task<List<SparePartsModel>> GetMachineSparePartsHistoryByMcid(string mcid)
+        {
+            UserInfo userInfo = await App.GetUserInfo();
+            try
+            {
+                await SetAuthToken();
+                var response = await _client.GetStringAsync($"/machine/maintenance/get-mc-spareparts-history-bymcid?mcid={mcid}");
+                return System.Text.Json.JsonSerializer.Deserialize<List<SparePartsModel>>(response, _serializerOptions);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return default;
+        }
+
         public async Task<int> UpdateMachineStatusByMcid(MachineStatusUpdateDto machineInfoDto)
         {
             try

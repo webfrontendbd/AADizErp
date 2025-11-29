@@ -22,28 +22,21 @@ namespace AADizErp.ViewModels.ManagerPagesVM
             GetRemoteAttendanceListForStatusUpdate();
         }
 
-
-        private void GetRemoteAttendanceListForStatusUpdate()
+        private async void GetRemoteAttendanceListForStatusUpdate()
         {
             IsLoading = true;
             Attendances.Clear();
-            Task.Run(async () =>
+            var userInfo = await App.GetUserInfo();
+            _remoteAttendances = await _attnService.GetRemoteAttendanceListByManagerUsername(userInfo.TokenUserMetaInfo.UserName);
+            if (_remoteAttendances != null)
             {
-                var userInfo = await App.GetUserInfo();
-                _remoteAttendances = await _attnService.GetRemoteAttendanceListByManagerUsername(userInfo.TokenUserMetaInfo.UserName);
-                if (_remoteAttendances != null)
-                {
-                    App.Current.Dispatcher.Dispatch(() =>
-                    {
-                        Attendances.ReplaceRange(_remoteAttendances.Take(_pageSize).ToList());
-                        IsLoading = false;
-                    }); 
-                }
-                else
-                {
-                    IsLoading = false;
-                }
-            });
+                Attendances.ReplaceRange(_remoteAttendances.Take(_pageSize).ToList());
+                IsLoading = false;
+            }
+            else
+            {
+                IsLoading = false;
+            }
 
         }
 

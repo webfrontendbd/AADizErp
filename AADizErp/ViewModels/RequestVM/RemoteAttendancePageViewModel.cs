@@ -2,13 +2,9 @@
 using AADizErp.Models.Dtos;
 using AADizErp.Services;
 using AADizErp.Services.RequestServices;
-using CommunityToolkit.Maui.ApplicationModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using DevExpress.Maui.Core;
-//using IntelliJ.Lang.Annotations;
-
-//using IntelliJ.Lang.Annotations;
 using MvvmHelpers;
 
 namespace AADizErp.ViewModels.RequestVM
@@ -40,39 +36,36 @@ namespace AADizErp.ViewModels.RequestVM
 
         public RemoteAttendancePageViewModel(AttendanceService attnService, NotificationService notify)
         {
-            _attnService=attnService;
-            _notify=notify;
+            _attnService = attnService;
+            _notify = notify;
             GetRemoteAttendanceList(pageNumber, pageSize);
         }
 
-        private void GetRemoteAttendanceList(int index, int size)
+        private async void GetRemoteAttendanceList(int index, int size)
         {
             if (totalCount != 0) totalCount = 0;
+
             IsLoading = true;
             Attendances.Clear();
-            Task.Run(async () =>
+
+            var userInfo = await App.GetUserInfo();
+
+            IndividualAttendanceSummary =
+                await _attnService.GetIndividualAttendanceSummary(userInfo);
+
+            var returnAttendances =
+                await _attnService.GetAttendanceDetailsByEmpid(
+                    userInfo.TokenUserMetaInfo.EmployeeNumber, index, size);
+
+            if (returnAttendances?.Count > 0)
             {
-                var userInfo = await App.GetUserInfo();
+                totalCount = returnAttendances.Count;
+                Attendances.ReplaceRange(returnAttendances.Data);
+            }
 
-                IndividualAttendanceSummary = await _attnService.GetIndividualAttendanceSummary(userInfo);
-                var returnAttendances = await _attnService.GetAttendanceDetailsByEmpid(userInfo.TokenUserMetaInfo.EmployeeNumber, index, size);
-
-                if (returnAttendances.Count >0)
-                {
-                    App.Current.Dispatcher.Dispatch(() =>
-                    {
-                        totalCount = returnAttendances.Count;
-                        Attendances.ReplaceRange(returnAttendances.Data);
-                        IsLoading = false;
-                    });
-                }
-                else
-                {
-                    IsLoading = false;
-                }
-
-            });  
+            IsLoading = false;
         }
+
 
         [RelayCommand]
         async Task PullToRefreshAttendances()
@@ -136,99 +129,147 @@ namespace AADizErp.ViewModels.RequestVM
         [RelayCommand]
         async Task ValidateAndSave(ValidateItemEventArgs e)
         {
-            if (IsBusy)
-                return;
-
+            if (IsBusy) return;
             IsBusy = true;
 
             try
             {
-                var obj = (RemoteAttendanceDto)e.Item;
-
+                // Network check
                 if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
                 {
-                    await Shell.Current.DisplayAlert("Oops!", "You are disconnected from the internet.", "OK");
+                    await ShowAlert("Oops!", "You are disconnected from the internet.");
+                    return;
+                }
+
+                // Validate object
+                if (e.Item is not RemoteAttendanceDto obj)
+                {
+                    await ShowAlert("Error!", "Invalid attendance request.");
                     return;
                 }
 
                 if (string.IsNullOrWhiteSpace(obj.Reason))
                 {
-                    await Shell.Current.DisplayAlert("Reason Missing!", "Please enter a valid reason.", "OK");
+                    await ShowAlert("Reason Missing!", "Please enter a valid reason.");
                     return;
                 }
 
-                // Get required data
-                string token = await App.GetAuthToken();
+                // Get user info
                 var tokenInfo = await App.GetUserInfo();
-                var location = await _attnService.GetCurrentLocation();
+
+                // Get fresh location
+                Location location = await GetFreshLocationAsync();
+
+                // Retry once if needed
+                if (location == null)
+                {
+                    await Task.Delay(1500);
+                    location = await GetFreshLocationAsync();
+                }
 
                 if (location == null)
                 {
-                    await Shell.Current.DisplayAlert("Location Error!", "Unable to get your current location.", "OK");
+                    await ShowAlert("Location Error", "Unable to detect your current location. Move to an open area and try again.");
                     return;
                 }
 
-                var placemarks = await Geocoding.Default.GetPlacemarksAsync(location.Latitude, location.Longitude);
-                var placemark = placemarks?.FirstOrDefault();
+                // Build address
+                string address = await BuildAddressAsync(location);
 
-                // Fill object
-                RemoteAttendance.JobId = tokenInfo?.TokenUserMetaInfo?.EmployeeNumber;
-                RemoteAttendance.FullName = tokenInfo?.TokenUserMetaInfo?.Name;
-                RemoteAttendance.Latitude = location.Latitude;
-                RemoteAttendance.Longitude = location.Longitude;
-                RemoteAttendance.RequestedBy = tokenInfo?.TokenUserMetaInfo?.UserName;
-                RemoteAttendance.ApprovedBy = tokenInfo?.TokenUserMetaInfo?.ManagerUserName;
-                RemoteAttendance.Reason = obj.Reason;
-                RemoteAttendance.RequestedTime = DateTime.Now.ToString("dd-MMM-yyyy hh:mm tt");
+                // Prepare attendance object
+                RemoteAttendance = new()
+                {
+                    JobId = tokenInfo?.TokenUserMetaInfo?.EmployeeNumber,
+                    FullName = tokenInfo?.TokenUserMetaInfo?.Name,
+                    RequestedBy = tokenInfo?.TokenUserMetaInfo?.UserName,
+                    ApprovedBy = tokenInfo?.TokenUserMetaInfo?.ManagerUserName,
+                    Reason = obj.Reason,
+                    Latitude = location.Latitude,
+                    Longitude = location.Longitude,
+                    RequestedTime = DateTime.Now.ToString("dd-MMM-yyyy hh:mm tt"),
+                    AttendanceArea = address
+                };
 
-                // Build address safely
-                RemoteAttendance.AttendanceArea = string.Join(", ",
-                    new[] {
-                placemark?.AdminArea,
-                placemark?.CountryCode,
-                placemark?.CountryName,
-                placemark?.FeatureName,
-                placemark?.Locality,
-                placemark?.PostalCode,
-                placemark?.SubAdminArea,
-                placemark?.SubLocality,
-                placemark?.SubThoroughfare,
-                placemark?.Thoroughfare
-                    }.Where(x => !string.IsNullOrWhiteSpace(x)));
-
-                // Submit
+                // Submit request
                 var returnAttn = await _attnService.SubmitAttendanceRequest(RemoteAttendance);
 
                 if (returnAttn == null)
                 {
-                    await Shell.Current.DisplayAlert("Duplicate Found!", "You can't enter attendance twice in one day.", "OK");
+                    await ShowAlert("Duplicate Found!", "You cannot enter attendance twice in one day.");
                     return;
                 }
 
-                // Try to send notification
+                // Send push notification
                 bool sent = await _notify.SendAttendancePushNotificationToManager(returnAttn);
-                if (sent)
+
+                if (!sent)
                 {
-                    //await Shell.Current.DisplayAlert("Success!", "Your attendance has been submitted and your manager has been notified.", "OK");
-                    Attendances.Add(returnAttn);
-                }
-                else
-                {
-                    await Shell.Current.DisplayAlert("Submitted", "Your attendance has been submitted, but notification could not be sent.", "OK");
+                    await ShowAlert("Submitted", "Attendance submitted, but notification to manager failed.");
                 }
 
-                //Attendances.Add(returnAttn);
-                RemoteAttendance = new();
+                // Add to local list
+                Attendances.Add(returnAttn);
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Error", $"Something went wrong while submitting your attendance.\n\n{ex.Message}", "OK");
+                await ShowAlert("Error", $"An unexpected error occurred.\n\n{ex.Message}");
             }
             finally
             {
                 IsBusy = false;
             }
         }
+
+        private async Task<Location> GetFreshLocationAsync()
+        {
+            try
+            {
+                // Force fresh GPS location (best accuracy)
+                var request = new GeolocationRequest(
+                    GeolocationAccuracy.Best,
+                    TimeSpan.FromSeconds(10));
+
+                var location = await Geolocation.GetLocationAsync(request);
+
+                if (location != null)
+                    return location;
+
+                // Fallback
+                return await Geolocation.GetLastKnownLocationAsync();
+            }
+            catch
+            {
+                // If everything fails
+                return await Geolocation.GetLastKnownLocationAsync();
+            }
+        }
+
+        private async Task<string> BuildAddressAsync(Location location)
+        {
+            var placemarks = await Geocoding.Default.GetPlacemarksAsync(location.Latitude, location.Longitude);
+            var p = placemarks?.FirstOrDefault();
+
+            var parts = new[]
+            {
+                p?.Thoroughfare,
+                p?.SubThoroughfare,
+                p?.Locality,
+                p?.SubLocality,
+                p?.AdminArea,
+                p?.SubAdminArea,
+                p?.CountryName,
+                p?.PostalCode
+            };
+
+            return string.Join(", ", parts.Where(x => !string.IsNullOrWhiteSpace(x)));
+        }
+
+        private async Task ShowAlert(string title, string message) =>
+            await Shell.Current.DisplayAlert(title, message, "OK");
+
+
+
+
 
     }
 }

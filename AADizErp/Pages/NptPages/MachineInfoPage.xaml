@@ -5,93 +5,103 @@
     xmlns:dx="http://schemas.devexpress.com/maui"
     xmlns:vm="clr-namespace:AADizErp.ViewModels.McPageVM"
     x:DataType="vm:MachineInfoPageViewModel"
-    xmlns:models="clr-namespace:AADizErp.Models.Dtos.McDtos"
     x:Class="AADizErp.Pages.NptPages.MachineInfoPage"
     Title="Machine Scan Result">
 
-    <dx:TabView HeaderPanelPosition="Bottom"
-                ItemHeaderWidth="*"
-                ItemHeaderIconColor="Red"
-                ItemHeaderTextColor="{StaticResource Asian}"
-                IsSelectedItemIndicatorVisible="False">
+    <Grid RowDefinitions="Auto,Auto,*" RowSpacing="5">
+        <Grid Grid.Row="0" Padding="35,0,35,0" ColumnDefinitions="*,*,*" ColumnSpacing="15">
+            <dx:DXButton Grid.Column="0" Icon="mc.png" ButtonType="Accent" Content="Call For Servicing"></dx:DXButton>
+            <dx:DXButton Grid.Column="1" Icon="sewingmc.png" ButtonType="Accent" Content="Update Machine Info" Tap="MachineUpdateButton_Tapped" BindingContext="{Binding}"></dx:DXButton>
+            <dx:DXButton Grid.Column="2" Icon="maps.png" ButtonType="Accent" Content="Machine Transfer"></dx:DXButton>
+        </Grid>
 
-        <!-- MACHINE INFO -->
-        <dx:TabViewItem HeaderText="Machine Info">
-            <dx:TabViewItem.Content>
-                <Grid Padding="25" RowDefinitions="Auto, Auto">
+        <Grid Grid.Row="1"  Padding="15" >
 
-                    <Label Text="Machine Basic Information" Grid.Row="0" FontAttributes="Bold" FontSize="18"/>
+            <!-- MACHINE INFO OUTSIDE TABS -->
+            <dx:DXBorder Padding="15" CornerRadius="10" BackgroundColor="#f2f2f2">
+                <Grid RowDefinitions="Auto, Auto,Auto,*" RowSpacing="5">
+                    <dx:DXBorder Grid.Row="0" CornerRadius="5" BackgroundColor="{StaticResource Asian}">
+                        <Label  Text="Machine Information" 
+                                Padding="5" TextColor="White"
+                                FontAttributes="Bold" FontSize="20"/>
+                    </dx:DXBorder>
+                    
+                    <Label Grid.Row="1" 
+                           HorizontalTextAlignment="Center" 
+                           FontAttributes="Bold" 
+                           Text="{Binding MachineInfoDto.Mcid}" 
+                           FontSize="18" 
+                           Margin="0, 0, 0,5"/>
+                    
+                    <Label Grid.Row="2" 
+                           HorizontalTextAlignment="Center" 
+                           FontAttributes="Bold" 
+                           Text="{Binding MachineInfoDto.Orgname}" 
+                           FontSize="18" Margin="0, 0, 0,5"/>
+                    
+                    <Grid Grid.Row="3" RowDefinitions="Auto, Auto, Auto" RowSpacing="10" >
+                        <Grid Grid.Row="0"  ColumnDefinitions="*,*,*,*">
+                            <Label Grid.Column="0" FontAttributes="Bold" Text="Model" FontSize="16"/>
+                            <Label Grid.Column="1" Text="{Binding MachineInfoDto.Model}" FontSize="16"/>
+                            <Label Grid.Column="2" FontAttributes="Bold" Text="Floor" FontSize="16"/>
+                            <Label Grid.Column="3" Text="{Binding MachineInfoDto.Floorname}" FontSize="16"/>
+                        </Grid>
+                        <Grid Grid.Row="1" ColumnDefinitions="*,*,*,*">
+                            <Label Grid.Column="0" FontAttributes="Bold" Text="Line" FontSize="16"/>
+                            <Label Grid.Column="1" Text="{Binding MachineInfoDto.Line}" FontSize="16"/>
+                            <Label Grid.Column="2" FontAttributes="Bold" Text="Status" FontSize="16"/>
+                            <Label Grid.Column="3" Text="{Binding MachineInfoDto.Status}" FontSize="16"/>
+                        </Grid>
 
-                    <Grid Grid.Row="1" ColumnDefinitions="150,*" RowSpacing="5" RowDefinitions="Auto,Auto,Auto,Auto">
-
-                        <Label Text="Machine Name:" Grid.Row="0" Grid.Column="0"/>
-                        <Label Text="{Binding MachineInfoDto.Mcid}" Grid.Row="0" Grid.Column="1"/>
-
-                        <Label Text="Model:" Grid.Row="1" Grid.Column="0"/>
-                        <Label Text="{Binding MachineInfoDto.Model}" Grid.Row="1" Grid.Column="1"/>
-
-                        <Label Text="Serial No:" Grid.Row="2" Grid.Column="0"/>
-                        <Label Text="{Binding MachineInfoDto.Serial}" Grid.Row="2" Grid.Column="1"/>
-
-                        <Label Text="Purchase Date:" Grid.Row="3" Grid.Column="0"/>
-                        <Label Text="{Binding MachineInfoDto.PurchaseDate, StringFormat='{0:dd-MMM-yyyy}'}" Grid.Row="3" Grid.Column="1"/>
-
+                        <Grid Grid.Row="2" ColumnDefinitions="*,*,*,*">
+                            <Label Grid.Column="0" FontAttributes="Bold" Text="Serial" FontSize="16"/>
+                            <Label Grid.Column="1" Text="{Binding MachineInfoDto.Serial}" FontSize="16"/>
+                            <Label Grid.Column="2" FontAttributes="Bold" Text="Purchase Date" FontSize="16"/>
+                            <Label Grid.Column="3" Text="{Binding MachineInfoDto.PurchaseDate, StringFormat='{0:dd-MMM-yyyy}'}" FontSize="16"/>
+                        </Grid>                        
                     </Grid>
-
+                    
                 </Grid>
-            </dx:TabViewItem.Content>
-        </dx:TabViewItem>
+            </dx:DXBorder>
+        </Grid>
 
+        <Grid Grid.Row="2" Padding="15">
+            <!-- TABS BELOW -->
+            <dx:TabView>
+                <!-- Service History -->
+                <dx:TabViewItem HeaderText="Servicing History">
+                    <dx:TabViewItem.Content>
+                        <dx:DataGridView ItemsSource="{Binding ServiceHistoryList}">
+                            <dx:DateColumn FieldName="ServiceDate" Caption="Date" DisplayFormat="dd-MM-yyyy" />
+                            <dx:TextColumn FieldName="ServiceType" Caption="Service Type" />
+                            <dx:MultilineTextColumn FieldName="Remarks" Caption="Remarks" />
+                        </dx:DataGridView>
+                    </dx:TabViewItem.Content>
+                </dx:TabViewItem>
 
-        <!-- SERVICING HISTORY -->
-        <dx:TabViewItem HeaderText="Servicing History">
+                <!-- Spare Parts -->
+                <dx:TabViewItem HeaderText="Spare Parts History">
+                    <dx:TabViewItem.Content>
+                        <dx:DataGridView ItemsSource="{Binding SparePartsHistory}">
+                            <dx:TextColumn FieldName="PartName" Caption="Part" />
+                            <dx:NumberColumn FieldName="Quantity" Caption="Qty" />
+                            <dx:DateColumn FieldName="ChangedDate" Caption="Changed On" DisplayFormat="dd-MM-yyyy" />
+                            <dx:MultilineTextColumn FieldName="Remarks" Caption="Remarks" />
+                        </dx:DataGridView>
+                    </dx:TabViewItem.Content>
+                </dx:TabViewItem>
 
-            <dx:TabViewItem.Content>
-                <Grid Padding="25">
-                    <dx:DataGridView ItemsSource="{Binding ServiceHistoryList}">
-                        <dx:DateColumn FieldName="ServiceDate" Caption="Date" DisplayFormat="dd-MM-yyyy" />
-                        <dx:TextColumn FieldName="ServiceType" Caption="Service Type" />
-                        <dx:MultilineTextColumn FieldName="Remarks" Caption="Remarks" />
-                    </dx:DataGridView>
-                </Grid>
+                <!-- Movement History -->
+                <dx:TabViewItem HeaderText="Movement History">
+                    <dx:TabViewItem.Content>
+                        <dx:DataGridView ItemsSource="{Binding MovementHistory}">
+                            <dx:DateColumn FieldName="MovedDate" Caption="Date"/>
+                            <dx:TextColumn FieldName="Orgname" Caption="From" />
+                        </dx:DataGridView>
+                    </dx:TabViewItem.Content>
+                </dx:TabViewItem>
+            </dx:TabView>
 
-            </dx:TabViewItem.Content>
-
-        </dx:TabViewItem>
-
-
-        <!-- SPARE PARTS HISTORY -->
-        <dx:TabViewItem HeaderText="Spare Parts">
-            <dx:TabViewItem.Content>
-                <Grid Padding="25">
-                    <dx:DataGridView ItemsSource="{Binding SparePartsHistory}">
-                        <dx:TextColumn FieldName="PartName" Caption="Part" />
-                        <dx:NumberColumn FieldName="Quantity" Caption="Qty" />
-                        <dx:DateColumn FieldName="ChangedDate" Caption="Changed On" DisplayFormat="dd-MM-yyyy" />
-                        <dx:MultilineTextColumn FieldName="Remarks" Caption="Remarks" />
-                    </dx:DataGridView>
-                </Grid>
-
-            </dx:TabViewItem.Content>
-
-        </dx:TabViewItem>
-
-
-        <!-- MOVEMENT HISTORY -->
-        <dx:TabViewItem HeaderText="Movement History">
-            <dx:TabViewItem.Content>
-                <Grid Padding="25">
-                    <dx:DataGridView ItemsSource="{Binding MovementHistory}">
-                        <dx:TextColumn FieldName="FromLocation" Caption="From" />
-                        <dx:TextColumn FieldName="ToLocation" Caption="To" />
-                        <dx:DateColumn FieldName="MovedDate" Caption="Date" DisplayFormat="dd-MM-yyyy"/>
-                        <dx:MultilineTextColumn FieldName="Note" Caption="Note"/>
-                    </dx:DataGridView>
-                </Grid>
-            </dx:TabViewItem.Content>
-
-        </dx:TabViewItem>
-
-    </dx:TabView>
-
+        </Grid>
+    </Grid>
 </ContentPage>

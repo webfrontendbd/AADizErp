@@ -12,56 +12,49 @@
              Title="Attendance Request List"
              BackgroundColor="{StaticResource AppBgColor}">
 
-        <Grid>
-            <dxcv:DXCollectionView 
+    <Grid Padding="10">
+        <dxcv:DXCollectionView 
                 IsRefreshing="{Binding IsLoading, Mode=TwoWay}"
                 ItemsSource="{Binding Attendances}"
                 IsLoadMoreEnabled="True" 
                 LoadMoreCommand="{Binding LoadMoreRemoteAttendanceDataCommand}"
                 IndicatorColor="{StaticResource Asian}">
 
-                <dxcv:DXCollectionView.ItemTemplate>
-                    <DataTemplate  x:DataType="{x:Type models:RemoteAttendanceDto}">
-                        <Frame HasShadow="False" BorderColor="{StaticResource Asian}" Margin="5,5,5,2" Padding="15,5,15,5">
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ManagerAttendanceListViewModel}}, Path=ViewAttendanceDetailsCommand }" CommandParameter="{Binding .}"/>
-                            </Frame.GestureRecognizers>
-                            <StackLayout HorizontalOptions="Fill"   Background="White">
-                                <Grid ColumnDefinitions="*,Auto">
-                                    <Grid Grid.Column="0" RowDefinitions="*,*,*">
+            <dxcv:DXCollectionView.ItemTemplate>
+                <DataTemplate  x:DataType="{x:Type models:RemoteAttendanceDto}">
+                    <dx:DXBorder BackgroundColor="White" CornerRadius="5" BorderColor="{StaticResource Asian}" Margin="10" >
+                        <dx:DXBorder.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ManagerAttendanceListViewModel}}, Path=ViewAttendanceDetailsCommand }" CommandParameter="{Binding .}"/>
+                        </dx:DXBorder.GestureRecognizers>
+                        <Grid Grid.Row="0" ColumnDefinitions="Auto,*" RowDefinitions="*,*,*,*" ColumnSpacing="5" RowSpacing="5" Padding="10" >
+                            <Label Grid.Column="0" Grid.Row="0" Text="Name:" TextColor="Black" FontAttributes="Bold"/>
+                            <Label Grid.Column="1" Grid.Row="0" Text="{Binding FullName}" TextColor="Black"/>
+                            <Grid Grid.ColumnSpan="2" Grid.Row="1" RowDefinitions="Auto,*">
+                                <Label Grid.Row="0" BackgroundColor="#f2f2f2" Text="Remote Attendance Reason" TextColor="Black" FontAttributes="Bold"/>
+                                <Label Grid.Row="1"  Text="{Binding Reason}" TextColor="MediumVioletRed"/>
+                            </Grid>
 
-                                        <Grid Grid.Row="0" ColumnDefinitions="Auto,*" RowDefinitions="*,*,*" ColumnSpacing="5">
-                                            <Label Grid.Column="0" Grid.Row="0" Text="Name"/>
-                                            <Label Grid.Column="1" Grid.Row="0" Text="{Binding FullName}"/>
+                            <Label Grid.Column="0" Grid.Row="2" Text="Date:" TextColor="Black" FontAttributes="Bold"/>
+                            <Label Grid.Column="1" Grid.Row="2" Text="{Binding Created}" TextColor="Black"/>
+                            <Label Grid.Column="0" Grid.Row="3" Text="Status:" TextColor="Black" FontAttributes="Bold"/>
+                            <Label Grid.Column="1" Grid.Row="3" Text="{Binding Status}" FontAttributes="Bold" HorizontalTextAlignment="Center">
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="Approved">
+                                        <Setter Property="TextColor" Value="Black" />
+                                        <Setter Property="BackgroundColor" Value="#AFE1AF" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="Pending">
+                                        <Setter Property="TextColor" Value="Black" />
+                                        <Setter Property="BackgroundColor" Value="#FFCA8A" />
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
+                        </Grid>
+                    </dx:DXBorder>
 
-                                            <Label Grid.Column="0" Grid.Row="1" Text="Reason"/>
-                                            <Label Grid.Column="1" Grid.Row="1" Text="{Binding Reason}" TextColor="OrangeRed"/>
+                </DataTemplate>
+            </dxcv:DXCollectionView.ItemTemplate>
+        </dxcv:DXCollectionView>
 
-                                            <Label Grid.Column="0" Grid.Row="2" Text="Date"/>
-                                            <Label Grid.Column="1" Grid.Row="2" Text="{Binding Created}"/>
-                                        </Grid>
-                                    </Grid>
-
-                                    <Grid Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center">
-                                        <Label Text="{Binding Status}">
-                                            <Label.Triggers>
-                                                <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="Approved">
-                                                    <Setter Property="TextColor" Value="Green" />
-                                                </DataTrigger>
-                                                <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="Pending">
-                                                    <Setter Property="TextColor" Value="Orange" />
-                                                </DataTrigger>
-                                            </Label.Triggers>
-                                        </Label>
-                                    </Grid>
-                                </Grid>
-
-                            </StackLayout>
-                        </Frame>
-
-                    </DataTemplate>
-                </dxcv:DXCollectionView.ItemTemplate>
-            </dxcv:DXCollectionView>
-
-        </Grid>
+    </Grid>
 </ContentPage>

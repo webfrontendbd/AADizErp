@@ -48,7 +48,7 @@ namespace AADizErp.ViewModels.McPageVM
 
         public List<MovementHistoryModel> MovementHistory { get; set; } =
         [
-            new() { FromLocation="Factory A", ToLocation="Factory B", MovedDate=DateTime.Now.AddMonths(-1), Note="Shifted for production" }
+            new() { Mcid="MOH-PMA-165", MovedDate="11-Nov-2025", Orgname="Mohara asian apparels ltd." }
         ];
     }
 }
