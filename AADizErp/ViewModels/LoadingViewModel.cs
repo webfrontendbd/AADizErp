@@ -1,5 +1,4 @@
-﻿
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 
 namespace AADizErp.ViewModels
 {
@@ -7,55 +6,68 @@ namespace AADizErp.ViewModels
     {
         public LoadingViewModel()
         {
-            CheckUserLoginDetails();
+            _ = InitializeAsync();
         }
-        private async void CheckUserLoginDetails()
+
+        private async Task InitializeAsync()
         {
-            //retrieve token
-            bool isAuthenticated = Preferences.Default.Get("IsAuthenticated", false);
-            if (!isAuthenticated)
+            try
             {
-                await GoToLoginPage();
-            }
-            else
-            {
-                var token = await SecureStorage.GetAsync("Token");
-                if (String.IsNullOrEmpty(token))
+                // 1. Check simple auth flag
+                if (!Preferences.Default.Get("IsAuthenticated", false))
                 {
                     await GoToLoginPage();
+                    return;
                 }
-                else
+
+                // 2. Retrieve token
+                var token = await SecureStorage.GetAsync("Token");
+                if (string.IsNullOrWhiteSpace(token))
                 {
-                    try
-                    {
-                        var jsonToken = new JwtSecurityTokenHandler().ReadToken(token) as JwtSecurityToken;
-                        if (jsonToken.ValidTo < DateTime.UtcNow)
-                        {
-                            SecureStorage.Remove("Token");
-                            await GoToLoginPage();
-                        }
-                        else
-                        {
-                            await GoToHomePage();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        await Shell.Current.DisplayAlert("Oops!", ex.Message, "OK");
-                    }
-                    
+                    await GoToLoginPage();
+                    return;
                 }
+
+                // 3. Validate JWT token expiration
+                if (!IsTokenValid(token))
+                {
+                    SecureStorage.Remove("Token");
+                    await GoToLoginPage();
+                    return;
+                }
+
+                // 4. Token is valid → go home
+                await GoToHomePage();
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Oops!", ex.Message, "OK");
+                await GoToLoginPage(); // fallback
             }
         }
 
-        private async Task GoToLoginPage()
+        private bool IsTokenValid(string token)
         {
-            await Shell.Current.GoToAsync($"///{nameof(LoginPage)}", true);
+            try
+            {
+                var handler = new JwtSecurityTokenHandler();
+                var jwt = handler.ReadToken(token) as JwtSecurityToken;
+
+                if (jwt == null)
+                    return false;
+
+                return jwt.ValidTo > DateTime.UtcNow;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
-        private async Task GoToHomePage()
-        {
-            await Shell.Current.GoToAsync($"///{nameof(MainPage)}", true);
-        }
+        private Task GoToLoginPage() =>
+            Shell.Current.GoToAsync($"///{nameof(LoginPage)}", true);
+
+        private Task GoToHomePage() =>
+            Shell.Current.GoToAsync($"///{nameof(MainPage)}", true);
     }
 }
