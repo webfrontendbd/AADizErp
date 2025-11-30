@@ -9,67 +9,121 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace AADizErp
 {
-    [Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density)]
+    [Activity(
+        Theme = "@style/Maui.SplashTheme",
+        MainLauncher = true,
+        ConfigurationChanges = ConfigChanges.ScreenSize |
+                               ConfigChanges.Orientation |
+                               ConfigChanges.UiMode |
+                               ConfigChanges.ScreenLayout |
+                               ConfigChanges.SmallestScreenSize |
+                               ConfigChanges.Density)]
     public class MainActivity : MauiAppCompatActivity
     {
         internal static readonly string Channel_ID = "TestChannel";
         internal static readonly int NotificationID = 101;
 
-        //new ImageCropper.Maui.Platform.Init();
-
         protected override void OnCreate(Bundle savedInstanceState)
         {
             new ImageCropper.Maui.Platform().Init(this);
+
             base.OnCreate(savedInstanceState);
-            // Platform.Init(this, savedInstanceState);
+
+            InitializeNotificationPermissions();
+        }
+
+        // ----------------------------------------------------------
+        //   NOTIFICATION PERMISSION HANDLING (ANDROID 33+)
+        // ----------------------------------------------------------
+
+        private const int NotificationPermissionRequestCode = 1010;
+
+        private void InitializeNotificationPermissions()
+        {
             if (Build.VERSION.SdkInt >= BuildVersionCodes.Tiramisu)
             {
-                if (ContextCompat.CheckSelfPermission(this, Android.Manifest.Permission.PostNotifications) == Permission.Denied)
-                {
-                    ActivityCompat.RequestPermissions(this, new string[] { Android.Manifest.Permission.PostNotifications }, 1);
-                }
-                else
-                {
-                    CreateNotificationChannel();
-                }
+                RequestNotificationPermissionFor33Plus();
             }
             else
             {
                 CreateNotificationChannel();
             }
-
         }
+
+        private void RequestNotificationPermissionFor33Plus()
+        {
+            var permission = Android.Manifest.Permission.PostNotifications;
+
+            if (ContextCompat.CheckSelfPermission(this, permission) == Permission.Denied)
+            {
+                ActivityCompat.RequestPermissions(
+                    this,
+                    new[] { permission },
+                    NotificationPermissionRequestCode);
+            }
+            else
+            {
+                CreateNotificationChannel();
+            }
+        }
+
+        public override void OnRequestPermissionsResult(
+            int requestCode,
+            string[] permissions,
+            Permission[] grantResults)
+        {
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+
+            if (requestCode == NotificationPermissionRequestCode &&
+                grantResults.Length > 0 &&
+                grantResults[0] == Permission.Granted)
+            {
+                CreateNotificationChannel();
+            }
+        }
+
+        // ----------------------------------------------------------
+        //   PUSH NOTIFICATION DATA HANDLING
+        // ----------------------------------------------------------
 
         protected override void OnNewIntent(Intent intent)
         {
             base.OnNewIntent(intent);
 
-            if (intent.Extras != null)
+            if (intent?.Extras == null)
+                return;
+
+            foreach (var key in intent.Extras.KeySet())
             {
-                foreach (var key in intent.Extras.KeySet())
+                if (key == "NavigationID")
                 {
-                    if (key == "NavigationID")
-                    {
-                        string idValue = intent.Extras.GetString(key);
-                        if (Preferences.ContainsKey("NavigationID"))
-                            Preferences.Remove("NavigationID");
+                    string idValue = intent.Extras.GetString(key);
 
-                        Preferences.Set("NavigationID", idValue);
+                    Preferences.Remove("NavigationID");
+                    Preferences.Set("NavigationID", idValue);
 
-                        WeakReferenceMessenger.Default.Send(new PushNotificationReceived("test"));
-                    }
+                    // Notify VM
+                    WeakReferenceMessenger.Default.Send(new PushNotificationReceived("test"));
                 }
             }
         }
+
+        // ----------------------------------------------------------
+        //   ANDROID NOTIFICATION CHANNEL
+        // ----------------------------------------------------------
+
         private void CreateNotificationChannel()
         {
-            if (OperatingSystem.IsOSPlatformVersionAtLeast("android", 26))
-            {
-                var channel = new NotificationChannel(Channel_ID, "Test Notfication Channel", NotificationImportance.Default);
+            if (!OperatingSystem.IsAndroidVersionAtLeast(26))
+                return;
 
-                var notificaitonManager = (NotificationManager)GetSystemService(Android.Content.Context.NotificationService);
-                notificaitonManager.CreateNotificationChannel(channel);
-            }
+            var channel = new NotificationChannel(
+                Channel_ID,
+                "Test Notification Channel",
+                NotificationImportance.Default);
+
+            var manager = (NotificationManager)GetSystemService(NotificationService);
+            manager.CreateNotificationChannel(channel);
         }
     }
 }
