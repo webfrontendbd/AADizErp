@@ -57,14 +57,21 @@ namespace AADizErp
                     fonts.AddFont("MaterialIcons-Regular.ttf", "GoogleMaterialFont");
                 });
 
+#if ANDROID
+            builder.Services.AddSingleton<INotificationCounter, NotificationCounterImplementation>();
+#elif IOS
+        builder.Services.AddSingleton<INotificationCounter, NotificationCounterImplementation>();
+#endif
+
             //builder.Services.AddSingleton<IFingerprint>(provider => CrossFingerprint.Current);
             builder.Services.AddSingleton<IBiometric>(BiometricAuthenticationService.Default);
             builder.Services.AddSingleton<IGeolocation>(provider => Geolocation.Default);
             builder.Services.AddSingleton<IMap>(provider => Map.Default);
             //builder.Services.AddSingleton<IBadge>(Badge.Default);
-            builder.Services.AddSingleton(NotificationCounter.Default);
+            builder.Services.AddSingleton<NotificationCounter>();
 
             //Custom Services
+            builder.Services.AddSingleton<BadgeManagerService>();
             builder.Services.AddSingleton<NotificationService>();
             builder.Services.AddSingleton<AuthenticationService>();
             builder.Services.AddSingleton<AttendanceService>();
@@ -176,6 +183,7 @@ namespace AADizErp
             builder.Services.AddTransient<McStatusUpdatePageViewModel>();
             builder.Services.AddTransient<MachineInfoPage>();
             builder.Services.AddTransient<MachineInfoPageViewModel>();
+            builder.Services.AddTransient<SaveAttendancePage>();
 
             #endregion
 

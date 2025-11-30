@@ -1,19 +1,14 @@
+using AADizErp.ViewModels.RequestVM;
 using DevExpress.Maui.Core;
 
 namespace AADizErp.Pages.RequestPages;
 
 public partial class SaveAttendancePage : ContentPage
 {
-    DetailEditFormViewModel ViewModel => (DetailEditFormViewModel)BindingContext;
-    public SaveAttendancePage()
+    public SaveAttendancePage(RemoteAttendancePageViewModel viewModel)
 	{
 		InitializeComponent();
-	}
-    void SaveItemClick(object sender, EventArgs e)
-    {
-        if (!dataForm.Validate())
-            return;
-        dataForm.Commit();
-        ViewModel.Save();
+		BindingContext = viewModel;
     }
+    
 }

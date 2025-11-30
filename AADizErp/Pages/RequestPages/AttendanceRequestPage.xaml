@@ -15,43 +15,40 @@
              BackgroundColor="{StaticResource AppBgColor}">
     
     <Grid RowDefinitions="Auto,Auto, *" Padding="15" >
-        <dxcv:DXCollectionView Grid.Row="2" x:Name="collectionView" IsRefreshing="{Binding IsLoading}" IsPullToRefreshEnabled="True" PullToRefreshCommand="{Binding PullToRefreshAttendancesCommand}" IsLoadMoreEnabled="True" LoadMoreCommand="{Binding LoadMoreRemoteAttendanceDataCommand}" IndicatorColor="{StaticResource Asian}" ItemsSource="{Binding Attendances}" DetailNewItemFormTemplate="{DataTemplate local:SaveAttendancePage}">
+        <dxcv:DXCollectionView Grid.Row="2" x:Name="collectionView" IsRefreshing="{Binding IsLoading}" IsPullToRefreshEnabled="True" PullToRefreshCommand="{Binding PullToRefreshAttendancesCommand}" IsLoadMoreEnabled="True" LoadMoreCommand="{Binding LoadMoreRemoteAttendanceDataCommand}" IndicatorColor="{StaticResource Asian}" ItemsSource="{Binding Attendances}">
             <dxcv:DXCollectionView.ItemTemplate>
                 <DataTemplate x:DataType="{x:Type models:RemoteAttendanceDto}">
                     <dx:DXBorder CornerRadius="5" BackgroundColor="White" BorderColor="{StaticResource Asian}" Margin="5,5,5,2" Padding="15,5,15,5">
                         <Grid Grid.Row="0" ColumnDefinitions="Auto,*" RowDefinitions="*,*,*,*" ColumnSpacing="5" RowSpacing="5">
-                                <Label Grid.Column="0" Grid.Row="0" Text="Name:" TextColor="Black" FontAttributes="Bold"/>
-                                <Label Grid.Column="1" Grid.Row="0" Text="{Binding FullName}" TextColor="Black"/>
-                                <Grid Grid.ColumnSpan="2" Grid.Row="1" RowDefinitions="Auto,*">
-                                    <Label Grid.Row="0" BackgroundColor="#f2f2f2" Text="Remote Attendance Reason" TextColor="Black" FontAttributes="Bold"/>
-                                    <Label Grid.Row="1"  Text="{Binding Reason}" TextColor="MediumVioletRed"/>
-                                </Grid>
+                            <Label Grid.Column="0" Grid.Row="0" Text="Name:" TextColor="Black" FontAttributes="Bold"/>
+                            <Label Grid.Column="1" Grid.Row="0" Text="{Binding FullName}" TextColor="Black"/>
+                            <Grid Grid.ColumnSpan="2" Grid.Row="1" RowDefinitions="Auto,*">
+                                <Label Grid.Row="0" BackgroundColor="#f2f2f2" Text="Remote Attendance Reason" TextColor="Black" FontAttributes="Bold"/>
+                                <Label Grid.Row="1"  Text="{Binding Reason}" TextColor="MediumVioletRed"/>
+                            </Grid>
 
-                                <Label Grid.Column="0" Grid.Row="2" Text="Date:" TextColor="Black" FontAttributes="Bold"/>
-                                <Label Grid.Column="1" Grid.Row="2" Text="{Binding Created}" TextColor="Black"/>
-                                <Label Grid.Column="0" Grid.Row="3" Text="Status:" TextColor="Black" FontAttributes="Bold"/>
-                                <Label Grid.Column="1" Grid.Row="3" Text="{Binding Status}" FontAttributes="Bold" HorizontalTextAlignment="Center">
-                                    <Label.Triggers>
-                                        <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="Approved">
-                                            <Setter Property="TextColor" Value="Black" />
-                                            <Setter Property="BackgroundColor" Value="#AFE1AF" />
-                                        </DataTrigger>
-                                        <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="Pending">
-                                            <Setter Property="TextColor" Value="Black" />
+                            <Label Grid.Column="0" Grid.Row="2" Text="Date:" TextColor="Black" FontAttributes="Bold"/>
+                            <Label Grid.Column="1" Grid.Row="2" Text="{Binding Created}" TextColor="Black"/>
+                            <Label Grid.Column="0" Grid.Row="3" Text="Status:" TextColor="Black" FontAttributes="Bold"/>
+                            <Label Grid.Column="1" Grid.Row="3" Text="{Binding Status}" FontAttributes="Bold" HorizontalTextAlignment="Center">
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="Approved">
+                                        <Setter Property="TextColor" Value="Black" />
+                                        <Setter Property="BackgroundColor" Value="#AFE1AF" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="Pending">
+                                        <Setter Property="TextColor" Value="Black" />
                                         <Setter Property="BackgroundColor" Value="#FFCA8A" />
                                     </DataTrigger>
-                                    </Label.Triggers>
-                                </Label>
-                            </Grid>
+                                </Label.Triggers>
+                            </Label>
+                        </Grid>
                     </dx:DXBorder>
                 </DataTemplate>
             </dxcv:DXCollectionView.ItemTemplate>
-            <dxcv:DXCollectionView.Behaviors>
-                <toolkit:EventToCommandBehavior EventName="ValidateAndSave" Command="{Binding ValidateAndSaveCommand}" x:TypeArguments="dx:ValidateItemEventArgs"/>
-                <toolkit:EventToCommandBehavior EventName="CreateDetailFormViewModel" Command="{Binding CreateDetailFormViewModelCommand}" x:TypeArguments="dx:CreateDetailFormViewModelEventArgs"/>
-            </dxcv:DXCollectionView.Behaviors>
+
         </dxcv:DXCollectionView>
-        <dx:DXButton Grid.RowSpan="3" Content="+" Margin="20" Padding="20,10,20,10" VerticalOptions="End" HorizontalOptions="End" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" CornerRadius="15" TextColor="White" FontSize="25" FontAttributes="Bold" Command="{Binding Source={x:Reference collectionView}, Path=Commands.ShowDetailNewItemForm}" IsEnabled="{Binding IsNotBusy}"/>
+        <dx:DXButton Grid.RowSpan="3" Content="+" Margin="20" Padding="20,10,20,10" VerticalOptions="End" HorizontalOptions="End" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" CornerRadius="15" TextColor="White" FontSize="25" FontAttributes="Bold" Tap="SubmitNewAttendanceRequestButton_Tap" />
 
         <!-- Busy Overlay -->
         <Grid IsVisible="{Binding IsBusy}"

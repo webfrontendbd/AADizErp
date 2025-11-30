@@ -179,6 +179,7 @@ namespace AADizErp.ViewModels.RequestVM
 
             if (notificationSent)
             {
+                App.BadgeManager.Increment();
                 await LoadLeaveRequestsAsync(true);
                 Reason = string.Empty;
 

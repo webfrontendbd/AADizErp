@@ -1,10 +1,10 @@
 ﻿using AADizErp.Models;
 using AADizErp.Models.Dtos;
+using AADizErp.Pages.RequestPages;
 using AADizErp.Services;
 using AADizErp.Services.RequestServices;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using DevExpress.Maui.Core;
 using MvvmHelpers;
 
 namespace AADizErp.ViewModels.RequestVM
@@ -115,19 +115,9 @@ namespace AADizErp.ViewModels.RequestVM
             }
         }
 
-        [RelayCommand]
-        //view, edit, new
-        void CreateDetailFormViewModel(CreateDetailFormViewModelEventArgs e)
-        {
-            if (e.DetailFormType == DetailFormType.Edit)
-            {
-                RemoteAttendance attendance = (RemoteAttendance)e.Item;
-                e.Result = new DetailEditFormViewModel(attendance, isNew: false, context: null);
-            }
-        }
 
         [RelayCommand]
-        async Task ValidateAndSave(ValidateItemEventArgs e)
+        public async Task SubmitRemoteAttendanceRequest()
         {
             if (IsBusy) return;
             IsBusy = true;
@@ -141,14 +131,8 @@ namespace AADizErp.ViewModels.RequestVM
                     return;
                 }
 
-                // Validate object
-                if (e.Item is not RemoteAttendanceDto obj)
-                {
-                    await ShowAlert("Error!", "Invalid attendance request.");
-                    return;
-                }
 
-                if (string.IsNullOrWhiteSpace(obj.Reason))
+                if (string.IsNullOrWhiteSpace(RemoteAttendance.Reason))
                 {
                     await ShowAlert("Reason Missing!", "Please enter a valid reason.");
                     return;
@@ -183,7 +167,7 @@ namespace AADizErp.ViewModels.RequestVM
                     FullName = tokenInfo?.TokenUserMetaInfo?.Name,
                     RequestedBy = tokenInfo?.TokenUserMetaInfo?.UserName,
                     ApprovedBy = tokenInfo?.TokenUserMetaInfo?.ManagerUserName,
-                    Reason = obj.Reason,
+                    Reason = RemoteAttendance.Reason,
                     Latitude = location.Latitude,
                     Longitude = location.Longitude,
                     RequestedTime = DateTime.Now.ToString("dd-MMM-yyyy hh:mm tt"),
@@ -206,9 +190,13 @@ namespace AADizErp.ViewModels.RequestVM
                 {
                     await ShowAlert("Submitted", "Attendance submitted, but notification to manager failed.");
                 }
-
-                // Add to local list
-                Attendances.Add(returnAttn);
+                else
+                {
+                    App.BadgeManager.Increment();
+                    Attendances.Add(returnAttn);
+                    await Shell.Current.GoToAsync($"{nameof(AttendanceRequestPage)}");
+                }
+                                
             }
             catch (Exception ex)
             {

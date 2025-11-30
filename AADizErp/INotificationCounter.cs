@@ -9,21 +9,38 @@ namespace AADizErp
     public interface INotificationCounter
     {
         void SetNotificationCount(int count);
+        void ClearNotificationCount();
     }
 
-    public static class NotificationCounter
+    public class NotificationCounter
     {
-        static INotificationCounter defaultImplementation;
+        private readonly INotificationCounter _counter;
 
-        public static void SetNotificationCount(int count)
+        public NotificationCounter(INotificationCounter counter)
         {
-            Default.SetNotificationCount(count);
+            _counter = counter;
         }
 
-        public static INotificationCounter Default =>
-            defaultImplementation ??= new NotificationCounterImplementation();
+        public void UpdateBadge(int unreadCount)
+        {
+            _counter.SetNotificationCount(unreadCount);
+        }
 
-        internal static void SetDefault(INotificationCounter implementation) =>
-            defaultImplementation = implementation;
+        public void ClearBadge()
+        {
+            _counter.ClearNotificationCount();
+        }
+        //static INotificationCounter defaultImplementation;
+
+        //public static void SetNotificationCount(int count)
+        //{
+        //    Default.SetNotificationCount(count);
+        //}
+
+        //public static INotificationCounter Default =>
+        //    defaultImplementation ??= new NotificationCounterImplementation();
+
+        //internal static void SetDefault(INotificationCounter implementation) =>
+        //    defaultImplementation = implementation;
     }
 }

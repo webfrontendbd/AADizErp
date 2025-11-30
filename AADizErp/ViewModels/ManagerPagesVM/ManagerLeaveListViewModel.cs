@@ -128,6 +128,7 @@ namespace AADizErp.ViewModels.ManagerPagesVM
             try
             {
                 await _notify.SendLeavePushNotificationBackToUser(LeaveRequest);
+                App.BadgeManager.Decrement();
             }
             catch
             {

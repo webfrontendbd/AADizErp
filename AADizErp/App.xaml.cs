@@ -1,4 +1,5 @@
 ﻿using AADizErp.Models;
+using AADizErp.Services;
 using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -9,13 +10,14 @@ namespace AADizErp
     {
         //public static string BaseAddress =  DeviceInfo.Platform == DevicePlatform.Android? "http://10.0.2.2:7005" : "http://localhost:7005";
        public static string BaseAddress = "http://gateway.asianapparels.com";
+        public static BadgeManagerService BadgeManager { get; private set; }
         public App()
         {
             InitializeComponent();
-
+            var notificationCounter = new NotificationCounter(new NotificationCounterImplementation());
+            BadgeManager = new BadgeManagerService(notificationCounter);
             MainPage = new AppShell();
         }
-
         public static async Task<string> GetAuthToken()
         {
             return await SecureStorage.GetAsync("Token");

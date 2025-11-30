@@ -39,6 +39,7 @@ namespace AADizErp.ViewModels.ManagerPagesVM
                     try
                     {
                         await _notify.SendAttendancePushNotificationBackToUser(returnObject);
+                        App.BadgeManager.Decrement();
                     }
                     catch
                     {
@@ -57,6 +58,7 @@ namespace AADizErp.ViewModels.ManagerPagesVM
                     try
                     {
                         await _notify.SendAttendancePushNotificationBackToUser(returnObject);
+                        App.BadgeManager.Decrement();
                     }
                     catch
                     {

@@ -10,4 +10,8 @@ public partial class AttendanceRequestPage : ContentPage
 		BindingContext = viewmodel;
 	}
 
+    private async void SubmitNewAttendanceRequestButton_Tap(object sender, DevExpress.Maui.Core.DXTapEventArgs e)
+    {  
+		await Shell.Current.GoToAsync($"{nameof(SaveAttendancePage)}");
+    }
 }
