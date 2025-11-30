@@ -1,5 +1,4 @@
-﻿
-using AADizErp.Models.Dtos.LeaveDtos;
+﻿using AADizErp.Models.Dtos.LeaveDtos;
 using AADizErp.Services;
 using AADizErp.Services.RequestServices;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -12,118 +11,138 @@ namespace AADizErp.ViewModels.ManagerPagesVM
     {
         private readonly LeaveService _leaveService;
         private readonly NotificationService _notify;
+
         private int pageNumber = 1;
-        private int pageSize = 10;
+        private readonly int pageSize = 10;
         private int totalCount = 0;
+        private bool isLoadingMore = false;
 
         [ObservableProperty]
         private ObservableRangeCollection<LeaveRequestDto> leaveRequests = new();
+
         [ObservableProperty]
         private LeaveRequestDto leaveRequest = new();
+
         [ObservableProperty]
-        bool isPopupOpen = false;
+        private bool isPopupOpen = false;
+
+
         public ManagerLeaveListViewModel(LeaveService leaveService, NotificationService notify)
         {
-            _leaveService=leaveService;
-            _notify=notify;
-            GetListOfLeaveRequestForManager(pageNumber, pageSize);
+            _leaveService = leaveService;
+            _notify = notify;
+
+            _ = LoadInitialAsync(); // Fire and forget safely
         }
 
-        private void GetListOfLeaveRequestForManager(int pageIndex, int showRecord)
+        private async Task LoadInitialAsync()
         {
-            IsLoading = true;
-            if (totalCount != 0) totalCount = 0;
+            pageNumber = 1;
             LeaveRequests.Clear();
-            Task.Run(async () =>
+            await GetLeaveRequestsAsync(isFirstLoad: true);
+        }
+
+
+        private async Task GetLeaveRequestsAsync(bool isFirstLoad = false)
+        {
+            if (IsLoading) return;
+            IsLoading = true;
+
+            var user = await App.GetUserInfo();
+            var response = await _leaveService.GetListLeaveRequestForManager(pageNumber, pageSize, user.TokenUserMetaInfo.UserName);
+
+            if (response != null && response.Data != null)
             {
-                var user = await App.GetUserInfo();
-                var returnLeaveRequest = await _leaveService.GetListLeaveRequestForManager(pageIndex, showRecord, user.TokenUserMetaInfo.UserName);
-                if (returnLeaveRequest.Count > 0)
+                if (isFirstLoad)
                 {
-                    App.Current.Dispatcher.Dispatch(() =>
-                    {
-                        totalCount = returnLeaveRequest.Count;
-                        LeaveRequests.ReplaceRange(returnLeaveRequest.Data);
-                        IsLoading = false;
-                    });
+                    totalCount = response.Count;
+                    LeaveRequests.ReplaceRange(response.Data);
                 }
                 else
                 {
-                    IsLoading = false;
+                    LeaveRequests.AddRange(response.Data);
                 }
-            });
+            }
+
+            IsLoading = false;
         }
 
+
+        // ================================
+        // LOAD MORE PAGINATION
+        // ================================
         [RelayCommand]
         async Task LoadMoreLeaveRequestsForManager()
         {
-            if (totalCount == LeaveRequests.Count())
-            {
-                return;
-            }
-            IsLoading = true;
+            if (isLoadingMore || IsLoading) return;
+            if (LeaveRequests.Count >= totalCount) return;
+
+            isLoadingMore = true;
+
             pageNumber++;
-            var user = await App.GetUserInfo();
-            var returnLeaveRequest = await _leaveService.GetListLeaveRequestForManager(pageNumber, pageSize, user.TokenUserMetaInfo.UserName);
-            if (returnLeaveRequest.Count > 0)
-            {
-                LeaveRequests.AddRange(returnLeaveRequest.Data);
-                IsLoading = false;
-            }
-            else
-            {
-                IsLoading = false;
-            }
+            await GetLeaveRequestsAsync(isFirstLoad: false);
+
+            isLoadingMore = false;
         }
+
+
+        // ================================
+        // OPEN APPROVAL POPUP
+        // ================================
         [RelayCommand]
         async Task LeaveApprovalPopupAction(LeaveRequestDto leaveDto)
         {
             if (leaveDto == null) return;
+
+            // Mark seen if new
             if (!leaveDto.RequestSeen)
             {
                 leaveDto.RequestSeen = true;
                 await _leaveService.LeaveApprovalStatusChangedByManager(leaveDto);
             }
+
             LeaveRequest = leaveDto;
-            IsPopupOpen = true;            
+            IsPopupOpen = true;
         }
 
+
+        // ================================
+        // APPROVE / REJECT LEAVE
+        // ================================
         [RelayCommand]
         async Task LeaveApprovalStatusSubmit(string status)
         {
+            if (LeaveRequest == null) return;
+
             LeaveRequest.Status = status;
 
-            var returnObject = await _leaveService.LeaveApprovalStatusChangedByManager(LeaveRequest);
+            var updated = await _leaveService.LeaveApprovalStatusChangedByManager(LeaveRequest);
 
-            if(returnObject != null)
-            {
-                try
-                {
-
-                await _notify.SendLeavePushNotificationBackToUser(LeaveRequest);
-                }
-                catch
-                {
-                    await Shell.Current.DisplayAlert("Notification!", "We've sent a notification", "OK");
-                }
-
-
-                var changedLeaveRequest = LeaveRequests.FirstOrDefault(l => l.Id == LeaveRequest.Id);
-                
-                if (changedLeaveRequest is not null)
-                {
-                    var index = LeaveRequests.IndexOf(changedLeaveRequest);
-                    LeaveRequests[index] = changedLeaveRequest;
-                }
-                  
-                IsPopupOpen = false;
-            }
-            else
+            if (updated == null)
             {
                 await Shell.Current.DisplayAlert("Error", "Something went wrong", "OK");
+                return;
             }
-            
-        }
 
+            // Push notification
+            try
+            {
+                await _notify.SendLeavePushNotificationBackToUser(LeaveRequest);
+            }
+            catch
+            {
+                await Shell.Current.DisplayAlert("Notification!", "We've sent a notification", "OK");
+            }
+
+            // Update item in list
+            var index = LeaveRequests.IndexOf(LeaveRequests.FirstOrDefault(l => l.Id == LeaveRequest.Id));
+
+            if (index >= 0)
+            {
+                LeaveRequests[index] = LeaveRequest; // triggers UI update
+            }
+
+            IsPopupOpen = false;
+        }
     }
 }

@@ -19,8 +19,12 @@ namespace AADizErp.Models.Dtos.McDtos
         public string Status { get; set; }
         public string Brand { get; set; }
         public string Model { get; set; }
+        public int Rpm { get; set; }
+        public string MotorType { get; set; }
+        public string ActivityMode { get; set; }
+        public int Cost { get; set; }
         public string UpdatedBy { get; set; }
-        public DateTime PurchaseDate { get; set; } = DateTime.Now.Date;
+        public DateTime PurchaseDate { get; set; }
     }
     public class GroupMachineStatusDto
     {
@@ -58,6 +62,7 @@ namespace AADizErp.Models.Dtos.McDtos
     {
         public DateTime ServiceDate { get; set; }
         public string ServiceType { get; set; }
+        public int ServiceCost { get; set; }
         public string Remarks { get; set; }
     }
 
@@ -65,8 +70,13 @@ namespace AADizErp.Models.Dtos.McDtos
     {
         public string PartName { get; set; }
         public int Quantity { get; set; }
+        public int PartsCost { get; set; }
         public DateTime ChangedDate { get; set; }
         public string Remarks { get; set; }
+        public int TotalCost
+        {
+            get { return Quantity * PartsCost; }
+        }
     }
 
     public class MovementHistoryModel

@@ -18,36 +18,117 @@
         <Grid Grid.Row="0" ColumnDefinitions="*,*,*" RowDefinitions="*,*" ColumnSpacing="10" RowSpacing="10" Padding="10,0,10,10">
 
             <Grid  Grid.Row="0" Grid.Column="0">
-                <Frame HasShadow="False" BorderColor="Transparent" BackgroundColor="#ffffff" Padding="5">
-                    <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
-                        <Frame HasShadow="False" BorderColor="Transparent" BackgroundColor="#e6eefe" WidthRequest="50" HeightRequest="50" Padding="0" CornerRadius="{OnPlatform iOS='25', Android='60'}">
-                            <Label Text="{Binding LeaveSummary.SickLeave}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Asian}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
-                        </Frame>
-                        <Label Text="Sick" TextColor="{StaticResource Asian}" FontSize="12" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
-                    </StackLayout>
-                </Frame>
+                <dx:DXBorder BorderColor="Transparent" BackgroundColor="#ffffff" Padding="5">
+
+                    <!-- Use Grid instead of StackLayout for perfect centering -->
+                    <Grid VerticalOptions="Center" HorizontalOptions="Center" RowSpacing="6">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Circle -->
+                        <dx:DXBorder Grid.Row="0"
+                                     BorderColor="Transparent"
+                                     BackgroundColor="#e6eefe"
+                                     CornerRadius="{OnPlatform iOS='25', Android='60'}">
+                            <Label Text="{Binding LeaveSummary.SickLeave}"
+                                   FontSize="16"
+                                   WidthRequest="50"
+                                    HeightRequest="50"
+                                   FontAttributes="Bold"
+                                   HorizontalTextAlignment="Center"
+                                   VerticalTextAlignment="Center"
+                                   TextColor="{StaticResource Asian}" />
+                        </dx:DXBorder>
+
+                        <!-- Label under circle -->
+                        <Label Grid.Row="1"
+                               Text="Sick"
+                               TextColor="{StaticResource Asian}"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center"
+                               VerticalOptions="Center" />
+                    </Grid>
+                </dx:DXBorder>
             </Grid>
 
             <Grid Grid.Row="0" Grid.Column="1">
-                <Frame HasShadow="False" BorderColor="Transparent" BackgroundColor="#ffffff" Padding="5">
-                    <StackLayout>
-                        <Frame HasShadow="False" BorderColor="Transparent" BackgroundColor="#fff6e0" WidthRequest="50" HeightRequest="50" Padding="0" CornerRadius="{OnPlatform iOS='25', Android='60'}">
-                            <Label Text="{Binding LeaveSummary.CasualLeave}" FontSize="16" FontAttributes="Bold" TextColor="#e6ab3a" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
-                        </Frame>
-                        <Label Text="Casual" TextColor="{StaticResource Asian}" FontSize="12" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
-                    </StackLayout>
-                </Frame>
+                <dx:DXBorder BorderColor="Transparent" BackgroundColor="#ffffff" Padding="5">
+
+                    <!-- Use Grid instead of StackLayout for perfect centering -->
+                    <Grid VerticalOptions="Center" HorizontalOptions="Center" RowSpacing="6">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Circle -->
+                        <dx:DXBorder Grid.Row="0"
+                                     BorderColor="Transparent"
+                                     BackgroundColor="#e6eefe"
+                                     CornerRadius="{OnPlatform iOS='25', Android='60'}">
+                            <Label Text="{Binding LeaveSummary.CasualLeave}"
+                                   FontSize="16"
+                                   WidthRequest="50"
+                                    HeightRequest="50"
+                                   FontAttributes="Bold"
+                                   HorizontalTextAlignment="Center"
+                                   VerticalTextAlignment="Center"
+                                   TextColor="{StaticResource Asian}" />
+                        </dx:DXBorder>
+
+                        <!-- Label under circle -->
+                        <Label Grid.Row="1"
+                               Text="Casual"
+                               TextColor="{StaticResource Asian}"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center"
+                               VerticalOptions="Center" />
+                    </Grid>
+                </dx:DXBorder>
             </Grid>
 
             <Grid Grid.Row="0" Grid.Column="2">
-                <Frame HasShadow="False" BorderColor="Transparent" BackgroundColor="#ffffff" Padding="5">
-                    <StackLayout>
-                        <Frame HasShadow="False" BorderColor="Transparent" BackgroundColor="#ffeeec" WidthRequest="50" HeightRequest="50" Padding="0" CornerRadius="{OnPlatform iOS='25', Android='60'}">
-                            <Label Text="{Binding LeaveSummary.AnnualLeave}" FontSize="16" FontAttributes="Bold" TextColor="#d4735e" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
-                        </Frame>
-                        <Label Text="Annual" TextColor="{StaticResource Asian}" FontSize="12" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
-                    </StackLayout>
-                </Frame>
+                <dx:DXBorder BorderColor="Transparent" BackgroundColor="#ffffff" Padding="5">
+
+                    <!-- Use Grid instead of StackLayout for perfect centering -->
+                    <Grid VerticalOptions="Center" HorizontalOptions="Center" RowSpacing="6">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Circle -->
+                        <dx:DXBorder Grid.Row="0"
+                     BorderColor="Transparent"
+                     BackgroundColor="#e6eefe"
+                     CornerRadius="{OnPlatform iOS='25', Android='60'}">
+                            <Label Text="{Binding LeaveSummary.AnnualLeave}"
+                   FontSize="16"
+                   WidthRequest="50"
+                    HeightRequest="50"
+                   FontAttributes="Bold"
+                   HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Center"
+                   TextColor="{StaticResource Asian}" />
+                        </dx:DXBorder>
+
+                        <!-- Label under circle -->
+                        <Label Grid.Row="1"
+               Text="Annual"
+               TextColor="{StaticResource Asian}"
+               FontSize="12"
+               FontAttributes="Bold"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               VerticalOptions="Center" />
+                    </Grid>
+                </dx:DXBorder>
             </Grid>
         </Grid>
 
@@ -80,9 +161,8 @@
             <dxcv:DXCollectionView.ItemTemplate>
                 <DataTemplate  x:DataType="{x:Type models:LeaveRequestDto}">
                     <ScrollView>
-                        
-                    <Frame HasShadow="False" BorderColor="{StaticResource Asian}" Margin="5,5,5,2" Padding="15,5,15,5">
-                        <StackLayout HorizontalOptions="FillAndExpand"   Background="White">
+
+                        <dx:DXBorder BorderColor="{StaticResource Asian}" BackgroundColor="White" Margin="5,5,5,2" Padding="15,5,15,5">
                             <Grid ColumnDefinitions="*,Auto">
                                 <Grid Grid.Column="0">
 
@@ -124,8 +204,7 @@
                                 </Grid>
                             </Grid>
 
-                        </StackLayout>
-                    </Frame>
+                    </dx:DXBorder>
 
                     </ScrollView>
                 </DataTemplate>

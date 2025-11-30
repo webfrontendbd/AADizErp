@@ -25,7 +25,7 @@
                          CommandParameter="{Binding .}"
                          HorizontalContentAlignment="Start">
 
-                <Grid ColumnDefinitions="Auto,Auto,*" RowDefinitions="*,*,*,*,*,*" ColumnSpacing="5">
+                <Grid ColumnDefinitions="Auto,Auto,*" RowDefinitions="*,*,*,*,*,*,*" ColumnSpacing="5">
                     <Label Grid.Column="0" Grid.Row="0" Text="Name" />
                     <Label Grid.Column="1" Grid.Row="0" Text=":"/>
                     <Label Grid.Column="2" Grid.Row="0" Text="{Binding FullName}" />
@@ -42,13 +42,17 @@
                     <Label Grid.Column="1" Grid.Row="3" Text=":" />
                     <Label Grid.Column="2" Grid.Row="3" Text="{Binding LeaveEndDate, StringFormat='{0:dd-MMM-yyyy}'}" />
 
-                    <Label Grid.Column="0" Grid.Row="4" Text="Total" />
+                    <Label Grid.Column="0" Grid.Row="4" Text="Type" />
                     <Label Grid.Column="1" Grid.Row="4" Text=":" />
-                    <Label Grid.Column="2" Grid.Row="4" Text="{Binding TotalDays, StringFormat='{0} Days'}" />
-
-                    <Label Grid.Column="0" Grid.Row="5" Text="Status" />
+                    <Label Grid.Column="2" Grid.Row="4" Text="{Binding LeaveType}" />
+                    
+                    <Label Grid.Column="0" Grid.Row="5" Text="Total" />
                     <Label Grid.Column="1" Grid.Row="5" Text=":" />
-                    <Label Grid.Column="2" Grid.Row="5" Text="{Binding Status}" >
+                    <Label Grid.Column="2" Grid.Row="5" Text="{Binding TotalDays, StringFormat='{0} Days'}" />
+
+                    <Label Grid.Column="0" Grid.Row="6" Text="Status" />
+                    <Label Grid.Column="1" Grid.Row="6" Text=":" />
+                    <Label Grid.Column="2" Grid.Row="6" Text="{Binding Status}" >
                         <Label.Triggers>
                             <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="Approved">
                                 <Setter Property="TextColor" Value="Green" />

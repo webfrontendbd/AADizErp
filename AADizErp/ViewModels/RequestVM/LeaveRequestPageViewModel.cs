@@ -10,203 +10,184 @@ namespace AADizErp.ViewModels.RequestVM
     public partial class LeaveRequestPageViewModel : BaseViewModel
     {
         private int pageNumber = 1;
-        private int pageSize = 8;
-        private int totalCount = 0;
+        private const int pageSize = 8;
 
         [ObservableProperty]
-        ObservableRangeCollection<LeaveRequestDto> leaveRequests = new();
-        [ObservableProperty]
-        DateTime minimumDate;
-        [ObservableProperty]
-        int totalLeaveDays;
-        [ObservableProperty]
-        LeaveRequestDto leaveRequestDto = new();
-        [ObservableProperty]
-        IndividualLeaveSummary leaveSummary = new();
+        private ObservableRangeCollection<LeaveRequestDto> leaveRequests = new();
 
         [ObservableProperty]
-        string leaveType;
-        [ObservableProperty]
-        string reason;
-        [ObservableProperty]
-        DateTime leaveStartDate = DateTime.Now;
-        [ObservableProperty]
-        DateTime leaveEndDate = DateTime.Now;
+        private DateTime minimumDate;
 
+        [ObservableProperty]
+        private int totalLeaveDays;
+
+        [ObservableProperty]
+        private IndividualLeaveSummary leaveSummary;
+
+        [ObservableProperty]
+        private string reason;
+
+        [ObservableProperty]
+        private string leaveType;
+
+        [ObservableProperty]
+        private DateTime leaveStartDate = DateTime.Now;
+
+        [ObservableProperty]
+        private DateTime leaveEndDate = DateTime.Now;
 
         private readonly LeaveService _leaveService;
         private readonly NotificationService _notify;
 
         public LeaveRequestPageViewModel(LeaveService leaveService, NotificationService notify)
         {
-            SetInitialLeaveDay();
             _leaveService = leaveService;
-            _notify=notify;
-            GetIndividualLeaveSummary();
-            GetIndividualLeaveRequests(pageNumber, pageSize);
-        }
-        private void GetIndividualLeaveSummary()
-        {
-            Task.Run(async () =>
-            {
-                var user = await App.GetUserInfo();
-                LeaveSummary = await _leaveService.GetIndividualLeaveSummary(user);
-            });
-        }
-        private void GetIndividualLeaveRequests(int pageIndex, int showRecord)
-        {
-            if (totalCount != 0) totalCount = 0;
-            IsLoading = true;
-            LeaveRequests.Clear();
-            Task.Run(async () =>
-            {
-                var user = await App.GetUserInfo();
-                var returnLeaveRequest = await _leaveService.GetListOfIndividualLeaveRequest(pageIndex, showRecord, user.TokenUserMetaInfo.UserName);
-                if (returnLeaveRequest.Count > 0)
-                {
-                    App.Current.Dispatcher.Dispatch(() =>
-                    {
-                        totalCount = returnLeaveRequest.Count;
-                        LeaveRequests.ReplaceRange(returnLeaveRequest.Data);
-                        IsLoading = false;
-                    });
+            _notify = notify;
 
-                }
-                else
-                {
-                    IsLoading = false;
-                }
-                
-            });
-            
+            MinimumDate = LeaveStartDate;
+            TotalLeaveDays = 1;
+
+            _ = InitializePageAsync();
         }
 
-        private void SetInitialLeaveDay()
+        private async Task InitializePageAsync()
         {
-            LeaveRequestDto.LeaveStartDate = DateTime.Now;
-            MinimumDate = LeaveRequestDto.LeaveStartDate;
-            LeaveRequestDto.LeaveEndDate = LeaveRequestDto.LeaveStartDate;
-            TotalLeaveDays = (int)(LeaveRequestDto.LeaveEndDate - LeaveRequestDto.LeaveStartDate).TotalDays + 1;
+            await LoadLeaveSummaryAsync();
+            await LoadLeaveRequestsAsync(true);
         }
 
-        [RelayCommand]
-        async Task LoadMoreIndividualLeaveRequests()
+        private async Task LoadLeaveSummaryAsync()
         {
-            if (totalCount == LeaveRequests.Count())
-            {
-                IsLoading = false;
-                return;
-            }
-            IsLoading = true;
-            pageNumber++;
             var user = await App.GetUserInfo();
-            var returnLeaveRequest = await _leaveService.GetListOfIndividualLeaveRequest(pageNumber, pageSize, user.TokenUserMetaInfo.UserName);
-            if (returnLeaveRequest.Count > 0)
-            {
-                LeaveRequests.AddRange(returnLeaveRequest.Data);
-                IsLoading = false;
-            }
-            else
-            {
-                IsLoading = false;
-            }
+            LeaveSummary = await _leaveService.GetIndividualLeaveSummary(user);
         }
 
-        [RelayCommand]
-        void StartDateSelected()
+        private async Task LoadLeaveRequestsAsync(bool reset = false)
         {
-            SetLeaveMinimumDate(LeaveStartDate);
+            if (reset)
+            {
+                pageNumber = 1;
+                LeaveRequests.Clear();
+            }
+
+            IsLoading = true;
+
+            var user = await App.GetUserInfo();
+            var result = await _leaveService.GetListOfIndividualLeaveRequest(
+                pageNumber, pageSize, user.TokenUserMetaInfo.UserName);
+
+            if (result?.Data != null)
+            {
+                LeaveRequests.AddRange(result.Data);
+            }
+
+            IsLoading = false;
+        }
+
+        // =============================
+        // Load More (Paging)
+        // =============================
+
+        [RelayCommand]
+        private async Task LoadMoreIndividualLeaveRequestsAsync()
+        {
+            if (IsLoading) return;
+
+            pageNumber++;
+            await LoadLeaveRequestsAsync();
+        }
+
+        // =============================
+        // Date Selection Logic
+        // =============================
+
+        [RelayCommand]
+        private void StartDateSelected()
+        {
+            LeaveStartDate = LeaveStartDate.Date;
+            MinimumDate = LeaveStartDate;
 
             if (LeaveEndDate < LeaveStartDate)
             {
-                //await Shell.Current.DisplayAlert("Oops!", "Your date selection is wrong! Please try again", "OK");
                 LeaveEndDate = LeaveStartDate;
-                return;
             }
-            TotalLeaveDays = (int)(LeaveEndDate - LeaveStartDate).TotalDays+1;
+
+            TotalLeaveDays = (int)(LeaveEndDate - LeaveStartDate).TotalDays + 1;
         }
 
-        //[RelayCommand]
-        //async Task EndDateSelected()
-        //{
-        //    if (LeaveEndDate < LeaveStartDate)
-        //    {
-        //        await Shell.Current.DisplayAlert("Oops!", "Your date selection is wrong! Please try again", "OK");
-        //        LeaveEndDate = LeaveStartDate;
-        //        return;
-        //    }
-        //    TotalLeaveDays = (int)(LeaveEndDate - LeaveStartDate).TotalDays + 1;
-        //}
-
         [RelayCommand]
-        async Task EndDateSelected()
+        private async Task EndDateSelectedAsync()
         {
-            // Normalize time portion (important if date pickers return DateTime with time)
-            var startDate = LeaveStartDate.Date;
-            var endDate = LeaveEndDate.Date;
+            LeaveEndDate = LeaveEndDate.Date;
+            LeaveStartDate = LeaveStartDate.Date;
 
-            if (endDate < startDate)
+            if (LeaveEndDate < LeaveStartDate)
             {
-                await Shell.Current.DisplayAlert("Oops!", "Your date selection is wrong! Please try again.", "OK");
+                await Shell.Current.DisplayAlert("Oops!", "Your date selection is wrong!", "OK");
                 LeaveEndDate = LeaveStartDate;
                 TotalLeaveDays = 1;
                 return;
             }
 
-            // Inclusive day count
-            TotalLeaveDays = (int)(endDate - startDate).TotalDays + 1;
+            TotalLeaveDays = (int)(LeaveEndDate - LeaveStartDate).TotalDays + 1;
         }
 
+        // =============================
+        // Submit Leave Request
+        // =============================
+
         [RelayCommand]
-        async Task SubmitLeaveRequest()
+        private async Task SubmitLeaveRequestAsync()
         {
-            if (!String.IsNullOrWhiteSpace(Reason))
+            if (string.IsNullOrWhiteSpace(Reason))
             {
-                var user = await App.GetUserInfo();
-                var leaveRequestDto = new LeaveRequestDto
-                {
-                    JobId = user.TokenUserMetaInfo.EmployeeNumber,
-                    FullName = user.TokenUserMetaInfo.Name,
-                    ApprovedBy = user.TokenUserMetaInfo.ManagerUserName,
-                    RequestedBy = user.TokenUserMetaInfo.UserName,
-                    Reason = Reason,
-                    LeaveStartDate = LeaveStartDate,
-                    LeaveEndDate = LeaveEndDate,
-                    Status = "Pending"
-                };
+                await Shell.Current.DisplayAlert("Oops!", "Please enter a valid reason!", "OK");
+                return;
+            }
 
+            if (string.IsNullOrWhiteSpace(LeaveType))
+            {
+                await Shell.Current.DisplayAlert("Oops!", "Please select a leave type!", "OK");
+                return;
+            }
 
-                var returnLeaveRequest = await _leaveService.SubmitLeaveRequest(leaveRequestDto);
+            var user = await App.GetUserInfo();
 
-                if (returnLeaveRequest == null)
-                {
-                    await Shell.Current.DisplayAlert("Oops!", "Please try again!", "OK");
-                }
-                else
-                {
-                    if (await _notify.SendLeaveRequestPushNotificationToManager(leaveRequestDto))
-                    {
-                        GetIndividualLeaveRequests(1, 8);
-                        Reason=String.Empty;
-                        await Shell.Current.DisplayAlert("Success!", "Your Request Submitted!", "OK");
-                    }
-                    else
-                    {
-                        await Shell.Current.DisplayAlert("Notification!", "We've sent a notification", "OK");
-                        return;
-                    }
-                }
+            var leaveRequest = new LeaveRequestDto
+            {
+                JobId = user.TokenUserMetaInfo.EmployeeNumber,
+                FullName = user.TokenUserMetaInfo.Name,
+                ApprovedBy = user.TokenUserMetaInfo.ManagerUserName,
+                RequestedBy = user.TokenUserMetaInfo.UserName,
+                Reason = Reason,
+                LeaveType = LeaveType,
+                LeaveStartDate = LeaveStartDate,
+                LeaveEndDate = LeaveEndDate,
+                Status = "Pending"
+            };
+
+            var result = await _leaveService.SubmitLeaveRequest(leaveRequest);
+
+            if (result == null)
+            {
+                await Shell.Current.DisplayAlert("Oops!", "Please try again!", "OK");
+                return;
+            }
+
+            var notificationSent =
+                await _notify.SendLeaveRequestPushNotificationToManager(leaveRequest);
+
+            if (notificationSent)
+            {
+                await LoadLeaveRequestsAsync(true);
+                Reason = string.Empty;
+
+                await Shell.Current.DisplayAlert("Success!", "Your request has been submitted!", "OK");
             }
             else
             {
-                await Shell.Current.DisplayAlert("Oops!", "Please enter a valid reason!", "OK");
+                await Shell.Current.DisplayAlert("Notification", "Notification sent.", "OK");
             }
-
-        }
-
-        private void SetLeaveMinimumDate(DateTime startDatetime)
-        {
-            MinimumDate = startDatetime.Date;
         }
     }
 }

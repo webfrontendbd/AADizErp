@@ -1,6 +1,7 @@
 ﻿using AADizErp.Models.Dtos.McDtos;
 using AADizErp.Services.McServices;
 using CommunityToolkit.Mvvm.ComponentModel;
+using MvvmHelpers;
 
 namespace AADizErp.ViewModels.McPageVM
 {
@@ -13,13 +14,22 @@ namespace AADizErp.ViewModels.McPageVM
         private MachineInfoDto machineInfoDto;
 
         [ObservableProperty]
+        private ObservableRangeCollection<ServiceHistoryModel> serviceHistoryList = new();
+
+        [ObservableProperty]
+        private ObservableRangeCollection<SparePartsModel> sparepartsHistoryList = new();
+
+        [ObservableProperty]
+        private ObservableRangeCollection<MovementHistoryModel> movementHistoryList = new();
+
+        [ObservableProperty]
         private string mcid;
 
         public MachineInfoPageViewModel(MachineService machineService)
         {
             _mcService = machineService;
-            IsLoading = false;
         }
+
         partial void OnMcidChanged(string value)
         {
             if (!string.IsNullOrWhiteSpace(value))
@@ -28,27 +38,38 @@ namespace AADizErp.ViewModels.McPageVM
 
         private async Task InitializePageAsync(string mcid)
         {
+            if (IsLoading) return;
+
             IsLoading = true;
 
-            MachineInfoDto = await _mcService.GetMachinePresentStatusByMcid(mcid);
-            
-            IsLoading = false;
+            try
+            {
+                // Load main machine info first
+                MachineInfoDto = await _mcService.GetMachinePresentStatusByMcid(mcid);
+
+                if (MachineInfoDto == null)
+                    return;
+
+                // Load all three histories in parallel
+                var servicingTask = _mcService.GetMachineServicingHistoryByMcid(mcid);
+                var sparePartsTask = _mcService.GetMachineSparePartsHistoryByMcid(mcid);
+                var movementTask = _mcService.GetMachineMovementHistoryByMcid(mcid);
+
+                await Task.WhenAll(servicingTask, sparePartsTask, movementTask);
+
+                // Update lists (UI thread safe)
+                ServiceHistoryList.ReplaceRange(servicingTask.Result);
+                SparepartsHistoryList.ReplaceRange(sparePartsTask.Result);
+                MovementHistoryList.ReplaceRange(movementTask.Result);
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+            }
+            finally
+            {
+                IsLoading = false;
+            }
         }
-
-        public List<ServiceHistoryModel> ServiceHistoryList { get; set; } =
-        [
-            new() { ServiceDate = DateTime.Now.AddMonths(-2), ServiceType = "Full Service", Remarks="All OK" },
-            new() { ServiceDate = DateTime.Now.AddMonths(-6), ServiceType = "Cleaning", Remarks="Filter changed" }
-        ];
-
-        public List<SparePartsModel> SparePartsHistory { get; set; } =
-        [
-            new() { PartName="Filter", Quantity=1, ChangedDate=DateTime.Now.AddMonths(-3), Remarks="Routine maintenance" }
-        ];
-
-        public List<MovementHistoryModel> MovementHistory { get; set; } =
-        [
-            new() { Mcid="MOH-PMA-165", MovedDate="11-Nov-2025", Orgname="Mohara asian apparels ltd." }
-        ];
     }
 }
