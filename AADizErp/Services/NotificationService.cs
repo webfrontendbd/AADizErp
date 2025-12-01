@@ -50,7 +50,7 @@ namespace AADizErp.Services
 
             var message = BuildMessage(userToken,
                                        remoteAttendanceDto.Status,
-                                       $"{remoteAttendanceDto.FullName}, Your attendance request has been {remoteAttendanceDto.Status.ToLower()}",
+                                       $"{remoteAttendanceDto.FullName}, Your attendance request has been {remoteAttendanceDto.Status.ToLower()}d",
                                        notificationObject);
 
             bool result = await SendAndUpdateBadgeAsync(message);

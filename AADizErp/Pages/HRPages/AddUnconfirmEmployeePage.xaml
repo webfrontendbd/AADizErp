@@ -2,41 +2,132 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
+             xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+             xmlns:vm="clr-namespace:AADizErp.ViewModels.HrVM"             
+            x:DataType="vm:AddEmployeeViewModel"
              x:Class="AADizErp.Pages.HRPages.AddUnconfirmEmployeePage"
-             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
-            xmlns:dxco="clr-namespace:DevExpress.Maui.Controls;assembly=DevExpress.Maui.Controls"
-            xmlns:dxcv="clr-namespace:DevExpress.Maui.CollectionView;assembly=DevExpress.Maui.CollectionView"
-            xmlns:dxdf="clr-namespace:DevExpress.Maui.DataForm;assembly=DevExpress.Maui.Editors"
-            xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
-            xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-            ios:Page.UseSafeArea="true"
-             Title="Add Employee">
-    <ContentPage.Triggers>
-        <DataTrigger Binding="{Binding IsNew}" Value="True" TargetType="ContentPage">
-            <Setter Property="Title" Value="Send Remote Attendance"/>
-        </DataTrigger>
-    </ContentPage.Triggers>
-    
-    <ScrollView Grid.Row="1" Padding="{OnPlatform iOS='30,60,30,30', Default='30'}">
+             Title="Add Unconfirm Employee">
 
-        <dx:DXStackLayout  Padding="5">
+    <ScrollView>
+        <VerticalStackLayout Padding="25" Spacing="20">
+
+            <!-- Header Card -->
+            <Border StrokeThickness="0"
+                    StrokeShape="RoundRectangle 20"
+                    BackgroundColor="{AppThemeBinding Light=#ffffff, Dark=#1f1f1f}"
+                    Padding="20"
+                    Shadow="10">
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Add New Employee"
+                           FontSize="22"
+                           FontAttributes="Bold"/>
+
+                    <Label Text="Fill the form to register new employee"
+                           TextColor="Gray"
+                           FontSize="14"/>
+                </VerticalStackLayout>
+            </Border>
+
+
             <!-- Employee Name -->
-            <Label Text="Employee Name" FontAttributes="Bold" Margin="0,5,0,0"/>
-            <dxe:TextEdit PlaceholderText="Enter employee name"/>
+            <Border StrokeThickness="1"
+                    Stroke="{AppThemeBinding Light=#dcdcdc, Dark=#444}"
+                    BackgroundColor="{AppThemeBinding Light=#fafafa, Dark=#2a2a2a}"
+                    StrokeShape="RoundRectangle 16"
+                    Padding="10">
 
-            <!-- Mobile Number -->
-            <Label Text="Mobile Number" FontAttributes="Bold" Margin="0,5,0,0"/>
-            <dxe:TextEdit PlaceholderText="Enter mobile number" Keyboard="Telephone"/>
+                <dxe:TextEdit 
+                    Text="{Binding Employee.EmployeeName, Mode=TwoWay}"
+                    PlaceholderText="Employee Name"
+                    LabelText="Employee Name"
+                    IsLabelFloating="True"
+                    AllowAnimation="True"
+                    TextFontSize="16"
+                    StartIcon="user_solid.png"
+                    ClearIconVisibility="Auto"/>
+            </Border>
+
+
+            <!-- Phone -->
+            <Border StrokeThickness="1"
+                    Stroke="{AppThemeBinding Light=#dcdcdc, Dark=#444}"
+                    BackgroundColor="{AppThemeBinding Light=#fafafa, Dark=#2a2a2a}"
+                    StrokeShape="RoundRectangle 16"
+                    Padding="10">
+
+                <dxe:TextEdit 
+                    Text="{Binding Employee.Phone, Mode=TwoWay}"
+                    Mask="00000000000"
+                    PlaceholderText="Mobile Number"
+                    Keyboard="Telephone"
+                    LabelText="Mobile Number"
+                    IsLabelFloating="True"
+                    AllowAnimation="True"
+                    TextFontSize="16"
+                    StartIcon="phone.png"
+                    ClearIconVisibility="Auto"/>
+            </Border>
+
+
+            <!-- Gender -->
+            <Border StrokeThickness="1"
+                    Stroke="{AppThemeBinding Light=#dcdcdc, Dark=#444}"
+                    BackgroundColor="{AppThemeBinding Light=#fafafa, Dark=#2a2a2a}"
+                    StrokeShape="RoundRectangle 16"
+                    Padding="10">
+
+                <dxe:ComboBoxEdit 
+                    ItemsSource="{Binding GenderList}"
+                    SelectedItem="{Binding Employee.Gender, Mode=TwoWay}"
+                    PlaceholderText="Select Gender"
+                    LabelText="Gender"
+                    IsLabelFloating="True"
+                    AllowAnimation="True"
+                    StartIcon="gender.png"/>
+            </Border>
+
 
             <!-- Employee Type -->
-            <Label Text="Employee Type" FontAttributes="Bold" Margin="0,5,0,0"/>
-            <dxe:TextEdit PlaceholderText="Enter employee Type"/>
+            <Border StrokeThickness="1"
+                    Stroke="{AppThemeBinding Light=#dcdcdc, Dark=#444}"
+                    BackgroundColor="{AppThemeBinding Light=#fafafa, Dark=#2a2a2a}"
+                    StrokeShape="RoundRectangle 16"
+                    Padding="10">
 
-            <dx:DXButton
-                 Content="Add Employee" 
-                 VerticalOptions="Center"
-                 HorizontalOptions="Center"/>
+                <dxe:TextEdit 
+                    Text="{Binding Employee.EmployeeType, Mode=TwoWay}"
+                    PlaceholderText="Employee Type"
+                    LabelText="Employee Type"
+                    IsLabelFloating="True"
+                    AllowAnimation="True"
+                    TextFontSize="16"
+                    StartIcon="id_card.png"
+                    ClearIconVisibility="Auto"/>
+            </Border>
 
-        </dx:DXStackLayout>
+
+            <!-- Gradient Submit Button -->
+            <Border StrokeThickness="0"
+                    StrokeShape="RoundRectangle 20">
+
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#4e9cff" Offset="0.0" />
+                        <GradientStop Color="#0066ff" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Background>
+
+                <dx:DXButton 
+                    Content="Submit Employee"
+                    Command="{Binding AddEmployeeCommand}"
+                    TextColor="White"
+                    FontSize="18"
+                    Padding="15"
+                    CornerRadius="20"
+                    HorizontalOptions="Fill"/>
+            </Border>
+
+        </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

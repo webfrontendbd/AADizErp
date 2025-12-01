@@ -16,6 +16,7 @@
         public string ApprovedBy { get; set; }
         public bool RequestMoved { get; set; } = false;
         public bool RequestSeen { get; set; }
+        public string CompanyName { get; set; }
         public int TotalDays
         {
             get

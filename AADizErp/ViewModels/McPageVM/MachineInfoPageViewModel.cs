@@ -2,6 +2,7 @@
 using AADizErp.Services.McServices;
 using CommunityToolkit.Mvvm.ComponentModel;
 using MvvmHelpers;
+using System.Globalization;
 
 namespace AADizErp.ViewModels.McPageVM
 {
@@ -24,6 +25,15 @@ namespace AADizErp.ViewModels.McPageVM
 
         [ObservableProperty]
         private string mcid;
+
+        [ObservableProperty]
+        private int totalServiceCost;
+
+        [ObservableProperty]
+        private int totalSparePartsCost;
+
+        [ObservableProperty]
+        private string totalMachineCost;
 
         public MachineInfoPageViewModel(MachineService machineService)
         {
@@ -57,10 +67,21 @@ namespace AADizErp.ViewModels.McPageVM
 
                 await Task.WhenAll(servicingTask, sparePartsTask, movementTask);
 
-                // Update lists (UI thread safe)
-                ServiceHistoryList.ReplaceRange(servicingTask.Result);
-                SparepartsHistoryList.ReplaceRange(sparePartsTask.Result);
-                MovementHistoryList.ReplaceRange(movementTask.Result);
+                // Extract results
+                var servicingList = servicingTask.Result;
+                var sparePartsList = sparePartsTask.Result;
+                var movementList = movementTask.Result;
+
+                // Update UI collections
+                ServiceHistoryList.ReplaceRange(servicingList);
+                SparepartsHistoryList.ReplaceRange(sparePartsList);
+                MovementHistoryList.ReplaceRange(movementList);
+
+                // Calculate totals
+                TotalServiceCost = servicingList.Sum(x => x.ServiceCost);
+                TotalSparePartsCost = sparePartsList.Sum(x => x.TotalCost);
+                var bdCulture = new CultureInfo("bn-BD");
+                TotalMachineCost = (TotalServiceCost + TotalSparePartsCost).ToString("C2", bdCulture);
             }
             catch (Exception ex)
             {

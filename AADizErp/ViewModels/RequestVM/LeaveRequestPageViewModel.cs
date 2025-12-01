@@ -1,4 +1,5 @@
 ﻿using AADizErp.Models.Dtos.LeaveDtos;
+using AADizErp.Pages.RequestPages;
 using AADizErp.Services;
 using AADizErp.Services.RequestServices;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -163,6 +164,7 @@ namespace AADizErp.ViewModels.RequestVM
                 LeaveType = LeaveType,
                 LeaveStartDate = LeaveStartDate,
                 LeaveEndDate = LeaveEndDate,
+                CompanyName = user.TokenUserMetaInfo.OrganizationName,
                 Status = "Pending"
             };
 
@@ -182,12 +184,11 @@ namespace AADizErp.ViewModels.RequestVM
                 App.BadgeManager.Increment();
                 await LoadLeaveRequestsAsync(true);
                 Reason = string.Empty;
-
-                await Shell.Current.DisplayAlert("Success!", "Your request has been submitted!", "OK");
+                await Shell.Current.GoToAsync($"{nameof(LeaveRequestPage)}");
             }
             else
             {
-                await Shell.Current.DisplayAlert("Notification", "Notification sent.", "OK");
+                await Shell.Current.DisplayAlert("Notification", "Notification Not sent.", "OK");
             }
         }
     }

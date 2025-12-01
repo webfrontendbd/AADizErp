@@ -49,7 +49,7 @@ namespace AADizErp.ViewModels.McPageVM
 
         partial void OnMcidChanged(string value)
         {
-            _ = LoadFloorsAsync();
+
             if (!string.IsNullOrWhiteSpace(value))
                 _ = InitializePageAsync(value);
         }
@@ -58,16 +58,24 @@ namespace AADizErp.ViewModels.McPageVM
         {
             IsLoading = true;
 
-            MachineInfoDto = await _mcService.GetMachinePresentStatusByMcid(mcid);
+            var floorResult =  _mcService.GetMachineFloorByOrgid();
+            var lineResult = _mcService.GetMachineLineByOrgid();
+            var machineInfoResult = _mcService.GetMachinePresentStatusByMcid(mcid);
+
+            await Task.WhenAll(floorResult, lineResult, machineInfoResult);
+
+            Floors.ReplaceRange(floorResult.Result);
+            Lines.ReplaceRange(lineResult.Result);
+            MachineInfoDto = machineInfoResult.Result;
+
             if (MachineInfoDto == null)
                 return;
 
             SelectedStatus = MachineInfoDto.Status;
-
             SelectedFloorId = MachineInfoDto.Floorid;
 
-            await LoadLinesAsync();
-            await Task.Delay(50);
+            //await LoadLinesAsync();
+            //await Task.Delay(50);
 
             var matched = Lines.FirstOrDefault(l => l.Linename == MachineInfoDto.Line);
             if (matched != null)
@@ -76,25 +84,6 @@ namespace AADizErp.ViewModels.McPageVM
             IsLoading = false;
         }
 
-
-        private async Task GetMachineInfoAsync(string mcid)
-        {
-            MachineInfoDto = await _mcService.GetMachinePresentStatusByMcid(mcid);
-        }
-
-        [RelayCommand]
-        private async Task LoadFloorsAsync()
-        {
-            var result = await _mcService.GetMachineFloorByOrgid();
-            Floors.ReplaceRange(result);
-        }
-
-        [RelayCommand]
-        private async Task LoadLinesAsync()
-        {
-            var result = await _mcService.GetMachineLineByOrgid();
-            Lines.ReplaceRange(result);
-        }
 
         [RelayCommand]
         private async Task UpdateMachineStatusAsync()
@@ -119,6 +108,9 @@ namespace AADizErp.ViewModels.McPageVM
                     Serial = MachineInfoDto.Serial,
                     Line = Lines.FirstOrDefault(l => l.Lineid == SelectedLineId)?.Linename,
                     Status = SelectedStatus,
+                    Rpm = MachineInfoDto.Rpm,
+                    MotorType = MachineInfoDto.MotorType,
+                    ActivityMode = MachineInfoDto.ActivityMode,
                     UpdatedBy = userInfo.TokenUserMetaInfo.UserName
                 };
 

@@ -46,6 +46,9 @@ namespace AADizErp.Models.Dtos.McDtos
         public string Serial { get; set; }
         public string Brand { get; set; }
         public string Model { get; set; }
+        public int Rpm { get; set; }
+        public string MotorType { get; set; }
+        public string ActivityMode { get; set; }
         public string UpdatedBy { get; set; }
     }
     public class MachineFloorDto
