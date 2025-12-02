@@ -18,18 +18,17 @@
 		<!-- Versions -->
 		<ApplicationDisplayVersion>11.0</ApplicationDisplayVersion>
 		<ApplicationVersion>11</ApplicationVersion>
-
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 		<UseInterpreter Condition="$(TargetFramework.Contains('-ios')) AND '$(Configuration)' == 'Release'">True</UseInterpreter>
 	</PropertyGroup>
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\logo.png" Color="#ffffff" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#3a7bbf" />
 		<!--<MauiIcon Include="Resources\AppIcon\logo.png" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />-->
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\logosplash.svg" Color="#3A7BBF" BaseSize="175,105" Resize="false" />
+		<MauiSplashScreen Include="Resources\Splash\logosplash.svg" Color="#3A7BBF" BaseSize="128,128" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -39,69 +38,6 @@
 
 		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
-	</ItemGroup>
-	<ItemGroup>
-	  <None Remove="Resources\Fonts\MaterialIcons-Regular.ttf" />
-	  <None Remove="Resources\Images\add_employee.svg" />
-	  <None Remove="Resources\Images\add_icon.svg" />
-	  <None Remove="Resources\Images\air_ticket.svg" />
-	  <None Remove="Resources\Images\approval.svg" />
-	  <None Remove="Resources\Images\approve.svg" />
-	  <None Remove="Resources\Images\attendance.svg" />
-	  <None Remove="Resources\Images\avatar.png" />
-	  <None Remove="Resources\Images\clipboard.svg" />
-	  <None Remove="Resources\Images\cog.svg" />
-	  <None Remove="Resources\Images\cogs.svg" />
-	  <None Remove="Resources\Images\contact_details.svg" />
-	  <None Remove="Resources\Images\copy.svg" />
-	  <None Remove="Resources\Images\dashboard.svg" />
-	  <None Remove="Resources\Images\decline.svg" />
-	  <None Remove="Resources\Images\delete.svg" />
-	  <None Remove="Resources\Images\delete_dark.svg" />
-	  <None Remove="Resources\Images\edit.svg" />
-	  <None Remove="Resources\Images\editorscalendar.svg" />
-	  <None Remove="Resources\Images\editorscompany.svg" />
-	  <None Remove="Resources\Images\editorsemail.svg" />
-	  <None Remove="Resources\Images\editorslocation.svg" />
-	  <None Remove="Resources\Images\editorsname.svg" />
-	  <None Remove="Resources\Images\editorsphone.svg" />
-	  <None Remove="Resources\Images\edit_dark.svg" />
-	  <None Remove="Resources\Images\elogo.png" />
-	  <None Remove="Resources\Images\event_check.svg" />
-	  <None Remove="Resources\Images\face_black_24dp.svg" />
-	  <None Remove="Resources\Images\filteringui_filter.svg" />
-	  <None Remove="Resources\Images\filteringui_location.svg" />
-	  <None Remove="Resources\Images\fingerprint.svg" />
-	  <None Remove="Resources\Images\fingerprintdd.png" />
-	  <None Remove="Resources\Images\folder.svg" />
-	  <None Remove="Resources\Images\holiday.svg" />
-	  <None Remove="Resources\Images\house_chimney_solid.svg" />
-	  <None Remove="Resources\Images\leave.svg" />
-	  <None Remove="Resources\Images\mail.svg" />
-	  <None Remove="Resources\Images\maps.png" />
-	  <None Remove="Resources\Images\message.svg" />
-	  <None Remove="Resources\Images\mobile.svg" />
-	  <None Remove="Resources\Images\modelprofile.png" />
-	  <None Remove="Resources\Images\noavatar.svg" />
-	  <None Remove="Resources\Images\password_black_24dp.svg" />
-	  <None Remove="Resources\Images\pay_slip.svg" />
-	  <None Remove="Resources\Images\phone.svg" />
-	  <None Remove="Resources\Images\request.svg" />
-	  <None Remove="Resources\Images\savechanges.svg" />
-	  <None Remove="Resources\Images\savechanges_dark.svg" />
-	  <None Remove="Resources\Images\search.svg" />
-	  <None Remove="Resources\Images\sign_in.svg" />
-	  <None Remove="Resources\Images\sign_out.svg" />
-	  <None Remove="Resources\Images\tasks.svg" />
-	  <None Remove="Resources\Images\timeline.png" />
-	  <None Remove="Resources\Images\user_shield.svg" />
-	  <None Remove="Resources\Images\user_solid.svg" />
-	  <None Remove="Resources\Images\user_tie.svg" />
-	  <None Remove="Resources\Images\verticaldots.svg" />
-	  <None Remove="Resources\Raw\ding.mp3" />
-	  <None Remove="Resources\Raw\fcm_sdk.json" />
-	  <None Remove="Platforms\iOS\AADizErp.ipa" />
-	  <None Remove="Platforms\iOS\GoogleService-Info.plist" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">
@@ -134,7 +70,6 @@
 		<PackageReference Include="ZXing.Net" Version="0.16.10" />
 		<PackageReference Include="ZXing.Net.Maui" Version="0.6.0" />
 		<PackageReference Include="ZXing.Net.Maui.Controls" Version="0.6.0" />
-		<!--<PackageReference Include="JetBrains.Annotations" Version="2024.1.0" />-->
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="DevExpress.Maui.Controls" Version="24.2.12" />
@@ -146,7 +81,6 @@
 		<PackageReference Include="DevExpress.Maui.Scheduler" Version="24.2.12" />
 		
 		<PackageReference Include="MvvmCross" Version="9.2.0" />
-		<!--<PackageReference Include="MvvmCross.Plugins.Fingerprint" Version="3.0.0-beta.1" />-->
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="Plugin.Maui.Biometric" Version="0.0.1" />
 		<PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
@@ -163,10 +97,6 @@
 		</PackageReference>
 		<PackageReference Include="Xamarin.Android.ShortcutBadger" Version="1.2.0" />
 	</ItemGroup>
-
-	<!--<ItemGroup Condition="'$(TargetFramework)' == 'net9.0-ios'">
-		<PackageReference Include="Xamarin.Firebase.iOS.CloudMessaging" Version="8.10.0.3" />
-	</ItemGroup>-->
 
 	<PropertyGroup Condition="$(TargetFramework.Contains('-android')) and '$(Configuration)' == 'Release'">
 		<AndroidKeyStore>True</AndroidKeyStore>
@@ -208,120 +138,4 @@
 		<PublishTrimmed>true</PublishTrimmed>
 		<AndroidEnableR8>false</AndroidEnableR8>
 	</PropertyGroup>
-	<ItemGroup>
-	  <MauiXaml Update="LoadingPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="LoginPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\HolidayPages\AsianEventPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\HolidayPages\HolidayViewPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\HRPages\AddUnconfirmEmployeePage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\HRPages\DailyAbsentDetailPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\HRPages\EmployeeFileQueryPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\HRPages\EmployeeTimeCardPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\HRPages\HrDashboardPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\HRPages\HrLandingPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\HRPages\ProfileViewPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\HRPages\UnreviewedUserListPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\ManagerPages\ApprovalLandingPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\ManagerPages\ManagerLeaveViewPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\ManagerPages\ManagerViewAttnRequestPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\ManagerPages\MgrAttendanceDetailsPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\MisPages\eAttendancePage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\MisPages\MachinesPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\MisPages\MisLandingPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\MisPages\OverTimePage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\MisPages\ProductionPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\NptPages\MachineInfoPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\NptPages\McBarcodeScanPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\NptPages\McStatusUpdatePage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\NptPages\NptLandingPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\RequestPages\AttendanceRequestPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\RequestPages\ConveyanceViewPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\RequestPages\IndividualTimeCardViewPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\RequestPages\LeaveRequestFormPopup.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\RequestPages\LeaveRequestPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\RequestPages\RequestLandingPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\RequestPages\SaveAttendancePage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\SalaryPages\PaySlipListViewPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\SettingsPages\DeleteAccountPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\SettingsPages\PasswordChangePage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\SettingsPages\SettingsLandingPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="RegistrationPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="ThankYouPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	</ItemGroup>
 </Project>
