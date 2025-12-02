@@ -1,4 +1,5 @@
 ﻿using AADizErp.Models.Dtos.HrDtos;
+using AADizErp.Pages.HRPages;
 using AADizErp.Services.HrServices;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -11,23 +12,18 @@ namespace AADizErp.ViewModels.HrVM
         private readonly HrService _employeeService;
 
         [ObservableProperty]
-        private Employee employee = new Employee();
-
-        public ObservableCollection<string> GenderList { get; }
+        private Employee employeeDto = new Employee();
 
         [ObservableProperty]
-        private bool isBusy;
-
-        public bool IsNotBusy => !IsBusy;
-        public AddEmployeeViewModel(HrService employeeService)
-        {
-            _employeeService = employeeService;
-            GenderList = new ObservableCollection<string>
-            {
+        private ObservableCollection<string> genderList = new() {
                 "Male",
                 "Female",
                 "Other"
             };
+
+        public AddEmployeeViewModel(HrService employeeService)
+        {
+            _employeeService = employeeService;
         }
         // ─────────────────────────────────────────────
         // VALIDATION LOGIC
@@ -35,25 +31,25 @@ namespace AADizErp.ViewModels.HrVM
 
         private bool Validate()
         {
-            if (string.IsNullOrWhiteSpace(Employee.EmployeeName))
+            if (string.IsNullOrWhiteSpace(EmployeeDto.EmployeeName))
             {
                 ShowError("Employee name is required.");
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(Employee.Phone))
+            if (string.IsNullOrWhiteSpace(EmployeeDto.Phone))
             {
                 ShowError("Phone number is required.");
                 return false;
             }
 
-            if (Employee.Phone.Length < 11)
+            if (EmployeeDto.Phone.Length < 11)
             {
                 ShowError("Enter a valid phone number.");
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(Employee.Gender))
+            if (string.IsNullOrWhiteSpace(EmployeeDto.Gender))
             {
                 ShowError("Gender is required.");
                 return false;
@@ -75,20 +71,20 @@ namespace AADizErp.ViewModels.HrVM
         [RelayCommand]
         private async Task AddEmployeeAsync()
         {
-            if (IsBusy) return;
+            if (IsLoading) return;
 
             if (!Validate()) return;
 
-            IsBusy = true;
+            IsLoading = true;
 
             try
             {
                 var newEmployee = new Employee
                 {
-                    EmployeeName = Employee.EmployeeName.Trim(),
-                    Phone = Employee.Phone.Trim(),
-                    Gender = Employee.Gender.Trim(),
-                    EmployeeType = Employee.EmployeeType.Trim(),
+                    EmployeeName = EmployeeDto.EmployeeName.Trim(),
+                    Phone = EmployeeDto.Phone.Trim(),
+                    Gender = EmployeeDto.Gender.Trim(),
+                    EmployeeType = EmployeeDto.EmployeeType.Trim(),
                     ConfirmationStatus = false  // New employees = unconfirmed
                 };
 
@@ -96,8 +92,8 @@ namespace AADizErp.ViewModels.HrVM
 
                 if (result != null)
                 {
-                    await Shell.Current.DisplayAlert("Success", "Employee added successfully.", "OK");
                     ClearForm();
+                    await Shell.Current.GoToAsync($"{nameof(UnconfirmEmployeeListPage)}");
                 }
                 else
                 {
@@ -110,13 +106,13 @@ namespace AADizErp.ViewModels.HrVM
             }
             finally
             {
-                IsBusy = false;
+                IsLoading = false;
             }
         }
 
         private void ClearForm()
         {
-            Employee = new Employee();
+            EmployeeDto = new Employee();
         }
     }
 }

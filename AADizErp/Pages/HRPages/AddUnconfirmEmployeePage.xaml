@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
              xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+             xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
              xmlns:vm="clr-namespace:AADizErp.ViewModels.HrVM"             
-            x:DataType="vm:AddEmployeeViewModel"
+             x:DataType="vm:AddEmployeeViewModel"
              x:Class="AADizErp.Pages.HRPages.AddUnconfirmEmployeePage"
              Title="Add Unconfirm Employee">
 
@@ -15,8 +15,7 @@
             <Border StrokeThickness="0"
                     StrokeShape="RoundRectangle 20"
                     BackgroundColor="{AppThemeBinding Light=#ffffff, Dark=#1f1f1f}"
-                    Padding="20"
-                    Shadow="10">
+                    Padding="20">
 
                 <VerticalStackLayout Spacing="5">
                     <Label Text="Add New Employee"
@@ -38,7 +37,7 @@
                     Padding="10">
 
                 <dxe:TextEdit 
-                    Text="{Binding Employee.EmployeeName, Mode=TwoWay}"
+                    Text="{Binding EmployeeDto.EmployeeName, Mode=TwoWay}"
                     PlaceholderText="Employee Name"
                     LabelText="Employee Name"
                     IsLabelFloating="True"
@@ -57,7 +56,7 @@
                     Padding="10">
 
                 <dxe:TextEdit 
-                    Text="{Binding Employee.Phone, Mode=TwoWay}"
+                    Text="{Binding EmployeeDto.Phone, Mode=TwoWay}"
                     Mask="00000000000"
                     PlaceholderText="Mobile Number"
                     Keyboard="Telephone"
@@ -79,12 +78,11 @@
 
                 <dxe:ComboBoxEdit 
                     ItemsSource="{Binding GenderList}"
-                    SelectedItem="{Binding Employee.Gender, Mode=TwoWay}"
+                    SelectedItem="{Binding EmployeeDto.Gender, Mode=TwoWay}"
                     PlaceholderText="Select Gender"
                     LabelText="Gender"
                     IsLabelFloating="True"
-                    AllowAnimation="True"
-                    StartIcon="gender.png"/>
+                    AllowAnimation="True"/>
             </Border>
 
 
@@ -96,14 +94,12 @@
                     Padding="10">
 
                 <dxe:TextEdit 
-                    Text="{Binding Employee.EmployeeType, Mode=TwoWay}"
+                    Text="{Binding EmployeeDto.EmployeeType, Mode=TwoWay}"
                     PlaceholderText="Employee Type"
                     LabelText="Employee Type"
                     IsLabelFloating="True"
                     AllowAnimation="True"
-                    TextFontSize="16"
-                    StartIcon="id_card.png"
-                    ClearIconVisibility="Auto"/>
+                    TextFontSize="16"/>
             </Border>
 
 

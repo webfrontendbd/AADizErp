@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+             xmlns:dxcv="clr-namespace:DevExpress.Maui.CollectionView;assembly=DevExpress.Maui.CollectionView"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             xmlns:vm="clr-namespace:AADizErp.ViewModels.HrVM"
+             x:DataType="vm:UnconfirmEmployeeListPageViewModel"
+             xmlns:models="clr-namespace:AADizErp.Models.Dtos.HrDtos" 
+             ios:Page.UseSafeArea="True"
+             x:Class="AADizErp.Pages.HRPages.UnconfirmEmployeeListPage"
+             Title="Unconfirm Recruitment List">
+
+    <Grid RowDefinitions="Auto, Auto,*">
+        <dx:DXButton Content="Add Unconfirm Recruitment" ButtonType="Accent" Clicked="AddUnconfirmEmployeeDXButton_Tapped" ></dx:DXButton>
+        <Label Grid.Row="0"
+            Text="Recruitment List"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+
+        <dxcv:DXCollectionView Grid.Row="1" x:Name="collectionView" IsRefreshing="{Binding IsLoading}" IsPullToRefreshEnabled="True" PullToRefreshCommand="{Binding PullToRefreshUnconfirmListCommand}" IsLoadMoreEnabled="True" LoadMoreCommand="{Binding LoadMoreUnconfirmDataCommand}" IndicatorColor="{StaticResource Asian}" ItemsSource="{Binding UnconfirmList}">
+            <dxcv:DXCollectionView.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type models:EmployeeDto}">
+                    <dx:DXBorder CornerRadius="5" BackgroundColor="White" BorderColor="{StaticResource Asian}" Margin="5,5,5,2" Padding="15,5,15,5">
+                        <Grid Grid.Row="0" ColumnDefinitions="Auto,*" RowDefinitions="*,*,*,*,*,*" ColumnSpacing="5" RowSpacing="5">
+
+                            <Label Grid.Column="0" Grid.Row="0" Text="REF #:" TextColor="Black" FontAttributes="Bold"/>
+                            <Label Grid.Column="1" Grid.Row="0" Text="{Binding  ReferenceNumber}" TextColor="Black"/>
+
+                            <Label Grid.Column="0" Grid.Row="1" Text="Name:" TextColor="Black" FontAttributes="Bold"/>
+                            <Label Grid.Column="1" Grid.Row="1" Text="{Binding  EmployeeName}" TextColor="Black"/>
+
+                            <Label Grid.Column="0" Grid.Row="2" Text="Gender:" TextColor="Black" FontAttributes="Bold"/>
+                            <Label Grid.Column="1" Grid.Row="2" Text="{Binding Gender}" TextColor="Black"/>
+
+                            <Label Grid.Column="0" Grid.Row="3" BackgroundColor="#f2f2f2" Text="Phone:" TextColor="Black" FontAttributes="Bold"/>
+                            <Label Grid.Column="1" Grid.Row="3"  Text="{Binding Phone}" TextColor="MediumVioletRed"/>
+
+                            <Label Grid.Column="0" Grid.Row="4" Text="Type:" TextColor="Black" FontAttributes="Bold"/>
+                            <Label Grid.Column="1" Grid.Row="4" Text="{Binding  EmployeeType}" TextColor="Black"/>
+
+                            <Label Grid.Column="0" Grid.Row="5" Text="Status:" TextColor="Black" FontAttributes="Bold"/>
+                            <Label Grid.Column="1" Grid.Row="5" Text="{Binding ConfirmationStatus}" FontAttributes="Bold" HorizontalTextAlignment="Center">
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="Confirmed">
+                                        <Setter Property="TextColor" Value="Black" />
+                                        <Setter Property="BackgroundColor" Value="#AFE1AF" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="Unconfirmed">
+                                        <Setter Property="TextColor" Value="Black" />
+                                        <Setter Property="BackgroundColor" Value="#FFCA8A" />
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
+                        </Grid>
+                    </dx:DXBorder>
+                </DataTemplate>
+            </dxcv:DXCollectionView.ItemTemplate>
+
+        </dxcv:DXCollectionView>
+    </Grid>
+</ContentPage>

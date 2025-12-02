@@ -30,9 +30,31 @@ public partial class HrLandingPage : ContentPage
     {
         await Shell.Current.GoToAsync($"{nameof(UnreviewedUserListPage)}");
     }
+    private async void BasicRecruitmentProcessButton_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            await Shell.Current.GoToAsync($"{nameof(AddUnconfirmEmployeePage)}");
+        }
+        catch (Exception ex)
+        {
+
+            await DisplayAlert("Navigation Error", $"An error occurred while navigating to the Unconfirm Employee Page: {ex.Message}", "OK");   
+        }
+        
+    }
     private async void UnconfirmEmployeeListButton_Clicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync($"{nameof(AddUnconfirmEmployeePage)}");
+        try
+        {
+            await Shell.Current.GoToAsync($"{nameof(UnconfirmEmployeeListPage)}");
+        }
+        catch (Exception ex)
+        {
+
+            await DisplayAlert("Navigation Error", $"An error occurred while navigating to the Unconfirm Employee Page: {ex.Message}", "OK");   
+        }
+        
     }
 
 }

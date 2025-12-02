@@ -60,6 +60,7 @@ namespace AADizErp
             Routing.RegisterRoute(nameof(McStatusUpdatePage), typeof(McStatusUpdatePage));
             Routing.RegisterRoute(nameof(MachineInfoPage), typeof(MachineInfoPage));
             Routing.RegisterRoute(nameof(SaveAttendancePage), typeof(SaveAttendancePage));
+            Routing.RegisterRoute(nameof(UnconfirmEmployeeListPage), typeof(UnconfirmEmployeeListPage));
             InitializeComponent();
         }
     }

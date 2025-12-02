@@ -34,7 +34,7 @@
 		<!--<MauiIcon Include="Resources\AppIcon\logo.png" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />-->
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\logosplash.svg" Color="#3A7BBF" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#3A7BBF" BaseSize="128,128" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -102,6 +102,12 @@
 		<PackageReference Include="Xamarin.GooglePlayServices.Base" Version="118.3.0.1">
 		</PackageReference>
 		<PackageReference Include="Xamarin.Android.ShortcutBadger" Version="1.2.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Pages\HRPages\UnconfirmEmployeeListPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 	<PropertyGroup Condition="$(TargetFramework.Contains('-android')) and '$(Configuration)' == 'Release'">

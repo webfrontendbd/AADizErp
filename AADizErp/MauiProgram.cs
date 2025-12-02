@@ -184,6 +184,8 @@ namespace AADizErp
             builder.Services.AddTransient<MachineInfoPage>();
             builder.Services.AddTransient<MachineInfoPageViewModel>();
             builder.Services.AddTransient<SaveAttendancePage>();
+            builder.Services.AddTransient<UnconfirmEmployeeListPage>();
+            builder.Services.AddTransient<UnconfirmEmployeeListPageViewModel>();
 
             #endregion
 

@@ -22,12 +22,12 @@ namespace AADizErp.Services.HrServices
                 WriteIndented = true
             };
         }
-        public async Task<PaginatedResult<EmployeeDto>> GetUcEmployeeDataAsync(int pageNumber, int pageSize)
+        public async Task<PaginatedResult<EmployeeDto>> GetUcEmployeeDataAsync(string companyName, int pageNumber, int pageSize)
         {
             try
             {
                 await SetAuthToken();
-                var response = await _client.GetStringAsync($"/hr/employee/get-uc-employees?pageIndex={pageNumber}&pageSize={pageSize}");
+                var response = await _client.GetStringAsync($"/hr/employee/get-uc-employees?CompanyName={companyName}&pageIndex={pageNumber}&pageSize={pageSize}");
                 return JsonSerializer.Deserialize<PaginatedResult<EmployeeDto>>(response, _serializerOptions);
             }
             catch (Exception ex)

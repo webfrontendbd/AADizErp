@@ -8,6 +8,8 @@
         public string Gender { get; set; }
         public string Phone { get; set; }
         public string EmployeeType { get; set; }
+        public string CompanyName { get; set; }
+        public string EntryBy { get; set; }
         public bool ConfirmationStatus { get; set; }
     }
 }

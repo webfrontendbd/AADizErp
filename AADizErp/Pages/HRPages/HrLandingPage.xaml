@@ -12,7 +12,7 @@
         <dx:DXStackLayout>
 
             <Grid
-                RowDefinitions="Auto, Auto"
+                RowDefinitions="Auto, Auto,Auto"
                 ColumnDefinitions="*,*,*" 
                 ColumnSpacing="10"
                 RowSpacing="10">
@@ -94,13 +94,27 @@
                     Grid.Row="1"
                     Grid.Column="2"
                     CornerRadius="5"
-                    Clicked="UnconfirmEmployeeListButton_Clicked"
+                    Clicked="BasicRecruitmentProcessButton_Clicked"
                     BackgroundColor="#FBFBFB">  
                     <Grid RowDefinitions="Auto, *">
                         <dx:DXBorder Grid.Row="0"  BackgroundColor="{StaticResource AppBgColor}" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
                             <Image Source="user_solid.png" HorizontalOptions="Center" Aspect="AspectFit"  />
                         </dx:DXBorder>
-                        <Label Grid.Row="1" Text="New Employee" FontSize="Caption" TextColor="{StaticResource Asian}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                        <Label Grid.Row="1" Text="Basic Recruitment" FontSize="Caption" TextColor="{StaticResource Asian}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                    </Grid>
+                </dx:DXButton>
+
+                <dx:DXButton 
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    CornerRadius="5"
+                    Clicked="UnconfirmEmployeeListButton_Clicked"
+                    BackgroundColor="#FBFBFB">
+                    <Grid RowDefinitions="Auto, *">
+                        <dx:DXBorder Grid.Row="0"  BackgroundColor="PaleVioletRed" Padding="0" HeightRequest="40" WidthRequest="40" CornerRadius="{OnPlatform iOS='20', Default='50'}" BorderColor="Transparent">
+                            <Image Source="user_tie.png" HorizontalOptions="Center" Aspect="AspectFit"  />
+                        </dx:DXBorder>
+                        <Label Grid.Row="1" Text="Unconfirm List" FontSize="Caption" TextColor="{StaticResource Asian}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                     </Grid>
                 </dx:DXButton>
 
