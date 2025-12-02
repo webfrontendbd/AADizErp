@@ -15,51 +15,66 @@ namespace AADizErp
         {
             try
             {
+                // Initialize image cropper
                 new ImageCropper.Maui.Platform().Init();
+
+                // Initialize Firebase
                 Firebase.Core.App.Configure();
+
+                // iOS 10+ Notification setup
                 if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
                 {
-                    var authOption = UNAuthorizationOptions.Alert | UNAuthorizationOptions.Badge | UNAuthorizationOptions.Sound;
+                    var authOptions = UNAuthorizationOptions.Alert |
+                                      UNAuthorizationOptions.Badge |
+                                      UNAuthorizationOptions.Sound;
 
-                    UNUserNotificationCenter.Current.RequestAuthorization(authOption, (granted, error) =>
+                    UNUserNotificationCenter.Current.RequestAuthorization(authOptions, (granted, error) =>
                     {
-                        Console.WriteLine(granted);
+                        Console.WriteLine($"Notification Permission Granted: {granted}");
                     });
 
                     UNUserNotificationCenter.Current.Delegate = new UserNotificationCenterDelegate();
 
-                    Messaging.SharedInstance.AutoInitEnabled = true;
-                    Messaging.SharedInstance.AutoInitEnabled = true;
+                    // Set FCM Delegate
                     Messaging.SharedInstance.Delegate = this;
+
+                    // Enable auto initialization explicitly (once)
+                    Messaging.SharedInstance.AutoInitEnabled = true;
                 }
+
+                // Register for APNs Token
                 UIApplication.SharedApplication.RegisterForRemoteNotifications();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"AppDelegate Init Error: {ex.Message}");
             }
 
             return base.FinishedLaunching(application, launchOptions);
         }
 
-        [Export("userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:")]
-        public void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
-        {
-            // Here Handle Notification Navigation WhenNotification Is REceived
-        }
-
-
+        // FIXED: Correct FCM token callback
         [Export("messaging:didReceiveRegistrationToken:")]
         public void DidReceiveRegistrationToken(Messaging messaging, string fcmToken)
         {
-            if (Preferences.ContainsKey("DeviceToken"))
+            try
             {
-                Preferences.Remove("DeviceToken");
+                if (!string.IsNullOrWhiteSpace(fcmToken))
+                {
+                    Preferences.Set("DeviceToken", fcmToken);
+                    Console.WriteLine($"FCM Token Received: {fcmToken}");
+                }
             }
-            Preferences.Set("DeviceToken", fcmToken);
-
-            //App.Current.MainPage.DisplayAlert("Ok", fcmToken, "OK");
+            catch (Exception ex)
+            {
+                Console.WriteLine($"FCM Token Error: {ex.Message}");
+            }
         }
 
+        // Notification tap handler
+        //public override void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)
+        //{
+        //    Console.WriteLine("Notification received (foreground/background).");
+        //}
     }
 }

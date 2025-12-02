@@ -38,28 +38,6 @@
                 SelectionChangedCommand="{Binding SelectionChangedForUserCommand}"
                 PickerShowMode="BottomSheet"/>
 
-
-
-            <!--<dxe:ComboBoxEdit.ItemTemplate>
-                    <DataTemplate>
-                        <Grid ColumnDefinitions="120,*">
-                            <Label Grid.Column="0" Padding="5" Text="{Binding CardNumber}" TextColor="{StaticResource Asian}" FontAttributes="Bold"/>
-                            <Label Grid.Column="1" Padding="5" Text="{Binding Name}" TextColor="{StaticResource Asian}"  />
-                        </Grid>
-                    </DataTemplate>
-                </dxe:ComboBoxEdit.ItemTemplate>-->
-
-            <!--<dxe:AutoCompleteEdit 
-                DisplayMember="CardNumber"
-                ItemsSource="{Binding FilterEmployees}"
-                TextChangedCommand="{Binding SearchCardNumberTextChangedCommand}" 
-                Text="{Binding CardNumber}"
-                LabelText="Card Number"
-                PlaceholderText="Type card number here"
-                NoResultsFoundText="Not found"
-                LoadingProgressMode="Auto"
-                SelectionChangedCommand="{Binding SelectionChangedForUserCommand}"/>-->
-
             <dxe:TextEdit 
                 Text="{Binding Username, Mode=TwoWay}"
                 LabelText="Username"

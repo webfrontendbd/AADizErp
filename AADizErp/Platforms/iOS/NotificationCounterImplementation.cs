@@ -1,5 +1,4 @@
 ﻿using UIKit;
-using UserNotifications;
 
 namespace AADizErp
 {
@@ -15,14 +14,4 @@ namespace AADizErp
             UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
         }
     }
-    //public class NotificationCounterImplementation : INotificationCounter
-    //{
-    //    public void SetNotificationCount(int count)
-    //    {
-    //        UNUserNotificationCenter.Current.RequestAuthorization(UNAuthorizationOptions.Badge, (isAuthorized, _) =>
-    //        {
-    //        });
-    //        UIApplication.SharedApplication.ApplicationIconBadgeNumber = count;
-    //    }
-    //}
 }
