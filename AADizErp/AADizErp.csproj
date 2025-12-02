@@ -11,6 +11,12 @@
 
 		<!-- Display name -->
 		<ApplicationTitle>Asian App</ApplicationTitle>
+		<!-- Disable Bitcode to prevent bitcode_strip errors -->
+		<EnableBitCode>false</EnableBitCode>
+
+		<!-- Optional: force linker to not strip frameworks (safe with Firebase) -->
+		<MtouchExtraArgs>--no-strip</MtouchExtraArgs>
+
 
 		<!-- App Identifier -->
 		<ApplicationId>com.asiangroup.hrpayrollerp</ApplicationId>
