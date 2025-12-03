@@ -8,89 +8,133 @@ namespace AADizErp.ViewModels.HrVM
 {
     public partial class UnconfirmEmployeeListPageViewModel : BaseViewModel
     {
-        private int pageNumber = 1;
-        private int pageSize = 10;
-        private int totalCount = 0;
-
         private readonly HrService _employeeService;
 
+        private int pageNumber = 1;
+        private const int PageSize = 10;
+
+        // Backup list for search filtering
+        private List<EmployeeDto> _originalList = new();
+
+        // MAIN LIST BOUND TO UI
         [ObservableProperty]
         ObservableRangeCollection<EmployeeDto> unconfirmList = new();
+
+        // SEARCH TEXT
+        [ObservableProperty]
+        private string searchText;
+
+        partial void OnSearchTextChanged(string value)
+        {
+            ApplySearchFilter();
+        }
 
         public UnconfirmEmployeeListPageViewModel(HrService employeeService)
         {
             _employeeService = employeeService;
-            GetUnconfirmEmployeeList(pageNumber, pageSize);
+            LoadInitialData();
         }
 
-        private async void GetUnconfirmEmployeeList(int index, int size)
+        // ─────────────────────────────────────────────
+        // INITIAL LOAD
+        // ─────────────────────────────────────────────
+        private async void LoadInitialData()
         {
-            if (totalCount != 0) totalCount = 0;
-
-            IsLoading = true;
-            UnconfirmList.Clear();
-
-            var userInfo = await App.GetUserInfo();
-
-            var result =
-                await _employeeService.GetUcEmployeeDataAsync(userInfo.TokenUserMetaInfo.OrganizationName, index, size);
-
-            if (result?.Count > 0)
-            {
-                totalCount = result.Count;
-                UnconfirmList.ReplaceRange(result.Data);
-            }
-
-            IsLoading = false;
+            await LoadUnconfirmEmployees(reset: true);
         }
 
-
-        [RelayCommand]
-        async Task PullToRefreshUnconfirmList()
+        // ─────────────────────────────────────────────
+        // LOAD EMPLOYEES (Main Logic)
+        // ─────────────────────────────────────────────
+        private async Task LoadUnconfirmEmployees(bool reset)
         {
+            if (IsLoading) return;
+
             IsLoading = true;
-            pageNumber = 1;
-            pageSize = 10;
-            if (totalCount != 0) totalCount = 0;
-            UnconfirmList.Clear();
-            var userInfo = await App.GetUserInfo();
-            var result = await _employeeService.GetUcEmployeeDataAsync(userInfo.TokenUserMetaInfo.OrganizationName, pageNumber, pageSize);
-            if (result.Count > 0)
+
+            try
             {
-                App.Current.Dispatcher.Dispatch(() =>
+                if (reset)
                 {
-                    totalCount = result.Count;
-                    UnconfirmList.ReplaceRange(result.Data);
-                });
-                IsLoading = false;
+                    pageNumber = 1;
+                    UnconfirmList.Clear();
+                    _originalList.Clear();
+                }
+
+                var userInfo = await App.GetUserInfo();
+
+                var result =
+                    await _employeeService.GetUcEmployeeDataAsync(
+                        userInfo.TokenUserMetaInfo.OrganizationName,
+                        pageNumber,
+                        PageSize
+                    );
+
+                if (result?.Data?.Any() == true)
+                {
+                    if (reset)
+                        _originalList = result.Data.ToList();
+                    else
+                        _originalList.AddRange(result.Data);
+
+                    UnconfirmList.AddRange(result.Data);
+                }
             }
-            else
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Load Error: {ex}");
+            }
+            finally
             {
                 IsLoading = false;
             }
         }
 
-        [RelayCommand]
-        async Task LoadMoreUnconfirmData()
+        // ─────────────────────────────────────────────
+        // SEARCH FILTER
+        // ─────────────────────────────────────────────
+        private void ApplySearchFilter()
         {
-            var userInfo = await App.GetUserInfo();
-            if (totalCount == UnconfirmList.Count())
+            if (_originalList == null || _originalList.Count == 0)
+                return;
+
+            // If search text empty → restore full list
+            if (string.IsNullOrWhiteSpace(SearchText))
             {
-                IsLoading = false;
+                UnconfirmList.ReplaceRange(_originalList);
                 return;
             }
-            IsLoading = true;
+
+            var text = SearchText.Trim();
+
+            var filtered = _originalList.Where(x =>
+                (x.EmployeeName ?? "").Contains(text, StringComparison.OrdinalIgnoreCase) ||
+                (x.Phone ?? "").Contains(text) ||
+                (x.ReferenceNumber ?? "").Contains(text, StringComparison.OrdinalIgnoreCase)
+            );
+
+            UnconfirmList.ReplaceRange(filtered);
+        }
+
+        // ─────────────────────────────────────────────
+        // PULL TO REFRESH
+        // ─────────────────────────────────────────────
+        [RelayCommand]
+        private async Task RefreshAsync()
+        {
+            await LoadUnconfirmEmployees(reset: true);
+        }
+
+        // ─────────────────────────────────────────────
+        // LOAD MORE PAGINATION
+        // ─────────────────────────────────────────────
+        [RelayCommand]
+        private async Task LoadMoreAsync()
+        {
+            if (IsLoading) return;
+
             pageNumber++;
-            var result = await _employeeService.GetUcEmployeeDataAsync(userInfo.TokenUserMetaInfo.OrganizationName, pageNumber, pageSize);
-            if (result.Count > 0)
-            {
-                UnconfirmList.AddRange(result.Data);
-                IsLoading = false;
-            }
-            else
-            {
-                IsLoading = false;
-            }
+            await LoadUnconfirmEmployees(reset: false);
         }
     }
 }

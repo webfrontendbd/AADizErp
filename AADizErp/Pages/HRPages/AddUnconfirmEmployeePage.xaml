@@ -103,16 +103,7 @@
             </Border>
 
 
-            <!-- Gradient Submit Button -->
-            <Border StrokeThickness="0"
-                    StrokeShape="RoundRectangle 20">
-
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <GradientStop Color="#4e9cff" Offset="0.0" />
-                        <GradientStop Color="#0066ff" Offset="1.0" />
-                    </LinearGradientBrush>
-                </Border.Background>
+            <!-- Gradient Submit Button -->          
 
                 <dx:DXButton 
                     Content="Submit Employee"
@@ -120,9 +111,9 @@
                     TextColor="White"
                     FontSize="18"
                     Padding="15"
-                    CornerRadius="20"
+                    CornerRadius="10"
+                    WidthRequest="200"
                     HorizontalOptions="Fill"/>
-            </Border>
 
         </VerticalStackLayout>
     </ScrollView>

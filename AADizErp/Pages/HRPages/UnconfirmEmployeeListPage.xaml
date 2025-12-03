@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
              xmlns:dxcv="clr-namespace:DevExpress.Maui.CollectionView;assembly=DevExpress.Maui.CollectionView"
+             xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
              xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              xmlns:vm="clr-namespace:AADizErp.ViewModels.HrVM"
              x:DataType="vm:UnconfirmEmployeeListPageViewModel"
@@ -11,52 +12,106 @@
              x:Class="AADizErp.Pages.HRPages.UnconfirmEmployeeListPage"
              Title="Unconfirm Recruitment List">
 
-    <Grid RowDefinitions="Auto, Auto,*">
-        <dx:DXButton Content="Add Unconfirm Recruitment" ButtonType="Accent" Clicked="AddUnconfirmEmployeeDXButton_Tapped" ></dx:DXButton>
-        <Label Grid.Row="0"
-            Text="Recruitment List"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+    <Grid RowDefinitions="Auto,Auto,Auto,*" Padding="15">
 
-        <dxcv:DXCollectionView Grid.Row="1" x:Name="collectionView" IsRefreshing="{Binding IsLoading}" IsPullToRefreshEnabled="True" PullToRefreshCommand="{Binding PullToRefreshUnconfirmListCommand}" IsLoadMoreEnabled="True" LoadMoreCommand="{Binding LoadMoreUnconfirmDataCommand}" IndicatorColor="{StaticResource Asian}" ItemsSource="{Binding UnconfirmList}">
+        <!-- Add Button -->
+        <dx:DXButton 
+        Grid.Row="0" 
+        Content="+ Add Unconfirm Recruitment" 
+        ButtonType="Accent" 
+            WidthRequest="260"
+            CornerRadius="5"
+        Clicked="DXButton_Clicked"
+        Margin="0,0,0,10"/>
+
+        <!-- Page Title -->
+        <Label Grid.Row="1"
+           Text="Recruitment List"
+           VerticalOptions="Center" 
+           FontSize="18"
+           FontAttributes="Bold"
+           Margin="0,0,0,10"/>
+
+        <!-- 🔍 Search Bar -->
+        <dx:DXBorder 
+        Grid.Row="2"
+        CornerRadius="12"
+        Margin="10,0,10,10"
+        Padding="8">
+            <dxe:TextEdit
+            x:Name="SearchBox"
+            PlaceholderText="Search by name or phone…"
+            Text="{Binding SearchText, Mode=TwoWay}"
+            IsLabelFloating="True"
+            AllowAnimation="True"
+            ClearIconVisibility="Auto"
+            StartIcon="search.png"
+            LabelText="Search"
+            TextFontSize="16"/>
+        </dx:DXBorder>
+
+        <!-- Collection View -->
+        <dxcv:DXCollectionView 
+        Grid.Row="3"
+        x:Name="collectionView"
+        IsRefreshing="{Binding IsLoading}"
+        IsPullToRefreshEnabled="True"
+        PullToRefreshCommand="{Binding RefreshCommand}"
+        IsLoadMoreEnabled="True"
+        LoadMoreCommand="{Binding LoadMoreCommand}"
+        IndicatorColor="{StaticResource Asian}"
+        ItemsSource="{Binding UnconfirmList}">
+
             <dxcv:DXCollectionView.ItemTemplate>
                 <DataTemplate x:DataType="{x:Type models:EmployeeDto}">
-                    <dx:DXBorder CornerRadius="5" BackgroundColor="White" BorderColor="{StaticResource Asian}" Margin="5,5,5,2" Padding="15,5,15,5">
-                        <Grid Grid.Row="0" ColumnDefinitions="Auto,*" RowDefinitions="*,*,*,*,*,*" ColumnSpacing="5" RowSpacing="5">
+                    <dx:DXBorder 
+                    CornerRadius="5" 
+                    BackgroundColor="White" 
+                    BorderColor="{StaticResource Asian}"
+                    Margin="5,5,5,2"
+                    Padding="15,5,15,5">
 
-                            <Label Grid.Column="0" Grid.Row="0" Text="REF #:" TextColor="Black" FontAttributes="Bold"/>
-                            <Label Grid.Column="1" Grid.Row="0" Text="{Binding  ReferenceNumber}" TextColor="Black"/>
+                        <Grid ColumnDefinitions="Auto,*"
+                          RowDefinitions="*,*,*,*,*,*"
+                          ColumnSpacing="5"
+                          RowSpacing="5">
 
-                            <Label Grid.Column="0" Grid.Row="1" Text="Name:" TextColor="Black" FontAttributes="Bold"/>
-                            <Label Grid.Column="1" Grid.Row="1" Text="{Binding  EmployeeName}" TextColor="Black"/>
+                            <Label Grid.Column="0" Grid.Row="0" Text="REF #:" FontAttributes="Bold"/>
+                            <Label Grid.Column="1" Grid.Row="0" Text="{Binding ReferenceNumber}" />
 
-                            <Label Grid.Column="0" Grid.Row="2" Text="Gender:" TextColor="Black" FontAttributes="Bold"/>
-                            <Label Grid.Column="1" Grid.Row="2" Text="{Binding Gender}" TextColor="Black"/>
+                            <Label Grid.Column="0" Grid.Row="1" Text="Name:" FontAttributes="Bold"/>
+                            <Label Grid.Column="1" Grid.Row="1" Text="{Binding EmployeeName}" />
 
-                            <Label Grid.Column="0" Grid.Row="3" BackgroundColor="#f2f2f2" Text="Phone:" TextColor="Black" FontAttributes="Bold"/>
-                            <Label Grid.Column="1" Grid.Row="3"  Text="{Binding Phone}" TextColor="MediumVioletRed"/>
+                            <Label Grid.Column="0" Grid.Row="2" Text="Gender:" FontAttributes="Bold"/>
+                            <Label Grid.Column="1" Grid.Row="2" Text="{Binding Gender}" />
 
-                            <Label Grid.Column="0" Grid.Row="4" Text="Type:" TextColor="Black" FontAttributes="Bold"/>
-                            <Label Grid.Column="1" Grid.Row="4" Text="{Binding  EmployeeType}" TextColor="Black"/>
+                            <Label Grid.Column="0" Grid.Row="3" Text="Phone:" FontAttributes="Bold"/>
+                            <Label Grid.Column="1" Grid.Row="3" Text="{Binding Phone}" TextColor="MediumVioletRed"/>
 
-                            <Label Grid.Column="0" Grid.Row="5" Text="Status:" TextColor="Black" FontAttributes="Bold"/>
-                            <Label Grid.Column="1" Grid.Row="5" Text="{Binding ConfirmationStatus}" FontAttributes="Bold" HorizontalTextAlignment="Center">
+                            <Label Grid.Column="0" Grid.Row="4" Text="Type:" FontAttributes="Bold"/>
+                            <Label Grid.Column="1" Grid.Row="4" Text="{Binding EmployeeType}" />
+
+                            <Label Grid.Column="0" Grid.Row="5" Text="Status:" FontAttributes="Bold"/>
+                            <Label Grid.Column="1" Grid.Row="5" Text="{Binding ConfirmationStatus}" FontAttributes="Bold">
                                 <Label.Triggers>
                                     <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="Confirmed">
                                         <Setter Property="TextColor" Value="Black" />
                                         <Setter Property="BackgroundColor" Value="#AFE1AF" />
                                     </DataTrigger>
                                     <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="Unconfirmed">
-                                        <Setter Property="TextColor" Value="Black" />
-                                        <Setter Property="BackgroundColor" Value="#FFCA8A" />
+                                        <Setter Property="TextColor" Value="White" />
+                                        <Setter Property="BackgroundColor" Value="Red" />
                                     </DataTrigger>
                                 </Label.Triggers>
                             </Label>
+
                         </Grid>
+
                     </dx:DXBorder>
                 </DataTemplate>
             </dxcv:DXCollectionView.ItemTemplate>
 
         </dxcv:DXCollectionView>
     </Grid>
+
 </ContentPage>

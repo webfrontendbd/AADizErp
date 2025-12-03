@@ -35,7 +35,15 @@ namespace AADizErp.Models.Dtos.McDtos
         public string Status { get; set; }
         public int Quantity { get; set; }
     }
-
+    public class MachineStatusSummaryDto
+    {
+        public string Orgname { get; set; }
+        public int Running { get; set; }
+        public int Idle { get; set; }
+        public int RunningIdle { get; set; }
+        public int Rent { get; set; }
+        public int Total { get; set; }
+    }
     public class MachineStatusUpdateDto
     {
         public string Mcid { get; set; }

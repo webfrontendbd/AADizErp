@@ -34,11 +34,12 @@
                     <dxg:TextColumn FieldName="Orgname" Caption="Factory" FixedStyle="Start" IsGrouped="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
 
                     <!-- 2nd fixed column -->
-                    <dxg:TextColumn FieldName="Quantity" Caption="Quantity" IsReadOnly="True" FixedStyle="Start" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                    <dxg:TextColumn FieldName="Total" Caption="Total MC" IsReadOnly="True" FixedStyle="Start" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
 
-                    <dxg:TextColumn FieldName="MachineName" Caption="Name"  VerticalContentAlignment="Center" />
-                    <dxg:TextColumn FieldName="Type" Caption="Type"  VerticalContentAlignment="Center" />
-                    <dxg:TextColumn FieldName="Status" Caption="Status"  VerticalContentAlignment="Center" />
+                    <dxg:TextColumn FieldName="Running" Caption="Running"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                    <dxg:TextColumn FieldName="RunningIdle" Caption="Running Idle"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                    <dxg:TextColumn FieldName="Idle" Caption="Idle"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                    <dxg:TextColumn FieldName="Rent" Caption="Rented"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
 
 
                 </dxg:DataGridView.Columns>

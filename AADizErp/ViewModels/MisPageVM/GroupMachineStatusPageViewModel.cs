@@ -6,11 +6,11 @@ using MvvmHelpers;
 
 namespace AADizErp.ViewModels.MisPageVM
 {
-    public partial class GroupMachineStatusPageViewModel: BaseViewModel
+    public partial class GroupMachineStatusPageViewModel : BaseViewModel
     {
         private readonly MachineService _mcService;
         [ObservableProperty]
-        ObservableRangeCollection<GroupMachineStatusDto> machineStatusDto = new();
+        ObservableRangeCollection<MachineStatusSummaryDto> machineStatusDto = new();
         [ObservableProperty]
         DateTime currentDate = DateTime.Today.AddDays(-1);
 
@@ -26,7 +26,20 @@ namespace AADizErp.ViewModels.MisPageVM
             var result = await _mcService.GetGroupMachineStatusByDate(reportdate);
             if (result != null)
             {
-                MachineStatusDto.AddRange(result);
+                var groupedResult = result
+                    .GroupBy(x => x.Orgname)
+                    .Select(g => new MachineStatusSummaryDto
+                    {
+                        Orgname = g.Key,
+                        Running = g.Where(s => s.Status == "Running").Sum(s => s.Quantity),
+                        RunningIdle = g.Where(s => s.Status == "Running Idle").Sum(s => s.Quantity),
+                        Idle = g.Where(s => s.Status == "Idle").Sum(s => s.Quantity),
+                        Rent = g.Where(s => s.Status == "Rented").Sum(s => s.Quantity),
+                        Total = g.Sum(s => s.Quantity)
+                    })
+                    .ToList();
+
+                MachineStatusDto.ReplaceRange(groupedResult);
             }
 
 
@@ -40,7 +53,20 @@ namespace AADizErp.ViewModels.MisPageVM
                 var result = await _mcService.GetGroupMachineStatusByDate(reportdate);
                 if (result != null)
                 {
-                    MachineStatusDto.ReplaceRange(result);
+                    var groupedResult = result
+                    .GroupBy(x => x.Orgname)
+                    .Select(g => new MachineStatusSummaryDto
+                    {
+                        Orgname = g.Key,
+                        Running = g.Where(s => s.Status == "Running").Sum(s => s.Quantity),
+                        RunningIdle = g.Where(s => s.Status == "Running Idle").Sum(s => s.Quantity),
+                        Idle = g.Where(s => s.Status == "Idle").Sum(s => s.Quantity),
+                        Rent = g.Where(s => s.Status == "Rented").Sum(s => s.Quantity),
+                        Total = g.Sum(s => s.Quantity)
+                    })
+                    .ToList();
+
+                    MachineStatusDto.ReplaceRange(groupedResult);
                 }
             }
             catch (Exception ex)

@@ -4,13 +4,13 @@ namespace AADizErp.Pages.HRPages;
 
 public partial class UnconfirmEmployeeListPage : ContentPage
 {
-	public UnconfirmEmployeeListPage(UnconfirmEmployeeListPageViewModel viewModel)
-	{
-		InitializeComponent();
-		BindingContext = viewModel;
+    public UnconfirmEmployeeListPage(UnconfirmEmployeeListPageViewModel viewModel)
+    {
+        InitializeComponent();
+        BindingContext = viewModel;
     }
 
-    private async Task AddUnconfirmEmployeeDXButton_Tapped(object sender, DevExpress.Maui.Core.DXTapEventArgs e)
+    private async void DXButton_Clicked(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync($"{nameof(AddUnconfirmEmployeePage)}");
     }
