@@ -40,6 +40,21 @@ namespace AADizErp.Services.RequestServices
             }
             return location;
         }
+
+        public async Task<RemoteAttendanceDto> CheckedIndvidualAttTimeByDateType(string date, string type, string username)
+        {
+            try
+            {
+                await SetAuthToken();
+                var response = await _client.GetStringAsync($"/hr/attendance/checked-ind-atttime-bydate-type?date={date}&username={username}&type={type}");
+                return System.Text.Json.JsonSerializer.Deserialize<RemoteAttendanceDto>(response, _serializerOptions);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return default;
+        }
         public async Task<RemoteAttendanceDto> SubmitAttendanceRequest(RemoteAttendance remoteAttendance)
         {
 

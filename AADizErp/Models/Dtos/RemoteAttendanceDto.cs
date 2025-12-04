@@ -18,5 +18,6 @@
         public bool AttendanceMoved { get; set; }
         public bool RequestSeen { get; set; }
         public string Created { get; set; }
+        public string AttType { get; set; }
     }
 }

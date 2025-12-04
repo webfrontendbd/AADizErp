@@ -12,6 +12,7 @@
         public string AttendanceArea { get; set; }
         public string Reason { get; set; }
         public string RequestedBy { get; set; }
+        public string AttType { get; set; }
         public string Status { get; set; }
         public string ApprovedBy { get; set; }
         public bool AttendanceMoved { get; set; }

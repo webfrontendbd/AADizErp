@@ -6,6 +6,7 @@ using AADizErp.Services.RequestServices;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MvvmHelpers;
+using System.Collections.ObjectModel;
 
 namespace AADizErp.ViewModels.RequestVM
 {
@@ -30,6 +31,14 @@ namespace AADizErp.ViewModels.RequestVM
         private RemoteAttendance remoteAttendance = new();
         [ObservableProperty]
         private IndividualAttendanceSummaryDto individualAttendanceSummary = new();
+
+        [ObservableProperty]
+        private ObservableCollection<string> statusList = new()
+        {
+            "In Time", "Out Time"
+        };
+        [ObservableProperty]
+        private string selectedStatus;
 
         private readonly AttendanceService _attnService;
         private readonly NotificationService _notify;
@@ -114,7 +123,7 @@ namespace AADizErp.ViewModels.RequestVM
                 IsLoading = false;
             }
         }
-
+        
 
         [RelayCommand]
         public async Task SubmitRemoteAttendanceRequest()
@@ -138,63 +147,74 @@ namespace AADizErp.ViewModels.RequestVM
                     return;
                 }
 
-                // Get user info
-                var tokenInfo = await App.GetUserInfo();
-
-                // Get fresh location
-                Location location = await GetFreshLocationAsync();
-
-                // Retry once if needed
-                if (location == null)
+                if (string.IsNullOrWhiteSpace(SelectedStatus))
                 {
-                    await Task.Delay(1500);
-                    location = await GetFreshLocationAsync();
-                }
-
-                if (location == null)
-                {
-                    await ShowAlert("Location Error", "Unable to detect your current location. Move to an open area and try again.");
+                    await ShowAlert("Type Missing!", "Please select intime or outtime.");
                     return;
                 }
 
-                // Build address
-                string address = await BuildAddressAsync(location);
+                //Check duplicate before save data to the server
+                string dateToday = DateTime.Now.ToString("dd-MMM-yyyy");
+                var duplicateCheck= await _attnService.CheckedIndvidualAttTimeByDateType(dateToday, RemoteAttendance.RequestedBy, SelectedStatus);
 
-                // Prepare attendance object
-                RemoteAttendance = new()
+                if (duplicateCheck != null)
                 {
-                    JobId = tokenInfo?.TokenUserMetaInfo?.EmployeeNumber,
-                    FullName = tokenInfo?.TokenUserMetaInfo?.Name,
-                    RequestedBy = tokenInfo?.TokenUserMetaInfo?.UserName,
-                    ApprovedBy = tokenInfo?.TokenUserMetaInfo?.ManagerUserName,
-                    Reason = RemoteAttendance.Reason,
-                    Latitude = location.Latitude,
-                    Longitude = location.Longitude,
-                    RequestedTime = DateTime.Now.ToString("dd-MMM-yyyy hh:mm tt"),
-                    AttendanceArea = address
-                };
+                    var tokenInfo = await App.GetUserInfo();
 
-                // Submit request
-                var returnAttn = await _attnService.SubmitAttendanceRequest(RemoteAttendance);
+                    // Get fresh location
+                    Location location = await GetFreshLocationAsync();
 
-                if (returnAttn == null)
-                {
-                    await ShowAlert("Duplicate Found!", "You cannot enter attendance twice in one day.");
-                    return;
-                }
+                    // Retry once if needed
+                    if (location == null)
+                    {
+                        await Task.Delay(1500);
+                        location = await GetFreshLocationAsync();
+                    }
 
-                // Send push notification
-                bool sent = await _notify.SendAttendancePushNotificationToManager(returnAttn);
+                    if (location == null)
+                    {
+                        await ShowAlert("Location Error", "Unable to detect your current location. Move to an open area and try again.");
+                        return;
+                    }
 
-                if (!sent)
-                {
-                    await ShowAlert("Submitted", "Attendance submitted, but notification to manager failed.");
+                    // Build address
+                    string address = await BuildAddressAsync(location);
+
+                    // Prepare attendance object
+                    RemoteAttendance = new()
+                    {
+                        JobId = tokenInfo?.TokenUserMetaInfo?.EmployeeNumber,
+                        FullName = tokenInfo?.TokenUserMetaInfo?.Name,
+                        RequestedBy = tokenInfo?.TokenUserMetaInfo?.UserName,
+                        ApprovedBy = tokenInfo?.TokenUserMetaInfo?.ManagerUserName,
+                        AttType = SelectedStatus,
+                        Reason = RemoteAttendance.Reason,
+                        Latitude = location.Latitude,
+                        Longitude = location.Longitude,
+                        RequestedTime = DateTime.Now.ToString("dd-MMM-yyyy hh:mm tt"),
+                        AttendanceArea = address
+                    };
+
+                    // Submit request
+                    var returnAttn = await _attnService.SubmitAttendanceRequest(RemoteAttendance);
+                    // Send push notification
+                    bool sent = await _notify.SendAttendancePushNotificationToManager(returnAttn);
+
+                    if (!sent)
+                    {
+                        await ShowAlert("Submitted", "Attendance submitted, but notification to manager failed.");
+                    }
+                    else
+                    {
+                        App.BadgeManager.Increment();
+                        Attendances.Add(returnAttn);
+                        await Shell.Current.GoToAsync($"{nameof(AttendanceRequestPage)}");
+                    }
                 }
                 else
                 {
-                    App.BadgeManager.Increment();
-                    Attendances.Add(returnAttn);
-                    await Shell.Current.GoToAsync($"{nameof(AttendanceRequestPage)}");
+                    await ShowAlert("Duplicate Found!", "You cannot enter attendance twice in one day.");
+                    return;
                 }
                                 
             }

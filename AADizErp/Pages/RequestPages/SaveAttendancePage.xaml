@@ -4,9 +4,7 @@
              x:Class="AADizErp.Pages.RequestPages.SaveAttendancePage"
              xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              xmlns:dxco="clr-namespace:DevExpress.Maui.Controls;assembly=DevExpress.Maui.Controls"
-             xmlns:dxcv="clr-namespace:DevExpress.Maui.CollectionView;assembly=DevExpress.Maui.CollectionView"
              xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
-             xmlns:dxdf="clr-namespace:DevExpress.Maui.DataForm;assembly=DevExpress.Maui.Editors"
              xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              ios:Page.UseSafeArea="true"
@@ -22,24 +20,42 @@
     <ScrollView Grid.Row="1" Padding="{OnPlatform iOS='30,60,30,30', Default='30'}">
 
         <dx:DXStackLayout  Padding="5">
-            <Label 
-                Background="Yellow" 
-                HorizontalTextAlignment="Center" 
-                TextColor="Red" 
-                FontAttributes="Bold" 
-                FontSize="Medium" 
-                Text="Attention: "/>
+            <dx:DXBorder Background="Red" CornerRadius="10">
+                <Label     
+                    HorizontalTextAlignment="Center" 
+                    TextColor="Yellow" 
+                    FontAttributes="Bold" 
+                    FontSize="Medium" 
+                    Text="Attention: "/>
+            </dx:DXBorder>
+
+            <dx:DXStackLayout Padding="5">
+                <Label 
+                    FontSize="Header" 
+                    TextColor="MediumVioletRed" 
+                    Text="Your attendance request will be submitted with your live location. If it does not match the location mentioned in your reason, the request will be declined."
+                    HorizontalTextAlignment="Center"/>
+
+                <Label 
+                    TextColor="{StaticResource Asian}"
+                    HorizontalTextAlignment="Center" 
+                    Text="You can submit only two request per day.  Please use it wisely."/>
+            </dx:DXStackLayout>
             
-            <Label 
-                FontSize="Header" 
-                TextColor="MediumVioletRed" 
-                Text="Your attendance request will be tracked using your live location. If it does not match the requested location, it will be declined."
-                HorizontalTextAlignment="Center"/>
-            
-            <Label 
-                TextColor="{StaticResource Asian}"
-                HorizontalTextAlignment="Center" 
-                Text="You can submit only one request per day.  Please use it wisely."/>
+
+            <dxe:ChoiceChipGroup
+                ItemsSource="{Binding StatusList}"
+                SelectedItem="{Binding SelectedStatus, Mode=TwoWay}"
+                BoxMode="Filled"
+                Padding="0,15"
+                ChipPadding="25,14"
+                ChipFontSize="18"
+                ChipCornerRadius="25"
+                ChipTextColor="White"
+                ChipSelectedTextColor="Yellow"
+                ChipSelectedBackgroundColor="Green"
+                ChipBackgroundColor="Gray"
+                HorizontalOptions="Start"/>
 
             <dxe:MultilineEdit
                 Text="{Binding RemoteAttendance.Reason, Mode=TwoWay}"
