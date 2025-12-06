@@ -33,9 +33,7 @@ namespace AADizErp
     {
         public static MauiApp CreateMauiApp()
         {
-            ThemeManager.ApplyThemeToSystemBars = true;
-            ThemeManager.UseAndroidSystemColor = false;
-            ThemeManager.Theme = new Theme(Color.FromArgb("FF6200EE"));
+            ConfigureTheme();
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseDevExpressCharts()
@@ -48,29 +46,55 @@ namespace AADizErp
                 .UseMauiApp<App>()
                 .UseBarcodeReader()
                 .UseMauiCommunityToolkit()
-                .ConfigureFonts(fonts =>
-                {
-                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                    fonts.AddFont("univia-pro-regular.ttf", "Univia-Pro");
-                    fonts.AddFont("roboto-bold.ttf", "Roboto-Bold");
-                    fonts.AddFont("roboto-regular.ttf", "Roboto");
-                    fonts.AddFont("MaterialIcons-Regular.ttf", "GoogleMaterialFont");
-                });
+                .ConfigureFonts(ConfigureFonts);
 
 #if ANDROID
             builder.Services.AddSingleton<INotificationCounter, NotificationCounterImplementation>();
 #elif IOS
-        builder.Services.AddSingleton<INotificationCounter, NotificationCounterImplementation>();
+    builder.Services.AddSingleton<INotificationCounter, NotificationCounterImplementation>();
 #endif
 
-            //builder.Services.AddSingleton<IFingerprint>(provider => CrossFingerprint.Current);
+
+
+            //Pages and Services Registration
+            RegisterCoreServices(builder);
+            RegisterPagesAndViewModels(builder);
+
+            return builder.Build();
+        }
+
+        // =========================
+        // THEME CONFIG
+        // =========================
+        private static void ConfigureTheme()
+        {
+            ThemeManager.ApplyThemeToSystemBars = true;
+            ThemeManager.UseAndroidSystemColor = false;
+            ThemeManager.Theme = new Theme(Color.FromArgb("FF6200EE"));
+        }
+
+        // =========================
+        // FONT CONFIG
+        // =========================
+        private static void ConfigureFonts(IFontCollection fonts)
+        {
+            fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+            fonts.AddFont("univia-pro-regular.ttf", "Univia-Pro");
+            fonts.AddFont("roboto-bold.ttf", "Roboto-Bold");
+            fonts.AddFont("roboto-regular.ttf", "Roboto");
+            fonts.AddFont("MaterialIcons-Regular.ttf", "GoogleMaterialFont");
+        }
+
+        // =========================
+        // CORE SERVICES
+        // =========================
+        private static void RegisterCoreServices(MauiAppBuilder builder)
+        {
             builder.Services.AddSingleton<IBiometric>(BiometricAuthenticationService.Default);
             builder.Services.AddSingleton<IGeolocation>(provider => Geolocation.Default);
             builder.Services.AddSingleton<IMap>(provider => Map.Default);
-            //builder.Services.AddSingleton<IBadge>(Badge.Default);
             builder.Services.AddSingleton<NotificationCounter>();
 
-            //Custom Services
             builder.Services.AddSingleton<BadgeManagerService>();
             builder.Services.AddSingleton<NotificationService>();
             builder.Services.AddSingleton<AuthenticationService>();
@@ -85,9 +109,13 @@ namespace AADizErp
             builder.Services.AddSingleton<MachineService>();
             builder.Services.AddSingleton<Mis_eAttendanceServices>();
             //builder.Services.AddSingleton<ZXing.Net.Maui.Controls.CameraView>();
+        }
 
-            //Pages and viewmodels
-            #region Pages and Viewmodels
+        // =========================
+        // PAGES & VIEWMODELS
+        // =========================
+        private static void RegisterPagesAndViewModels(MauiAppBuilder builder)
+        {
             builder.Services.AddTransient<RequestLandingPage>();
 
             builder.Services.AddTransient<RemoteAttendancePageViewModel>();
@@ -186,10 +214,6 @@ namespace AADizErp
             builder.Services.AddTransient<SaveAttendancePage>();
             builder.Services.AddTransient<UnconfirmEmployeeListPage>();
             builder.Services.AddTransient<UnconfirmEmployeeListPageViewModel>();
-
-            #endregion
-
-            return builder.Build();
         }
     }
 }
