@@ -176,20 +176,24 @@ namespace AADizErp.ViewModels.RequestVM
                 return;
             }
 
-            var notificationSent =
-                await _notify.SendLeaveRequestPushNotificationToManager(leaveRequest);
+            await LoadLeaveRequestsAsync(true);
+            Reason = string.Empty;
+            await Shell.Current.GoToAsync($"{nameof(LeaveRequestPage)}");
 
-            if (notificationSent)
-            {
-                App.BadgeManager.Increment();
-                await LoadLeaveRequestsAsync(true);
-                Reason = string.Empty;
-                await Shell.Current.GoToAsync($"{nameof(LeaveRequestPage)}");
-            }
-            else
-            {
-                await Shell.Current.DisplayAlert("Notification", "Notification Not sent.", "OK");
-            }
+            //var notificationSent =
+            //    await _notify.SendLeaveRequestPushNotificationToManager(leaveRequest);
+
+            //if (notificationSent)
+            //{
+            //    //App.BadgeManager.Increment();
+            //    await LoadLeaveRequestsAsync(true);
+            //    Reason = string.Empty;
+            //    await Shell.Current.GoToAsync($"{nameof(LeaveRequestPage)}");
+            //}
+            //else
+            //{
+            //    await Shell.Current.DisplayAlert("Notification", "Notification Not sent.", "OK");
+            //}
         }
     }
 }

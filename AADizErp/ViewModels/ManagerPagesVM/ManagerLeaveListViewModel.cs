@@ -125,15 +125,15 @@ namespace AADizErp.ViewModels.ManagerPagesVM
             }
 
             // Push notification
-            try
-            {
-                await _notify.SendLeavePushNotificationBackToUser(LeaveRequest);
-                App.BadgeManager.Decrement();
-            }
-            catch
-            {
-                await Shell.Current.DisplayAlert("Notification!", "We've sent a notification", "OK");
-            }
+            //try
+            //{
+            //    await _notify.SendLeavePushNotificationBackToUser(LeaveRequest);
+            //    App.BadgeManager.Decrement();
+            //}
+            //catch
+            //{
+            //    await Shell.Current.DisplayAlert("Notification!", "We've sent a notification", "OK");
+            //}
 
             // Update item in list
             var index = LeaveRequests.IndexOf(LeaveRequests.FirstOrDefault(l => l.Id == LeaveRequest.Id));

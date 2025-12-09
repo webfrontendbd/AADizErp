@@ -1,4 +1,6 @@
 ﻿using AADizErp.Models.Dtos;
+using AADizErp.Pages.ManagerPages;
+using AADizErp.Pages.RequestPages;
 using AADizErp.Services;
 using AADizErp.Services.RequestServices;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -36,15 +38,15 @@ namespace AADizErp.ViewModels.ManagerPagesVM
                 if (returnObject != null)
                 {
                     RemoteAttendanceDto = returnObject;
-                    try
-                    {
-                        await _notify.SendAttendancePushNotificationBackToUser(returnObject);
-                        App.BadgeManager.Decrement();
-                    }
-                    catch
-                    {
-                        await Shell.Current.DisplayAlert("Notification!", "We've sent a notification", "OK");
-                    }
+                    //try
+                    //{
+                    //    //await _notify.SendAttendancePushNotificationBackToUser(returnObject);
+                    //    //App.BadgeManager.Decrement();
+                    //}
+                    //catch
+                    //{
+                    //    await Shell.Current.DisplayAlert("Notification!", "We've sent a notification", "OK");
+                    //}
                 }
                 
             }
@@ -54,18 +56,19 @@ namespace AADizErp.ViewModels.ManagerPagesVM
                 var returnObject = await _attnService.AttendanceRequestApproval(attnDto);
                 if (returnObject != null)
                 {
-                    RemoteAttendanceDto = returnObject;
-                    try
-                    {
-                        await _notify.SendAttendancePushNotificationBackToUser(returnObject);
-                        App.BadgeManager.Decrement();
-                    }
-                    catch
-                    {
-                        await Shell.Current.DisplayAlert("Notification!", "We've sent a notification", "OK");
-                    }
+                    RemoteAttendanceDto = returnObject;                    
+                    //try
+                    //{
+                    //    await _notify.SendAttendancePushNotificationBackToUser(returnObject);
+                    //    App.BadgeManager.Decrement();
+                    //}
+                    //catch
+                    //{
+                    //    await Shell.Current.DisplayAlert("Notification!", "We've sent a notification", "OK");
+                    //}
                 }
             }
+            await Shell.Current.GoToAsync($"{nameof(ManagerViewAttnRequestPage)}");
         }
 
         [RelayCommand]
@@ -82,7 +85,6 @@ namespace AADizErp.ViewModels.ManagerPagesVM
             catch (Exception ex)
             {
                 Debug.WriteLine($"Unable to launch maps: {ex.Message}", "OK");
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
             }
         }
 

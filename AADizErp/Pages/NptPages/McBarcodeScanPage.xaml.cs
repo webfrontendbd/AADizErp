@@ -50,14 +50,21 @@ public partial class McBarcodeScanPage : ContentPage
             {
                 BarcodeScannerView.IsDetecting = false;
 
-                var text = e.Results.First().Value;
-                await Shell.Current.GoToAsync(
-                   $"{nameof(MachineInfoPage)}?Mcid={Uri.EscapeDataString(text)}"
-               );
+                var scannedText = e.Results.First().Value;
 
-                //await Shell.Current.GoToAsync(
-                //    $"{nameof(McStatusUpdatePage)}?Mcid={Uri.EscapeDataString(text)}"
-                //);
+                // Extract machineId from URL
+                string machineId = scannedText;
+
+                if (scannedText.Contains("machineId="))
+                {
+                    var uri = new Uri(scannedText);
+                    var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+                    machineId = query.Get("machineId"); // gives MOH-PMA-165
+                }
+
+                await Shell.Current.GoToAsync(
+                   $"{nameof(MachineInfoPage)}?Mcid={Uri.EscapeDataString(machineId)}"
+                );
             }
             catch (Exception ex)
             {
@@ -70,6 +77,7 @@ public partial class McBarcodeScanPage : ContentPage
             }
         });
     }
+
 
     private void Torch_Clicked(object sender, EventArgs e)
     {

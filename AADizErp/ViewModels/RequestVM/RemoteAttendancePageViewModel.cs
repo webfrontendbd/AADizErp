@@ -157,7 +157,7 @@ namespace AADizErp.ViewModels.RequestVM
                 string dateToday = DateTime.Now.ToString("dd-MMM-yyyy");
                 var duplicateCheck= await _attnService.CheckedIndvidualAttTimeByDateType(dateToday, RemoteAttendance.RequestedBy, SelectedStatus);
 
-                if (duplicateCheck != null)
+                if (duplicateCheck == null)
                 {
                     var tokenInfo = await App.GetUserInfo();
 
@@ -198,15 +198,16 @@ namespace AADizErp.ViewModels.RequestVM
                     // Submit request
                     var returnAttn = await _attnService.SubmitAttendanceRequest(RemoteAttendance);
                     // Send push notification
-                    bool sent = await _notify.SendAttendancePushNotificationToManager(returnAttn);
+                    // bool sent = await _notify.SendAttendancePushNotificationToManager(returnAttn);
+                    //await ShowAlert("Submitted", "Attendance submitted, but notification to manager failed.");
 
-                    if (!sent)
+                    if (returnAttn !=null)
                     {
-                        await ShowAlert("Submitted", "Attendance submitted, but notification to manager failed.");
+                        await ShowAlert("Submitted", "Your Remote Attendance submitted Successfully!");
                     }
                     else
                     {
-                        App.BadgeManager.Increment();
+                        //App.BadgeManager.Increment();
                         Attendances.Add(returnAttn);
                         await Shell.Current.GoToAsync($"{nameof(AttendanceRequestPage)}");
                     }

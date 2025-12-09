@@ -26,7 +26,6 @@ using DevExpress.Maui;
 using DevExpress.Maui.Core;
 using Plugin.Maui.Biometric;
 using ZXing.Net.Maui.Controls;
-[assembly: Preserve(AllMembers = true)]
 namespace AADizErp
 {
     public static class MauiProgram
@@ -34,18 +33,19 @@ namespace AADizErp
         public static MauiApp CreateMauiApp()
         {
             ConfigureTheme();
-            var builder = MauiApp.CreateBuilder();
-            builder
+            var builder = MauiApp.CreateBuilder()
+                .UseMauiApp<App>()
+                .UseDevExpress(useLocalization: false)
+                .UseDevExpressControls()
                 .UseDevExpressCharts()
                 .UseDevExpressEditors()
-                .UseDevExpress()
                 .UseDevExpressCollectionView()
-                .UseDevExpressControls()
                 .UseDevExpressDataGrid()
                 .UseDevExpressScheduler()
-                .UseMauiApp<App>()
                 .UseBarcodeReader()
                 .UseMauiCommunityToolkit()
+                .RegisterCoreServices()
+                .RegisterPagesAndViewModels()
                 .ConfigureFonts(ConfigureFonts);
 
 #if ANDROID
@@ -54,11 +54,6 @@ namespace AADizErp
     builder.Services.AddSingleton<INotificationCounter, NotificationCounterImplementation>();
 #endif
 
-
-
-            //Pages and Services Registration
-            RegisterCoreServices(builder);
-            RegisterPagesAndViewModels(builder);
 
             return builder.Build();
         }
@@ -88,7 +83,7 @@ namespace AADizErp
         // =========================
         // CORE SERVICES
         // =========================
-        private static void RegisterCoreServices(MauiAppBuilder builder)
+        static MauiAppBuilder RegisterCoreServices(this MauiAppBuilder builder)
         {
             builder.Services.AddSingleton<IBiometric>(BiometricAuthenticationService.Default);
             builder.Services.AddSingleton<IGeolocation>(provider => Geolocation.Default);
@@ -109,12 +104,13 @@ namespace AADizErp
             builder.Services.AddSingleton<MachineService>();
             builder.Services.AddSingleton<Mis_eAttendanceServices>();
             //builder.Services.AddSingleton<ZXing.Net.Maui.Controls.CameraView>();
+            return builder;
         }
 
         // =========================
         // PAGES & VIEWMODELS
         // =========================
-        private static void RegisterPagesAndViewModels(MauiAppBuilder builder)
+        static MauiAppBuilder RegisterPagesAndViewModels(this MauiAppBuilder builder)
         {
             builder.Services.AddTransient<RequestLandingPage>();
 
@@ -214,6 +210,8 @@ namespace AADizErp
             builder.Services.AddTransient<SaveAttendancePage>();
             builder.Services.AddTransient<UnconfirmEmployeeListPage>();
             builder.Services.AddTransient<UnconfirmEmployeeListPageViewModel>();
+
+            return builder;
         }
     }
 }

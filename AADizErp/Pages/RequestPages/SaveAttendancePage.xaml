@@ -8,7 +8,7 @@
              xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              ios:Page.UseSafeArea="true"
-             Title="SaveAttendancePage"
+             Title="Save Remote Attendance"
              BackgroundColor="{StaticResource AppBgColor}">
     <ContentPage.Triggers>
         <DataTrigger Binding="{Binding IsNew}" Value="True" TargetType="ContentPage">
@@ -20,7 +20,7 @@
     <ScrollView Grid.Row="1" Padding="{OnPlatform iOS='30,60,30,30', Default='30'}">
 
         <dx:DXStackLayout  Padding="5">
-            <dx:DXBorder Background="Red" CornerRadius="10">
+            <dx:DXBorder Background="Red" CornerRadius="5">
                 <Label     
                     HorizontalTextAlignment="Center" 
                     TextColor="Yellow" 
@@ -48,9 +48,9 @@
                 SelectedItem="{Binding SelectedStatus, Mode=TwoWay}"
                 BoxMode="Filled"
                 Padding="0,15"
-                ChipPadding="25,14"
-                ChipFontSize="18"
-                ChipCornerRadius="25"
+                ChipPadding="20,10"
+                ChipFontSize="15"
+                ChipCornerRadius="15"
                 ChipTextColor="White"
                 ChipSelectedTextColor="Yellow"
                 ChipSelectedBackgroundColor="Green"
