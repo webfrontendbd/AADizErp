@@ -1,11 +1,11 @@
-﻿using AADizErp.Models;
-using AADizErp.Models.Dtos.HrDtos;
+﻿using MvvmHelpers;
+using AADizErp.Models;
 using AADizErp.Services;
-using AADizErp.Services.HrServices;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using MvvmHelpers;
+using AADizErp.Models.Dtos.HrDtos;
+using AADizErp.Services.HrServices;
 using System.Text.RegularExpressions;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AADizErp.ViewModels
 {
@@ -74,6 +74,8 @@ namespace AADizErp.ViewModels
             list.Add(new Organization() { OrganizationName = "COTTONEX FASHIONS LTD.", Abbr="COT" });
             list.Add(new Organization() { OrganizationName = "DAF KNITWEARS LTD. ( OLD PORTION )", Abbr="DAO" });
             list.Add(new Organization() { OrganizationName = "DAF KNITWEARS LTD. ( EXTENDED PORTION )", Abbr="DAE" });
+            list.Add(new Organization() { OrganizationName = "WASH LINE LIMITED.", Abbr="WL" });
+            list.Add(new Organization() { OrganizationName = "M/S. FASHION WATCH WASHING.", Abbr="FWW" });
 
             return list;
         }

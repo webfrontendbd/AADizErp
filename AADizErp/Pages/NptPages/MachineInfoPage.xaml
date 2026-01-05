@@ -10,9 +10,7 @@
 
     <Grid RowDefinitions="Auto,Auto,*" RowSpacing="5">
         <Grid Grid.Row="0" Padding="35,0,35,0" ColumnDefinitions="*,*,*" ColumnSpacing="15">
-            <dx:DXButton Grid.Column="0" Icon="mc.png" ButtonType="Accent" Content="Call For Servicing"></dx:DXButton>
             <dx:DXButton Grid.Column="1" Icon="sewingmc.png" ButtonType="Accent" Content="Update Machine Info" Tap="MachineUpdateButton_Tapped" BindingContext="{Binding}"></dx:DXButton>
-            <dx:DXButton Grid.Column="2" Icon="maps.png" ButtonType="Accent" Content="Machine Transfer"></dx:DXButton>
         </Grid>
 
         <Grid Grid.Row="1"  Padding="15" >
